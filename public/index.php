@@ -2,10 +2,9 @@
 
 session_start();
 
-function isActive($currentPage, $pageName)
-{
-    return ($currentPage === $pageName) ? 'is-active' : '';
-}
+setlocale(LC_TIME, 'fr_FR');
+date_default_timezone_set('Europe/Paris');
+
 
 if(!empty($_SESSION['user_id']) || (isset($_GET['page']) && ($_GET['page']) == 'forgotten_pwd') || (isset($_GET['page']) && $_GET['page'] == 'reset_pwd'))
 {
