@@ -1,0 +1,349 @@
+.building-pages {
+    text-align: center;
+    width: 100%;
+
+    img {
+        width: 40%;
+    }
+
+    .page-title {
+        margin: 30px 0 0 30px;
+    }
+}
+
+.page-title {
+    background-color: var(--light_primary_color);
+    padding: 10px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+    margin: 30px;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        margin: 0 30px;
+
+        h2 {
+            color: var(--color_black);
+            font-weight: 400;
+            margin-top: 15px;
+        }
+
+        input, textarea {
+            border-radius: 8px;
+            border: none;
+            margin-top: 5px;
+            font-size: 15px;
+            padding: 15px;
+            font-family: var(--font-body-medium);
+        }
+
+        button {
+            border-radius: 10px;
+            background-color: var(--light_primary_color);
+            color: var(--color_white);
+            height: 50px;
+            font-size: 20px;
+            border: none;
+            margin-top: 15px;
+
+            img {
+                margin-right: 5px;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+.my-account {
+    display: flex;
+    height: 100%;
+
+    .my-account-left {
+        width: 70%;
+
+        .account-page-containt {
+            margin: 0 30px;
+        }
+
+        p {
+            margin: 0 0 8px 0;
+        }
+
+        .account-section {
+            border-bottom: 1px solid var(--color_black);
+            margin-bottom: 15px;
+        }
+
+        .account-label {
+            font-family: var(--font-body-medium);
+            align-items: center;
+        }
+
+        .img-label {
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        button {
+            border: none;
+            padding: 0;
+            vertical-align: middle;
+            background-color: transparent;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    }
+
+    .modal-container-mail, .modal-container-phone, .modal-container-location, .modal-container-password {
+        display: none;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #333333d3;
+        }
+        .modal {
+            width: 95%;
+            max-width: 500px;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+            background-color: var(--light_primary_color);
+            
+            p {
+                margin: 0;
+                padding: 12px 0 10px 11px;
+                color: var(--color_white);
+            }   
+
+            button {
+                border-radius: 50%;
+                border: none;
+                margin: 10px;
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+                background-color: var(--color_light_grey_1);
+
+                img {
+                    position: relative;
+                    top: 2px;
+                    left: -0.5px;
+                }
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 0 auto;
+            background-color: var(--light_secondary_color);
+
+            label {
+                padding: 12px 0 5px 12px;
+                vertical-align: middle;
+
+                img {
+                    width: 3%;
+                    margin-right: 5px;
+                }
+            }
+
+            input {
+                width: 92%;
+                margin: 0 auto;
+                padding: 8px;
+                border-radius: 10px;
+                border: none;
+            }
+
+            .edit-location {
+                display: flex;
+                width: 95%;
+                margin: 0 auto;
+
+                #number {
+                    width: 20px;
+                    margin: 0 5px 0 0;
+                    text-align: center;
+                }
+                #street {
+                    width: 140px;
+                }
+                #zip-code {
+                    width: 45px;
+                    margin: 0 5px 0 5px;
+                }
+                #city {
+                    width: 110px;
+                }
+                #country {
+                    width: 60px;
+                    margin: 0 0 0 5px;
+                }
+            }
+
+            button {
+                background-color: var(--light_primary_color);
+                color: var(--color_white);
+                width: 95%;
+                margin: 10px auto 15px auto;
+                padding: 8px;
+                border-radius: 10px;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+
+                .check-update {
+                    background-color: var(--color_white);
+                    width: 0;
+                    height: 0;
+                    padding: 8px;
+                    border-radius: 4px;
+                    margin-right: 5px;
+                    
+                    img {
+                        position: relative;
+                        top: -6px;
+                        left: -4px;
+                    }
+                }
+            }
+        }
+    }
+    .modal-container-mail.active, .modal-container-phone.active, .modal-container-location.active, .modal-container-password.active {
+        display: block;
+    }
+
+    .my-account-right {
+        width: 30%;
+        background-color: var(--secondary_color);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+
+        .my-account-right-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60%;
+            margin: 0 auto;
+            height: 100%;
+
+            .profil-picture {
+                width: 100%;
+                height: 0;
+                padding: 50% 0 50% 0;
+                margin: 20px auto 0 auto;
+                background-color: var(--primary_color);
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+
+                #initials {
+                    color: var(--light_primary_color);
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 7vw;
+                }
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            form {
+                .edit-profil-picture {
+                    border-radius: 50px;
+                    background-color: var(--secondary_color);
+                    position: relative;
+                    top: -18px;
+                    padding: 3px;
+                    cursor: pointer;
+    
+                    #icon-edit {
+                        border-radius: 50px;
+                        background-color: var(--color_dark_grey_1);
+                        
+                        img {
+                            padding: 5px;
+                            vertical-align: middle;
+                        }
+                    }
+                }
+
+                input {
+                    display: none;
+                }
+            }
+            #error {
+                color: red;
+                font-size: 12px;
+            }
+            
+            p {
+                margin: 0;
+            }
+
+            #name {
+                font-family: var(--font-body-bold);
+            }
+        }
+
+        .my-account-right-footer {
+            display: flex;
+            flex-direction: column-reverse;
+            width: 100%;
+            margin: 0 auto 20px auto;
+
+            #disconnect {
+                background-color: var(--color_dark_grey_1);
+                padding: 10px;
+                border-radius: 10px;
+                width: 60%;
+                text-align: center;
+                margin: auto;
+                color: var(--color_white);
+                border: none;
+                cursor: pointer;
+    
+                img {
+                    margin-right: 10px;
+                    vertical-align: middle
+                };
+            }
+        }
+    }
+}
