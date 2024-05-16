@@ -3,10 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= $title ?? ''?></title>
+        <title>Admax - <?= $title ?? ''?></title>
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/connection.css">
         <link rel="stylesheet" href="assets/css/pages.css">
+        <link rel="stylesheet" href="assets/css/modal.css">
     </head>
     <body>
         
@@ -29,8 +30,8 @@
                 <div class="header-right">
                     <div class="user-status">
                         <div>
-                            <p><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
-                            <p><?php echo $user['status_name']?></p>
+                            <p class="name"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
+                            <p><?php echo $user['status_male_name']?></p>
                         </div>
                         <div id="icon-header">
                             <?php echo isset($user['user_image']) && !empty($user['user_image']) ? "<img src='assets/uploads/" . $user['user_image'] . "' alt='Photo de profil'>" : "<p>" . strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) . "</p>"?>
@@ -120,6 +121,7 @@
                         <div class="list-nav">
                             <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
                             <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
+                            <a href="/?page=directory"><img src="assets/img/repertory-solid.svg" alt="Répertoire">Répertoire</a>
                         </div>
                         <div class="contact-nav">
                             <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>

@@ -21,7 +21,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="field">
-                    <button type="submit" name="validate_pwd_submit"><img src="assets/img/check-solid.svg" alt="Valider nouveau mot de passe">Valider</button>
+                    <button type="submit" name="validate_pwd_submit"><img src="assets/img/black-check-solid.svg" alt="Valider nouveau mot de passe">Valider</button>
                 </div>
             </form>
         </div>

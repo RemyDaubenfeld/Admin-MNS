@@ -20,6 +20,7 @@ $path = '../src/pages/' . $page . '.php';
 if(file_exists($path))
 {   
     require '../src/data/db-connect.php';
+    require '../src/data/user.php';
     require "../src/pages/$page.php";
     require '../templates/layout.html.php';
 }

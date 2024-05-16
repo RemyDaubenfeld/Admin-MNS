@@ -2,8 +2,6 @@
 
 $title = 'Admax - Connection';
 
-var_dump($user);
-
 if (isset($_SESSION['reset_pwd_success'])) {   
     $reset_pwd_success = $_SESSION['reset_pwd_success'];
     unset($_SESSION['reset_pwd_success']);

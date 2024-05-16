@@ -1,7 +1,7 @@
 <?php
 
 $host = 'localhost';
-$dbname = 'admin_mns';
+$dbname = 'admax';
 $user = 'root';
 $pwd = '';
 

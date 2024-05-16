@@ -1,12 +1,6 @@
 <?php
 
-$title = 'Admax - Mon compte';
-
-if (isset($_SESSION['user_id'])) {
-    $query = $dbh->prepare("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_id = :user_id");
-    $query->execute(['user_id' => $_SESSION['user_id']]);
-    $user = $query->fetch();
-}
+$title = 'Mon compte';
 
 
 // mise à jour mail
@@ -110,7 +104,6 @@ if(isset($user['user_image']) && !empty($user['user_image'])) {
 }
 
 // Mise à jour photo de profil
-
 if(isset($_POST['edit_picture_submit'])) {
     $error = [];
     if(isset($_FILES['profil_picture']) && $_FILES['profil_picture']['error'] == 0) {

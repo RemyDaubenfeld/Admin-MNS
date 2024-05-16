@@ -102,6 +102,12 @@ header {
 
             p {
                 margin: 0 10px 0 0;
+
+                
+            }
+
+            .name {
+                font-family: var(--font-body-medium);
             }
 
             #icon-header {
@@ -212,7 +218,7 @@ main {
 }
 
 #modal-container-message {
-    display: block;
+    display: none;
     position: fixed;
     top: 0px;
     left: 0px;

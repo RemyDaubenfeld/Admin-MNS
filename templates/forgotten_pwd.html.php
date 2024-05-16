@@ -14,7 +14,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="field">
-                    <button type="submit" name="reset_pwd_submit"><img src="assets/img/check-solid.svg" alt="Réinitialiser mot de passe">Réinitialiser</button>
+                    <button type="submit" name="reset_pwd_submit"><img src="assets/img/black-check-solid.svg" alt="Réinitialiser mot de passe">Réinitialiser</button>
                 </div>
             </form>
             

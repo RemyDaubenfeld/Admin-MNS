@@ -1,7 +1,7 @@
 <div class="my-account">
     <div class="my-account-left">
         <div class="page-title">
-            <h1>Mon compte</h1>
+            <h1><?=$title?></h1>
         </div>
         <div class="account-page-containt">
             <div class="account-section">
@@ -43,7 +43,7 @@
             <?php endif; ?>
             
             <p id="name"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
-            <p><?php echo $user['status_name']?></p>
+            <p><?php echo $user['status_male_name']?></p>
         </div>
 
         <div class="my-account-right-footer">
@@ -66,7 +66,7 @@
             <form method="POST">
                 <label for="email"><img src="assets/img/black-envelope-solid.svg" alt="Nouveau numéro">Nouvelle Email</label>
                 <input type="mail" name="edit_mail" value="<?php echo $user['user_mail']?>">
-                <button type="submit" name="edit_mail_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour"></div>Mettre à jour</button>
+                <button type="submit" name="edit_mail_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
         </div>
     </div>
@@ -82,7 +82,7 @@
             <form method="POST">
                 <label for="phone"><img src="assets/img/phone-solid.svg" alt="Nouveau numéro">Nouveau numéro</label>
                 <input type="text" name="edit_phone" value="<?php echo $user['user_phone']?>">
-                <button type="submit" name="edit_phone_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour"></div>Mettre à jour</button>
+                <button type="submit" name="edit_phone_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
         </div>
     </div>
@@ -104,7 +104,7 @@
                     <input type="text" id="city" name="edit_city" value="<?php echo $user['user_city']?>">
                     <input type="text" id="country" name="edit_country" value="<?php echo $user['user_country']?>">
                 </div>
-                <button type="submit" name="edit_location_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour"></div>Mettre à jour</button>
+                <button type="submit" name="edit_location_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
         </div>
     </div>
@@ -122,7 +122,7 @@
                 <input type="password" name="old_password">
                 <label for="password"><img src="assets/img/black-lock-solid.svg" alt="Nouveau mot de passe">Nouveau mot de passe</label>
                 <input type="password" name="new_password">
-                <button type="submit" name="edit_password_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour"></div>Mettre à jour</button>
+                <button type="submit" name="edit_password_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
         </div>
     </div>
