@@ -56,7 +56,6 @@ body {
     height: 100%;
     color: var(--color_white);
     background-color: var(--light_secondary_color);
-    
 }
 
 main {
@@ -212,7 +211,7 @@ main {
 }
 
 #modal-container-message {
-    display: block;
+    display: none;
     position: fixed;
     top: 0px;
     left: 0px;

@@ -43,7 +43,7 @@
             <?php endif; ?>
             
             <p id="name"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
-            <p><?php echo $user['status_name']?></p>
+            <p><?php echo $user['status_male_name']?></p>
         </div>
 
         <div class="my-account-right-footer">

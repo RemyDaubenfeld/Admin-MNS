@@ -1,6 +1,11 @@
 <?php
 
-$title = 'Admax - Tableau de bord';
+if (empty($_SESSION['user_id'])) {
+    header('Location: /?page=connection');
+    exit;
+}
+
+$title = 'Tableau de bord';
 
 if (isset($_SESSION['user_id'])) {
     $query = $dbh->prepare("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_id = :user_id");
