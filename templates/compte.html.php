@@ -6,26 +6,53 @@
         <div class="account-page-containt">
             <div class="account-section">
                 <p class="account-label"><img src="assets/img/black-envelope-solid.svg" alt="Email" class="img-label">Email</p>
-                <p><?php echo $user['user_mail'] ?? ''?><button class="modal-trigger-mail"><img src="assets/img/black-edit.svg" alt="Modifier email" class="icon-edit"></button></p>
+                <p><?= $user['user_mail'] ?? ''?><button class="modal-trigger-mail"><img src="assets/img/black-edit.svg" alt="Modifier email" class="icon-edit"></button></p>
+                <?php if (!empty($_SESSION['edit_user_mail'])) : ?>
+                    <script type="text/javascript">
+                         messageModal("succès","<?= $_SESSION['edit_user_mail'] ?>")   
+                    </script>
+                    <?php unset($_SESSION['edit_user_mail']);?>
+                <?php endif; ?>
             </div>
             <div class="account-section">
                 <p class="account-label"><img src="assets/img/phone-solid.svg" alt="Téléphone" class="img-label">Téléphone</p>
-                <p><?php echo $user['user_phone'] ?? ''?><button class="modal-trigger-phone"><img src="assets/img/black-edit.svg" alt="Modifier téléphone"></button></p>
+                <p><?= $user['user_phone'] ?? ''?><button class="modal-trigger-phone"><img src="assets/img/black-edit.svg" alt="Modifier téléphone"></button></p>
+                <?php if (!empty($success['edit_user_phone'])) : ?>
+                    <script type="text/javascript">
+                        messageModal("succès","<?= $success['edit_user_phone'] ?>")   
+                    </script>
+                <?php endif; ?>
             </div>
             <div class="account-section">
                 <p class="account-label"><img src="assets/img/house-solid.svg" alt="Adresse" class="img-label">Adresse</p>
-                <p><?php echo ($user['user_address_number'] . ' ' . $user['user_street'] . ', ' . $user['user_zip_code'] . ' ' . $user['user_city'] . ', ' . $user['user_country']) ?? ''?><button class="modal-trigger-location"><img src="assets/img/black-edit.svg" alt="Modifier adresse" class="icon-edit"></button></p>
+                <p><?= ($user['user_address_number'] . ' ' . $user['user_street'] . ', ' . $user['user_zip_code'] . ' ' . $user['user_city'] . ', ' . $user['user_country']) ?? ''?><button class="modal-trigger-location"><img src="assets/img/black-edit.svg" alt="Modifier adresse" class="icon-edit"></button></p>
+                <?php if (isset($_success['edit_user_location'])) : ?>
+                    <script type="text/javascript">
+                        messageModal("succès","<?= $_success['edit_user_location'] ?>")   
+                    </script>
+                <?php endif; ?>
             </div>
             <div>
-                <p class="account-label"><img src="assets/img/black-lock-solid.svg" alt="Adresse" class="img-label">Mot de passe</p>
+                <p class="account-label"><img src="assets/img/black-lock-solid.svg" alt="Mot de passe" class="img-label">Mot de passe</p>
                 <p>**********<button class="modal-trigger-password"><img src="assets/img/black-edit.svg" alt="Modifier mot de passe" class="icon-edit"></button></p>
+                <?php if (isset($_success['edit_user_password'])) : ?>
+                    <script type="text/javascript">
+                        messageModal("succès","<?= $_success['edit_user_password'] ?>")   
+                    </script>
+                <?php endif; ?>
             </div>
+            <?php if (!empty($errors)) : ?>
+                <script type="text/javascript">
+                    console.log($errors);
+                    messageModal("erreur","<?= $errors?>")   
+                </script>
+            <?php endif;?>
         </div>
     </div>
     <div class="my-account-right">
         <div class="my-account-right-header">
             <div class="profil-picture">
-                <p id="initials"><?php echo $initials ?></p>
+                <p id="initials"><?= $initials ?></p>
             </div>
             <form method="POST" enctype="multipart/form-data">
                 <div class="edit-profil-picture" id="edit-profil-picture">
@@ -38,12 +65,12 @@
             </form>
             <?php if (!empty($error['profil_picture'])) : ?>
                 <script>
-                    openMessageModal('<?php echo $error['profil_picture'] ?>')   
+                    messageModal('erreur', '<?= $error['profil_picture'] ?>')   
                 </script>
             <?php endif; ?>
             
-            <p id="name"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
-            <p><?php echo $user['status_male_name']?></p>
+            <p id="name"><?= $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
+            <p><?php echo ($user['user_gender'] == 1) ? $user['status_male_name'] : $user['status_female_name']?></p>
         </div>
 
         <div class="my-account-right-footer">
@@ -61,10 +88,10 @@
         <div class="modal">
             <div class="modal-header">
                 <p>Email</p>
-                <button class="modal-trigger-mail"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
+                <button class="modal-trigger-mail"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
             </div>
             <form method="POST">
-                <label for="email"><img src="assets/img/black-envelope-solid.svg" alt="Nouveau numéro">Nouvelle Email</label>
+                <label for="email"><img src="assets/img/black-envelope-solid.svg" alt="Nouveau numéro">Nouvel Email</label>
                 <input type="mail" name="edit_mail" value="<?php echo $user['user_mail']?>">
                 <button type="submit" name="edit_mail_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
@@ -77,7 +104,7 @@
         <div class="modal">
             <div class="modal-header">
                 <p>Téléphone</p>
-                <button class="modal-trigger-phone"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
+                <button class="modal-trigger-phone"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
             </div>
             <form method="POST">
                 <label for="phone"><img src="assets/img/phone-solid.svg" alt="Nouveau numéro">Nouveau numéro</label>
@@ -93,7 +120,7 @@
         <div class="modal">
             <div class="modal-header">
                 <p>Adresse</p>
-                <button class="modal-trigger-location"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
+                <button class="modal-trigger-location"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
             </div>
             <form method="POST">
                 <label for="location"><img src="assets/img/house-solid.svg" alt="Nouveau numéro">Nouvelle adresse</label>
@@ -115,13 +142,15 @@
         <div class="modal">
             <div class="modal-header">
                 <p>Mot de passe</p>
-                <button class="modal-trigger-password"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
+                <button class="modal-trigger-password"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
             </div>
             <form method="POST">
                 <label for="password"><img src="assets/img/black-lock-solid.svg" alt="Ancien mot de passe">Ancien mot de passe</label>
                 <input type="password" name="old_password">
                 <label for="password"><img src="assets/img/black-lock-solid.svg" alt="Nouveau mot de passe">Nouveau mot de passe</label>
                 <input type="password" name="new_password">
+                <label for="password"><img src="assets/img/black-lock-solid.svg" alt="Nouveau mot de passe">Confirmer nouveau mot de passe</label>
+                <input type="password" name="confirm_new_password">
                 <button type="submit" name="edit_password_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
         </div>

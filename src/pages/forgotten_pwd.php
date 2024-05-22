@@ -3,13 +3,13 @@
 $title = 'Admax - Mot de passe oublié';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
-    $errors = [];
+    $error = [];
 
     if (empty($_POST['user_mail']) || !filter_var($_POST['user_mail'], FILTER_VALIDATE_EMAIL)) {
-        $errors['user_mail'] = "L'adresse email est obligatoire et doit être une adresse email valide.";
+        $error['user_mail'] = "L'adresse email est obligatoire et doit être une adresse email valide.";
     }
 
-    if (empty($errors)) {
+    if (empty($error)) {
 
         $email = $_POST['user_mail'];
         $query = $dbh->prepare("SELECT * FROM user WHERE user_mail = :email");
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
             header('Location: /?page=reset_pwd');
             exit;
         } else {
-            $errors['user_mail'] = "L'adresse mail n'est reliée à aucun compte existant.";
+            $error['user_mail'] = "L'adresse mail n'est reliée à aucun compte existant.";
         }
     }
 }

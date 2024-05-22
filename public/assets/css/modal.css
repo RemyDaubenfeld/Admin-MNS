@@ -1,4 +1,60 @@
-.modal-container-mail, .modal-container-phone, .modal-container-location, .modal-container-password, .modal-container-add-user {
+
+#modal-message {
+        display: none;
+        position: fixed;
+        width: 95%;
+        max-width: 500px;
+        min-width: 100px;
+        border-radius: 10px;
+        bottom: 5%;
+        right: 5%;
+        color: var(--color_white);
+
+        .modal-message-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+    
+            h4 {
+                margin: 10px 0 0 10px;
+            }
+
+            img {
+                margin-right: 10px;
+            } 
+        }
+
+        #message {
+            margin: 0 0 10px 10px;
+        }
+    }
+
+#modal-message.active {
+    display: block;
+
+    #message {
+        margin: 10px;
+    }
+}
+
+#modal-message.succès {
+    background: var(--success-color);
+}
+
+#modal-message.erreur {
+    background: var(--error-color);
+}
+
+#modal-message.attention {
+    background: var(--warning-color);
+}
+
+#modal-message.information {
+    background: var(--information-color);
+}
+
+.modal-container-mail, .modal-container-phone, .modal-container-location, .modal-container-password, .modal-container-add-user, .modal-container-gender, .modal-container-name, .modal-container-status {
     display: none;
     position: fixed;
     top: 0px;
@@ -31,6 +87,11 @@
         justify-content: space-between;
         width: 100%;
         background-color: var(--light_primary_color);
+
+        #modal-edit-gender {
+            display: flex;
+            flex-direction: row;
+        }
         
         p {
             margin: 0;
@@ -143,6 +204,27 @@
             }
         }
 
+        .modal-edit-gender {
+            display: flex;
+            flex-direction: row;
+            margin: 20px auto 10px auto;
+
+            #feminine-gender, #male-gender {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                
+                label {
+                    padding: 0 5px;
+                }
+            }
+
+            #male-gender {
+                margin-left: 15px;
+            }
+        }
+
         .edit-location {
             display: flex;
             width: 95%;
@@ -220,6 +302,6 @@
         }
     }
 }
-.modal-container-mail.active, .modal-container-phone.active, .modal-container-location.active, .modal-container-password.active, .modal-container-add-user.active {
+.modal-container-mail.active, .modal-container-phone.active, .modal-container-location.active, .modal-container-password.active, .modal-container-add-user.active, .modal-container-gender.active, .modal-container-name.active, .modal-container-status.active {
     display: block;
 }

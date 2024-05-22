@@ -142,11 +142,18 @@
                     width: 80%;
                     margin: 5px auto 15px auto;
                     padding: 3px;
-                    border-radius: 10px;                  
+                    border-radius: 10px;
 
                     a {
                         text-decoration: none;
                         color: var(--color_black);
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;    
+
+                        img {
+                            margin-right: 6px;
+                        }
                     }
                 }
             }
@@ -208,6 +215,15 @@
 
         .account-page-containt {
             margin: 0 30px;
+
+            #edit-gender {
+                display: flex;
+                flex-direction: row;
+
+                #feminine-gender {
+                    margin-right: 5px;
+                }
+            }
         }
 
         p {

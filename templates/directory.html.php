@@ -18,19 +18,24 @@
                 <img src="assets/img/plus-solid.svg" alt="Ajouter un utilisateur">
                 <p>Ajouter un utilisateur</p>
             </div>
+            <?php if (!empty($success)) : ?>
+                <script type="text/javascript">
+                    messageModal("succès","<?= $success ?>")   
+                </script>
+            <?php endif; ?>
 
-            <?php foreach($users as $indice => $user_card): ?>
+            <?php foreach($users as $indice => $userCard): ?>
                 <div class="user-card">
                     <div class="card-header">
-                    <?php echo isset($user_card['user_image']) && !empty($user_card['user_image']) ? "<img src='assets/uploads/" . $user_card['user_image'] . "' alt='Photo de profil'>" : "<h4>" . strtoupper(substr($user_card['user_firstname'], 0, 1) . substr($user_card['user_lastname'], 0, 1)) . "</h4>"?>
+                    <?php echo isset($userCard['user_image']) && !empty($userCard['user_image']) ? "<img src='assets/uploads/" . $userCard['user_image'] . "' alt='Photo de profil'>" : "<h4>" . strtoupper(substr($userCard['user_firstname'], 0, 1) . substr($userCard['user_lastname'], 0, 1)) . "</h4>"?>
                     </div>
                     
                     <div class="card-main">
-                        <p class="user-name"><?= $user_card['user_firstname'] . ' ' . $user_card['user_lastname'] ?></p>
-                        <p><?= $user_card['status_male_name']?></p>
+                        <p class="user-name"><?= $userCard['user_firstname'] . ' ' . $userCard['user_lastname'] ?></p>
+                        <p><?php echo ($userCard['user_gender'] == 0) ? $userCard['status_male_name'] : $userCard['status_female_name']?></p>
                     </div>
                     <div class="card-footer">
-                        <a href="/?page=user_detail&user_id=<?= $user_card['user_id'] ?>">Voir plus</a>
+                        <a href="/?page=user_details&user_details_id=<?= $userCard['user_id'] ?>"><img src="assets/img/chevron-right-solid.svg" alt="Voir plus">Voir plus</a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -43,7 +48,7 @@
         <div class="modal">
             <div class="modal-header">
                 <p>Ajouter un utilisateur</p>
-                <button class="modal-trigger-add-user"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
+                <button class="modal-trigger-add-user"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
             </div>
             <form method="POST">
                 <label for="email"><img src="assets/img/black-envelope-solid.svg" alt="Email">Email</label>
@@ -67,11 +72,11 @@
                         <label for="gender"><img src="assets/img/gender-solid.svg" alt="Genre">Genre</label>
                         <div id="gender">
                             <div id="feminine-gender">
-                                <input type="radio" id="feminine" name="gender" value="1" />
+                                <input type="radio" id="feminine" name="gender" value="2" />
                                 <label for="feminine">Féminin</label>
                             </div>
                             <div id="male-gender">
-                              <input type="radio" id="male" name="gender" value="0" />
+                              <input type="radio" id="male" name="gender" value="1" />
                               <label for="male">Masculin</label>
                             </div>
                         </div>

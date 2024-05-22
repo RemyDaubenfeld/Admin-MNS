@@ -9,8 +9,10 @@
                 <div class="field">
                     <label for="email"><img src="assets/img/envelope-solid.svg" alt="Adresse mail">Adresse mail</label><br>
                     <input type="email" name="user_mail" id="user_mail" value="<?= $_POST['user']['user_mail'] ?? '' ?>" placeholder="Entrez votre adresse mail" required><br>
-                    <?php if (!empty($errors['user_mail'])) : ?>
-                        <p class="connection-error"><?= $errors['user_mail'] ?></p>
+                    <?php if (!empty($error['user_mail'])): ?>
+                        <script>
+                            messageModal("erreur", "<?=$error['user_mail']?>")
+                        </script>
                     <?php endif; ?>
                 </div>
                 <div class="field">
