@@ -10,7 +10,9 @@
                     <label for="password"><img src="assets/img/lock-solid.svg" alt="Nouveau mot de passe">Nouveau mot de passe</label><br>
                     <input type="password" name="user_password" id="user_password" value="<?= $_POST['user']['user_password'] ?? '' ?>" placeholder="Entrez votre nouveau mot de passe" required><br>
                     <?php if (!empty($errors['user_password'])) : ?>
-                        <p class="connection-error"><?= $errors['user_password'] ?></p>
+                        <script>
+                            messageModal("erreur", "<?=$errors['user_password']?>")
+                        </script>
                     <?php endif; ?>
                 </div>
                 <div class="field">
@@ -21,7 +23,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="field">
-                    <button type="submit" name="validate_pwd_submit"><img src="assets/img/check-solid.svg" alt="Valider nouveau mot de passe">Valider</button>
+                    <button type="submit" name="validate_pwd_submit"><img src="assets/img/black-check-solid.svg" alt="Valider nouveau mot de passe">Valider</button>
                 </div>
             </form>
         </div>

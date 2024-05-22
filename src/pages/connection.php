@@ -2,10 +2,8 @@
 
 $title = 'Admax - Connection';
 
-var_dump($user);
-
 if (isset($_SESSION['reset_pwd_success'])) {   
-    $reset_pwd_success = $_SESSION['reset_pwd_success'];
+    $resetPwdSuccess = $_SESSION['reset_pwd_success'];
     unset($_SESSION['reset_pwd_success']);
     unset($_SESSION['user_mail']);
 }
@@ -40,12 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
                 header('Location: /');
                 exit;
             } else {
-                $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
-                $errors['user_password'] = "L'email ou le mot de passe est incorrect";
+                $errors = "L'email ou le mot de passe est incorrect";
             }
         } else {
-            $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
-            $errors['user_password'] = "L'email ou le mot de passe est incorrect";
+            $errors = "L'email ou le mot de passe est incorrect";
         }
     }
 }

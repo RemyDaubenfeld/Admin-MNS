@@ -55,12 +55,11 @@ body {
     min-height: 100vh;
     height: 100%;
     color: var(--color_white);
-    background-color: var(--light_secondary_color);
-    
+    background-color: var(--light_secondary_color);    
 }
 
 main {
-    flex: 1; /* Le main prend tout l'espace disponible */
+    flex: 1; /* Le main prend tout l'espace disponible */;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -102,6 +101,12 @@ header {
 
             p {
                 margin: 0 10px 0 0;
+
+                
+            }
+
+            .name {
+                font-family: var(--font-body-medium);
             }
 
             #icon-header {
@@ -210,63 +215,6 @@ main {
         }
     }
 }
-
-#modal-container-message {
-    display: block;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
-
-    .success-modal {
-        width: 95%;
-        max-width: 300px;
-        min-width: 100px;
-        background: var(--success-color);
-        border-radius: 15px;
-        position: absolute;
-        bottom: 5%;
-        right: 5%;
-        overflow: hidden;
-        color: var(--color_white);
-    }
-
-    .modal-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: right;
-        width: 100%;
-        background-color: var(--light_primary_color);
-        
-        p {
-            margin: 0;
-            padding: 12px 0 10px 11px;
-            color: var(--color_white);
-        }   
-
-        button {
-            border-radius: 50%;
-            border: none;
-            margin: 10px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            background-color: var(--color_light_grey_1);
-
-            img {
-                position: relative;
-                top: 2px;
-                left: -0.5px;
-            }
-        }
-    }
-}
-
-#modal-container-message.active {
-    display: block;
-}
-
 
 /*FOOTER*/
 footer {

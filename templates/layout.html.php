@@ -3,23 +3,25 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= $title ?? ''?></title>
+        <title>Admax - <?= $title ?? ''?></title>
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/connection.css">
         <link rel="stylesheet" href="assets/css/pages.css">
+        <link rel="stylesheet" href="assets/css/modal.css">
+        <script src="assets/js/function.js"></script>
     </head>
     <body>
         
         <!--Modal-->
-        <div id="modal-container-message">
-            <div class="success-modal">
-                <div class="modal-header">
-                    <h4><div><img src="" alt=""></div>Succès</h4>
-                    <button class="close-modal"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
-                </div>
-                <div id="modal-message"></div>
+        <div id="modal-message">
+            <div class="modal-message-header">
+                <h4 id="modal-title"><img src="" alt=""><span id="modal-title-text"></span></h4>
+                <img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre" class="close-modal">
             </div>
+            <div id="message"></div>
         </div>
+
+
         
         <?php if (!empty($_SESSION['user_id'])): ?>
             <header>
@@ -29,8 +31,8 @@
                 <div class="header-right">
                     <div class="user-status">
                         <div>
-                            <p><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
-                            <p><?php echo $user['status_name']?></p>
+                            <p class="name"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
+                            <p><?php echo ($user['user_gender'] == 1) ? $user['status_male_name'] : $user['status_female_name']?></p>
                         </div>
                         <div id="icon-header">
                             <?php echo isset($user['user_image']) && !empty($user['user_image']) ? "<img src='assets/uploads/" . $user['user_image'] . "' alt='Photo de profil'>" : "<p>" . strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) . "</p>"?>
@@ -120,6 +122,7 @@
                         <div class="list-nav">
                             <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
                             <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
+                            <a href="/?page=directory"><img src="assets/img/repertory-solid.svg" alt="Répertoire">Répertoire</a>
                         </div>
                         <div class="contact-nav">
                             <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
@@ -143,6 +146,5 @@
             </div>
         </footer>
         <script src="assets/js/script.js"></script>
-        <script src="assets/js/modal.js"></script>
     </body>
 </html>

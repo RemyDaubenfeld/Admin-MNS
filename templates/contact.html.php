@@ -1,9 +1,9 @@
 <div class="page-container">
     <div class="page-title">
-        <h1>Contact</h1>
+        <h1><?=$title?></h1>
     </div>
     <div class="page-containt">
-        <form method="POST">
+        <form method="POST" id="contact-form">
             <label for="subject"><h2>Objet</h2></label>
             <input type="text" name="subject" placeholder="Saisissez l’objet de votre message">
             <label for="message"><h2>Message</h2></label>

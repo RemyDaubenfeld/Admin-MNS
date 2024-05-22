@@ -4,11 +4,6 @@
     </div>
     <div class="login-fields">
         <div id="content-login-fields">
-            <?php if (!empty($reset_pwd_success)) : ?>
-                <div id="pwd-success">
-                    <?= $reset_pwd_success?>
-                </div>
-            <?php endif; ?>
             <div class="title">
                 <h1>Bienvenue sur Admax</h1>
             </div>
@@ -31,13 +26,20 @@
                     <div id="forgottenPwd">
                         <a href="/?page=forgotten_pwd">Mot de passe oublié?</a><br>
                     </div>
-                    
                 </div>
-                    
                 <div class="field">
                     <button type="submit" name="connect_submit"><img src="assets/img/right-to-bracket-solid.svg" alt="Se connecter">Se connecter</button>
                 </div>
             </form>
+            <?php if (!empty($resetPwdSuccess)) : ?>
+                <script type="text/javascript">
+                    messageModal("succès","<?= $resetPwdSuccess ?>")   
+                </script>
+            <?php elseif (!empty($errors))  : ?>
+                <script type="text/javascript">
+                    messageModal("erreur","<?= $errors ?>")   
+                </script>
+            <?php endif; ?>
         </div>
     </div>
 </div>
