@@ -32,10 +32,10 @@
                     
                     <div class="card-main">
                         <p class="user-name"><?= $userCard['user_firstname'] . ' ' . $userCard['user_lastname'] ?></p>
-                        <p><?php echo ($userCard['user_gender'] == 0) ? $userCard['status_male_name'] : $userCard['status_female_name']?></p>
+                        <p><?php echo ($userCard['user_gender'] == 1) ? $userCard['status_male_name'] : $userCard['status_female_name']?></p>
                     </div>
                     <div class="card-footer">
-                        <a href="/?page=user_details&user_details_id=<?= $userCard['user_id'] ?>"><img src="assets/img/chevron-right-solid.svg" alt="Voir plus">Voir plus</a>
+                        <a href="/?page=user-details&user_details_id=<?= $userCard['user_id'] ?>"><img src="assets/img/chevron-right-solid.svg" alt="Voir plus">Voir plus</a>
                     </div>
                 </div>
             <?php endforeach; ?>
