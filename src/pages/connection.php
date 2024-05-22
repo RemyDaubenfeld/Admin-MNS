@@ -1,30 +1,31 @@
 <?php
 
-$title = 'Admax - Connection';
-
-if (isset($_SESSION['reset_pwd_success'])) {   
-    $resetPwdSuccess = $_SESSION['reset_pwd_success'];
-    unset($_SESSION['reset_pwd_success']);
-    unset($_SESSION['user_mail']);
+if (!empty($_SESSION['user_id'])) {
+    header('Location: /');
+    exit;
 }
 
+$title = 'Connexion';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
     $errors = [];
 
-    if (empty($_POST['user_mail']) || !filter_var($_POST['user_mail'], FILTER_VALIDATE_EMAIL)) {
-        $errors['user_mail'] = "L'adresse email est obligatoire et doit être une adresse email valide.";
+    if (empty($_POST['user_mail'])) {
+        $errors['user_mail']['required_mail'] = ['alert_id' => 'requiredMailAlert', 'message' => 'L\'adresse email est obligatoire.'];
+    }
+
+    if (!filter_var($_POST['user_mail'], FILTER_VALIDATE_EMAIL) && !empty($_POST['user_mail'])) {
+        $errors['user_mail']['invalid_mail'] = ['alert_id' => 'invalidMailAlert', 'message' => 'Cette adresse email est invalide.'];
     }
 
     if (empty($_POST['user_password'])) {
-        $errors['user_password'] = "Le mot de passe est obligatoire.";
+        $errors['user_password']['required_password'] = ['alert_id' => 'requiredPasswordAlert', 'message' => 'Le mot de passe est obligatoire.'];
     }
 
     if(empty($errors)) {
-
         $email = $_POST['user_mail'];
-        $query = $dbh->prepare("SELECT * FROM user WHERE user_mail = :email");
-        $query->execute(['email' => $email]);
+        $query = $dbh->prepare("SELECT * FROM user INNER JOIN status ON user.status_id = status.status_id WHERE user_mail = :user_mail");
+        $query->execute(['user_mail' => $email]);
         $user = $query->fetch();
 
         if ($user) {
@@ -32,16 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
             $password = $_POST['user_password'] . $salt;
 
             if (password_verify($password, $user['user_password'])) {
-                session_start();
                 $_SESSION['user_id'] = $user['user_id'];
-
                 header('Location: /');
                 exit;
             } else {
-                $errors = "L'email ou le mot de passe est incorrect";
+                $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
+                $errors['user_password'] = "L'email ou le mot de passe est incorrect";
             }
         } else {
-            $errors = "L'email ou le mot de passe est incorrect";
+            $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
+            $errors['user_password'] = "L'email ou le mot de passe est incorrect";
         }
     }
 }

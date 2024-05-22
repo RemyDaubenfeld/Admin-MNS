@@ -13,5 +13,6 @@ try
 }
 catch (PDOException $e)
 {
-    echo "Error: " . $e->getMessage();
+    echo "Erreur lors de la connexion à la base de données : " . $e->getMessage();
+    exit;
 }

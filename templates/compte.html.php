@@ -69,8 +69,8 @@
                 </script>
             <?php endif; ?>
             
-            <p id="name"><?= $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
-            <p><?php echo ($user['user_gender'] == 1) ? $user['status_male_name'] : $user['status_female_name']?></p>
+            <p id="name"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
+            <p><?php echo $user['status_male_name']?></p>
         </div>
 
         <div class="my-account-right-footer">
