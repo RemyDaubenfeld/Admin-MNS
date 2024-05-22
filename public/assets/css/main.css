@@ -59,7 +59,7 @@ body {
 }
 
 main {
-    flex: 1; /* Le main prend tout l'espace disponible */
+    flex: 1; /* Le main prend tout l'espace disponible */;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -101,6 +101,12 @@ header {
 
             p {
                 margin: 0 10px 0 0;
+
+                
+            }
+
+            .name {
+                font-family: var(--font-body-medium);
             }
 
             #icon-header {
@@ -211,7 +217,7 @@ main {
 }
 
 #modal-container-message {
-    display: none;
+    display: block;
     position: fixed;
     top: 0px;
     left: 0px;

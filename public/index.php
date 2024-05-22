@@ -1,9 +1,9 @@
 <?php
 
-session_start();
+// ouverture de la session pour récupérer l'id enregistré dans la session lors de la connexion
+session_start(); 
 
-setlocale(LC_TIME, 'fr_FR');
-date_default_timezone_set('Europe/Paris');
+
 
 
 $page = !empty($_GET['page']) ? ($_GET['page']) : 'index';
@@ -19,6 +19,7 @@ $jsPath = "assets/js/$page.css";
 
 if(file_exists($path)) {   
     require '../src/data/db-connect.php';
+    require '../src/data/user.php';
     require "../src/pages/$page.php";
     require "../templates/$layout.html.php";
 }

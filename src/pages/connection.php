@@ -39,14 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
                 header('Location: /');
                 exit;
             } else {
-                // ICI ON DEVRA STOQUER EN SESSION POUR MODALE
-                // $errors['user_mail']['incorrect_mail'] = "L'email ou le mot de passe est incorrect.";
-                // $errors['user_password']['incorrect_password'] = "L'email ou le mot de passe est incorrect.";
+                $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
+                $errors['user_password'] = "L'email ou le mot de passe est incorrect";
             }
         } else {
-            // ICI ON DEVRA STOQUER EN SESSION POUR MODALE
-            // $errors['user_mail']['incorrect_mail'] = "L'email ou le mot de passe est incorrect.";
-            // $errors['user_password']['incorrect_password'] = "L'email ou le mot de passe est incorrect.";
+            $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
+            $errors['user_password'] = "L'email ou le mot de passe est incorrect";
         }
     }
 }
