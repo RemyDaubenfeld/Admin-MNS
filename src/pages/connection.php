@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
 
     if(empty($errors)) {
         $email = $_POST['user_mail'];
-        $query = $dbh->prepare("SELECT * FROM user INNER JOIN status ON user.status_id = status.status_id WHERE user_mail = :email");
-        $query->execute(['email' => $email]);
+        $query = $dbh->prepare("SELECT * FROM user INNER JOIN status ON user.status_id = status.status_id WHERE user_mail = :user_mail");
+        $query->execute(['user_mail' => $email]);
         $user = $query->fetch();
 
         if ($user) {
@@ -34,8 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
 
             if (password_verify($password, $user['user_password'])) {
                 $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['user_name'] = $user['user_firstname'].' '.$user['user_lastname'];
-                $_SESSION['user_id'] = $user['user_gender'] == 1 ? $user['status_female_name'] : $user['status_male_name']  ;
                 header('Location: /');
                 exit;
             } else {

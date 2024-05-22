@@ -1,3 +1,11 @@
+<?php 
+
+$query = $dbh->prepare("SELECT * FROM user INNER JOIN status ON user.status_id = status.status_id WHERE user_id = :user_id");
+$query->execute(['user_id' => $_SESSION['user_id']]);
+$user = $query->fetch();
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -35,11 +43,11 @@
             <div class="header-right">
                 <div class="user-status">
                     <div>
-                        <p><?= $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
-                        <p><?= $user['status_male_name']?></p>
+                        <p><?= $user['user_firstname'] ?> <?= $user['user_lastname'] ?></p>
+                        <p><?= $user['user_gender'] == 1 ? $user['status_female_name'] : $user['status_male_name'] ?></p>
                     </div>
                     <div id="icon-header">
-                        <?= isset($user['user_image']) && !empty($user['user_image']) ? "<img src='assets/uploads/" . $user['user_image'] . "' alt='Photo de profil'>" : "<p>" . strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) . "</p>"?>
+                        <?= !empty($user['user_image']) ? "<img src='assets/uploads/" . $user['user_image'] . "' alt='Photo de profil'>" : "<p>" . strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) . "</p>"?>
                     </div>
                 </div>
             </div>
