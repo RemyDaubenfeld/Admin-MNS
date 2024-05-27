@@ -122,8 +122,88 @@
                 background-color: var(--error-color);
             }
 
+            .alert-warning {
+                background-color: var(--warning-color);
+            }
+
             .alert-info {
                 background-color: var(--information-color);
+            }
+
+            .alert-success {
+                background-color: var(--success-color);
+            }
+
+            .password-strength-box {
+                p {
+                    font-size: 12px;
+                    margin-bottom: 5px;
+
+                    span {
+                        font-family: var(--font-body-bold);
+                    }
+
+                    .password-empty {
+                        color: var(--error-color);
+                    }
+
+                    .password-insufficient {
+                        color: var(--error-color);
+                    }
+
+                    .password-acceptable {
+                        color: var(--warning-color);
+                    }
+
+                    .password-strong {
+                        color: var(--success-color);
+                    }
+
+                    .password-stronger {
+                        color: var(--success-color);
+                    }
+
+                }
+
+                .password-progressbar {
+                    height: 15px;
+                    width: 100%;
+                    background-color: var(--color_light_grey_2);
+                    border-radius: 5px;
+                    padding: 2px;
+                    box-sizing: border-box;
+
+                    .password-strength {
+                        height: 100%;
+                        border-radius: 4px;
+                        transition: width 0.6s ease;
+                    }
+
+                    .password-empty {
+                        width: 15px;
+                        background-color: var(--error-color);
+                    }
+
+                    .password-insufficient {
+                        width: 25%;
+                        background-color: var(--error-color);
+                    }
+
+                    .password-acceptable {
+                        width: 50%;
+                        background-color: var(--warning-color);
+                    }
+
+                    .password-strong {
+                        width: 75%;
+                        background-color: var(--success-color);
+                    }
+
+                    .password-stronger {
+                        width: 100%;
+                        background-color: var(--success-color);
+                    }
+                }
             }
 
             button {
@@ -146,10 +226,10 @@
                     fill: var(--color_black);
                     width: 17px;
                 }
-            }
 
-            button:hover {
-                background-color: var(--dark_secondary_color);
+                &:hover {
+                    background-color: var(--dark_secondary_color);
+                }
             }
         }
 
@@ -202,4 +282,4 @@
     .login-fields {
         width: 100%;
     }
-} 
+}

@@ -78,6 +78,7 @@
             <div class="profil-picture">
                 <p id="initials"><?= $initials ?></p>
             </div>
+
             <div id="name-user-details">
                 <p id="name"><?= $userDetails['user_firstname'] . ' ' . $userDetails['user_lastname'] ?><button class="modal-trigger-name"><img src="assets/img/black-edit.svg"     alt="Modifier nom"></button></p>
                 <?php if (!empty($_SESSION['edit_name_user_details'])) :?>
@@ -93,10 +94,16 @@
                     </script>
                     <?php unset($_SESSION['edit_status_user_details']);?>
                 <?php endif; ?>
+
+            <div>
+                <p id="name"><?= $userDetails['user_firstname'] . ' ' . $userDetails['user_lastname'] ?><button class="modal-trigger-name"><img src="assets/img/black-edit.svg"     alt="Modifier nom"></button></p>
+                <p><?= ($userDetails['user_gender'] == 1) ? $userDetails['status_male_name'] : $userDetails['status_female_name']?><button class="modal-trigger-status"><img src="assets/img/black-edit.svg" alt="Modifier statut"></button></p>
+
             </div>
         </div>
 
         <div class="my-account-right-footer">
+
             <div class="user-details-link">
                 <a href=""><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
             </div>
@@ -110,6 +117,20 @@
             <div class="modal-trigger-archive" id="archive">
                 <p><img src="assets/img/box-archive-solid.svg" alt="Archiver">Archiver</p>
             </div>
+
+            <form method="POST">
+                <button type="submit" name="disconnection_submit" id="disconnect"><img src="assets/img/disconnect-solid.svg" alt="Deconnection">Déconnexion</button>
+            </form>
+            <form method="POST">
+                <button type="submit" name="disconnection_submit" id="disconnect"><img src="assets/img/disconnect-solid.svg" alt="Deconnection">Déconnexion</button>
+            </form>
+            <form method="POST">
+                <button type="submit" name="disconnection_submit" id="disconnect"><img src="assets/img/disconnect-solid.svg" alt="Deconnection">Déconnexion</button>
+            </form>
+            <form method="POST">
+                <button type="submit" name="disconnection_submit" id="disconnect"><img src="assets/img/disconnect-solid.svg" alt="Deconnection">Déconnexion</button>
+            </form>
+
         </div>
     </div>
 
@@ -205,6 +226,7 @@
     </div>
 
 <!--Edit name-->
+
     <div class="modal-container-name">
         <div class="overlay modal-trigger-name"></div>
         <div class="modal">
@@ -220,12 +242,33 @@
                 <label for="firstname"><img src="assets/img/black-user-solid.svg" alt="Prénom">Prénom</label>
                 <input type="text" name="edit_firstname" value="<?= $userDetails['user_firstname']?>">
     
+
+<div class="modal-container-name">
+        <div class="overlay modal-trigger-name"></div>
+        <div class="modal">
+            <div class="modal-header">
+                <p></p>
+                <button class="modal-trigger-name"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
+            </div>
+            <form method="POST">
+                <div id="edit-name">
+                    <div id="edit-lastname">
+                        <label for="lastname"><img src="assets/img/black-user-solid.svg" alt="Nom">Nom</label>
+                        <input type="text" name="edit_lastname" value="<?= $userDetails['user_lastname']?>">
+                    </div>
+                    <div id="edit-firstname">
+                        <label for="firstname"><img src="assets/img/black-user-solid.svg" alt="Prénom">Prénom</label>
+                        <input type="text" name="edit_firstname" value="<?= $userDetails['user_firstname']?>">
+                    </div>
+                </div>
+
                 <button type="submit" name="edit_name_user_details_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
         </div>
     </div>
 
 <!--Edit status-->
+
     <div class="modal-container-status">
         <div class="overlay modal-trigger-status"></div>
         <div class="modal">
@@ -264,4 +307,7 @@
             </form>
         </div>
     </div>
+
+<div class="modal-container-status"></div>
+
 </div>

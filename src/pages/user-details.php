@@ -96,6 +96,7 @@ if(isset($_POST['edit_gender_user_details_submit'])) {
     if (empty($_POST['edit_gender_user_details'])) {
         $errors['edit_gender_user_details'] = "Le genre de l'utilisateur est obligatoire.";
     }
+
     if(empty($errors)) {
         $query = $dbh->prepare("UPDATE user SET user_gender = :user_gender WHERE user_id = :user_id");
         $query->execute(['user_gender' => $_POST['edit_gender_user_details'], 'user_id' => $_GET['user_details_id']]);
@@ -149,6 +150,7 @@ if(isset($_POST['edit_status_user_details_submit'])) {
         }
     }
 }
+
 
 
 // Récupération des initiales de l'utilisateur
