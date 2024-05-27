@@ -29,20 +29,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
         $user = $query->fetch();
 
         if ($user) {
+            $userName = $user['user_firstname'];
+
             $salt = "mns";
             $password = $_POST['user_password'] . $salt;
 
             if (password_verify($password, $user['user_password'])) {
                 $_SESSION['user_id'] = $user['user_id'];
+                $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Bonjour $userName.", 'start' => time()];
                 header('Location: /');
                 exit;
             } else {
-                $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
-                $errors['user_password'] = "L'email ou le mot de passe est incorrect";
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'L\'email ou le mot de passe est incorrect.', 'start' => time()];
             }
         } else {
-            $errors['user_mail'] = "L'email ou le mot de passe est incorrect";
-            $errors['user_password'] = "L'email ou le mot de passe est incorrect";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'L\'email ou le mot de passe est incorrect.', 'start' => time()];
         }
     }
 }

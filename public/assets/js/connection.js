@@ -1,11 +1,9 @@
-import { visibilityPasswordToggle, closeAlert } from './lib.fields.js';
+import { passwordVisibilityToggle, closeAlert } from './lib.fields.js';
 
 // Visibilité du mot de passe
-const userPassword = document.querySelector("#userPassword");
-const visibilityPassword = document.querySelector("#visibilityPassword");
-visibilityPassword.addEventListener("click", () => visibilityPasswordToggle(userPassword, visibilityPassword));
+passwordVisibilityToggle("userPassword");
 
 // Fermeture des messages d'erreurs php
-closeAlert('requiredMailAlert', 'requiredMailAlertClose');
-closeAlert('invalidMailAlert', 'invalidMailAlertClose');
-closeAlert('requiredPasswordAlert', 'requiredPasswordAlertClose');
+closeAlert('requiredMail');
+closeAlert('invalidMail');
+closeAlert('requiredPassword');

@@ -5,33 +5,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admax - <?= $title ?></title>
         <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/modal.css">
         <link rel="stylesheet" href="assets/css/disconnected.css">
         <?php if (file_exists("assets/css/$page.css")): ?>
             <link rel="stylesheet" href="assets/css/<?= $page ?>.css">
         <?php endif; ?>
         <script defer src="assets/js/script.js"></script>
         <script defer src="assets/js/modal.js"></script>
+        <script defer type="module" src="assets/js/main.js"></script>
         <?php if (file_exists("assets/js/$page.js")): ?>
             <script defer type="module" src="assets/js/<?= $page ?>.js"></script>
         <?php endif; ?>
     </head>
     <body>
         
-        <!--Modal-->
-        <div id="modal-container-message">
-            <div class="success-modal">
-                <div class="modal-header">
-                    <h4><div><img src="" alt=""></div>Succès</h4>
-                    <button class="close-modal"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
-                </div>
-                <div id="modal-message"></div>
-            </div>
-        </div>
-        
         <main>
             <div class="container">
                 <?php require "../templates/$page.html.php" ?>
             </div>
+            <?php require '../templates/modal-messages.html.php';?>
         </main>
         
         <footer>

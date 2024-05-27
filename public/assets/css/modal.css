@@ -1,57 +1,76 @@
 
-#modal-message {
-        display: none;
-        position: fixed;
-        width: 95%;
-        max-width: 500px;
-        min-width: 100px;
-        border-radius: 10px;
-        bottom: 5%;
-        right: 5%;
-        color: var(--color_white);
+.modal-message-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    z-index: 1000;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    margin-left: 40px;
+    max-width: 500px;
+    min-width: 200px;
+    color: var(--color_white);
+
+    .modal-message-box {
+        box-sizing: border-box;
+        padding: 10px 15px;
+        width: 100%;
+        border-radius: 5px;
 
         .modal-message-header {
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            align-items: center;
+            gap: .3em;
             width: 100%;
-    
+
             h4 {
-                margin: 10px 0 0 10px;
+                margin-top: 4px;
             }
-
-            img {
-                margin-right: 10px;
-            } 
+            
+            .modal-message-icon {
+                fill: var(--color_white);
+                width: 17px;
+                min-width: 17px;
+                height: 17px;
+            }
+            
+            .modal-message-close {
+                fill: var(--color_white);
+                width: 17px;
+                min-width: 17px;
+                height: 17px;
+                cursor: pointer;
+                margin-left: auto;
+            }
         }
 
-        #message {
-            margin: 0 0 10px 10px;
+        .modal-message {
+            margin: 5px 0 0 0 ;
         }
     }
-
-#modal-message.active {
-    display: block;
-
-    #message {
-        margin: 10px;
+    
+    .modal-message-success {
+        background: var(--success-color);
     }
-}
+    
+    .modal-message-info {
+        background: var(--information-color);
+    }
+    
+    .modal-message-warning {
+        background: var(--warning-color);
+    }
+    
+    .modal-message-error {
+        background: var(--error-color);
+    }
 
-#modal-message.succès {
-    background: var(--success-color);
-}
-
-#modal-message.erreur {
-    background: var(--error-color);
-}
-
-#modal-message.attention {
-    background: var(--warning-color);
-}
-
-#modal-message.information {
-    background: var(--information-color);
+    .fade-out {
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+    }
+    
 }
 
 .modal-container-mail, .modal-container-phone, .modal-container-location, .modal-container-password, .modal-container-add-user, .modal-container-gender, .modal-container-name, .modal-container-status {

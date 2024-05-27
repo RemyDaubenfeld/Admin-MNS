@@ -1,13 +1,28 @@
 <?php
 
-if (!empty($_SESSION['user_id']) || empty($_SESSION['user_mail'])) {
+if (!empty($_SESSION['user_id']) || empty($_POST['token'])) {
     header('Location: /');
+    exit;
+}
+
+$query = $dbh->prepare('SELECT user_token, user_token_valid FROM user WHERE user_token = :user_token');
+$query->execute(['user_token' => $_POST['token']]);
+$token = $query->fetch();
+
+if (!$token) {
+    header('Location: /?page=forgotten-pwd');
+    exit;
+}
+
+if ((strtotime(date("Y-m-d H:i:s")) - strtotime($token['user_token_valid'])) > 3600) {
+    $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Votre token a expiré, veuillez réessayer.', 'start' => time()];
+    header('Location: /?page=forgotten-pwd');
     exit;
 }
 
 $title = 'Réinitialiser mon mot de passe';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['new_pwd_submit'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['new_pwd_hidden_submit'])) {
     $errors = [];
 
     if(!empty($_POST['new_password'])){
@@ -35,18 +50,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['new_pwd_submit'])) {
     if (empty($errors)) {
         $salt = "mns";
         $password = $_POST['new_password'] . $salt;
-        $password = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = $dbh->prepare('UPDATE user SET user_password = :new_password WHERE user_mail = :email');
+        $query = $dbh->prepare('UPDATE user SET user_password = :new_password WHERE user_token = :user_token');
         $query->execute([
-            'new_password' => $password,
-            'email' => $user_mail
+            'new_password' => password_hash($password, PASSWORD_DEFAULT),
+            'user_token' => $token['user_token']
         ]);
 
         if ($query) {
-            // ICI ON DEVRA STOQUER EN SESSION POUR MODALE
-            $_SESSION['success_modal']['reset_pwd_success'] = 'Votre mot de passe a été mis à jour avec succès !';
-            header('Location: /?page=connexion');
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => 'Votre mot de passe a été mis à jour avec succès.', 'start' => time()];
+            header('Location: /');
+            exit;
+        } else {
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Echec de la mise à jour de votre mot de passe. Votre token peut-être a expiré, veuillez réessayer.', 'start' => time()];
+            header('Location: /?page=forgotten-pwd');
             exit;
         }
     }

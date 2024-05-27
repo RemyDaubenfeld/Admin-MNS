@@ -1,11 +1,3 @@
-<?php 
-
-$query = $dbh->prepare("SELECT * FROM user INNER JOIN status ON user.status_id = status.status_id WHERE user_id = :user_id");
-$query->execute(['user_id' => $_SESSION['user_id']]);
-$user = $query->fetch();
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -13,48 +5,44 @@ $user = $query->fetch();
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admax - <?= $title ?></title>
         <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/modal.css">
         <link rel="stylesheet" href="assets/css/connected.css">
         <?php if (file_exists("assets/css/$page.css")): ?>
             <link rel="stylesheet" href="assets/css/<?= $page ?>.css">
         <?php endif; ?>
         <script defer src="assets/js/script.js"></script>
         <script defer src="assets/js/modal.js"></script>
+        <script defer type="module" src="assets/js/main.js"></script>
         <?php if (file_exists("assets/js/$page.js")): ?>
             <script defer type="module" src="assets/js/<?= $page ?>.js"></script>
         <?php endif; ?>
     </head>
     <body>
         
-        <!--Modal-->
-        <div id="modal-container-message">
-            <div class="success-modal">
-                <div class="modal-header">
-                    <h4><div><img src="" alt=""></div>Succès</h4>
-                    <button class="close-modal"><img src="assets/img/xmark-solid.svg" alt="Fermer la fenêtre"></button>
-                </div>
-                <div id="modal-message"></div>
-            </div>
-        </div>
-        
         <header>
             <div class="header-left">
                 <img src="assets/img/logo.gif" alt="Logo Admax">
             </div>
             <div class="header-right">
-                <div class="user-status">
+                <a href="/?page=acount" class="user-status">
                     <div>
-                        <p><?= $user['user_firstname'] ?> <?= $user['user_lastname'] ?></p>
+                        <p><?= $user['user_firstname'].' '.$user['user_lastname'] ?></p>
                         <p><?= $user['user_gender'] == 1 ? $user['status_female_name'] : $user['status_male_name'] ?></p>
                     </div>
                     <div id="icon-header">
-                        <?= !empty($user['user_image']) ? "<img src='assets/uploads/" . $user['user_image'] . "' alt='Photo de profil'>" : "<p>" . strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) . "</p>"?>
+                        <?php if(!empty($user['user_image'])): ?>
+                            <img src="assets/uploads/<?= $user['user_image'] ?>" alt="Photo de profil">
+                        <?php else: ?>
+                            <p><?= strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) ?></p>
+                        <?php endif; ?>
                     </div>
-                </div>
+                </a>
             </div>
         </header>
     
         <main>
             <div class="navigation">
+
                 <!--Affichage candidat-->
                 <?php if ($user['status_id'] == 1): ?>
                     <div class="list-nav">
@@ -142,8 +130,9 @@ $user = $query->fetch();
                 <?php endif; ?>
             </div>
             <div class="pages">
-                <?php require '../templates/' . $page . '.html.php';?>
+                <?php require "../templates/$page.html.php";?>
             </div>
+            <?php require '../templates/modal-messages.html.php';?>
         </main>
         
         <footer>
