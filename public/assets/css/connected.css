@@ -331,14 +331,69 @@
 
             #name {
                 font-family: var(--font-body-bold);
+                margin-bottom: 5px;
+            }
+
+            #name-user-details {
+                margin-top: 10px;
+
+                button {
+                    border: none;
+                    padding: 0;
+                    vertical-align: middle;
+                    background-color: transparent;
+                    cursor: pointer;
+                    margin-left: 10px;
+                }
             }
         }
 
         .my-account-right-footer {
             display: flex;
-            flex-direction: column-reverse;
+            flex-direction: column;
             width: 100%;
             margin: 0 auto 20px auto;
+
+            .user-details-link {
+                background-color: var(--light_primary_color);
+                padding: 10px;
+                border-radius: 10px;
+                width: 55%;
+                margin: 0 auto 15px auto;
+                a {
+                    text-decoration: none;
+                    color: var(--color_white);
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+
+                    img {
+                        margin-right: 10px;
+                        width: 17px;
+                    }
+                }
+            }
+
+            #archive {
+                background-color: var(--error-color);
+                padding: 10px;
+                border-radius: 10px;
+                width: 55%;
+                text-align: center;
+                margin: auto;
+                color: var(--color_white);
+                border: none;
+                cursor: pointer;
+
+                p {
+                    margin: 0;
+                }
+    
+                img {
+                    margin-right: 10px;
+                    vertical-align: middle
+                };
+            }
 
             #disconnect {
                 background-color: var(--color_dark_grey_1);

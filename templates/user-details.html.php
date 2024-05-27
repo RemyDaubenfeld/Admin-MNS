@@ -78,13 +78,46 @@
             <div class="profil-picture">
                 <p id="initials"><?= $initials ?></p>
             </div>
+
+            <div id="name-user-details">
+                <p id="name"><?= $userDetails['user_firstname'] . ' ' . $userDetails['user_lastname'] ?><button class="modal-trigger-name"><img src="assets/img/black-edit.svg"     alt="Modifier nom"></button></p>
+                <?php if (!empty($_SESSION['edit_name_user_details'])) :?>
+                    <script type="text/javascript">
+                        messageModal("succès","<?= $_SESSION['edit_name_user_details'] ?>")   
+                    </script>
+                    <?php unset($_SESSION['edit_name_user_details']);?>
+                <?php endif; ?>
+                <p><?= ($userDetails['user_gender'] == 1) ? $userDetails['status_male_name'] : $userDetails['status_female_name']?><button class="modal-trigger-status"><img src="assets/img/black-edit.svg" alt="Modifier statut"></button></p>
+                <?php if (!empty($_SESSION['edit_status_user_details'])) :?>
+                    <script type="text/javascript">
+                        messageModal("succès","<?= $_SESSION['edit_status_user_details'] ?>")   
+                    </script>
+                    <?php unset($_SESSION['edit_status_user_details']);?>
+                <?php endif; ?>
+
             <div>
                 <p id="name"><?= $userDetails['user_firstname'] . ' ' . $userDetails['user_lastname'] ?><button class="modal-trigger-name"><img src="assets/img/black-edit.svg"     alt="Modifier nom"></button></p>
                 <p><?= ($userDetails['user_gender'] == 1) ? $userDetails['status_male_name'] : $userDetails['status_female_name']?><button class="modal-trigger-status"><img src="assets/img/black-edit.svg" alt="Modifier statut"></button></p>
+
             </div>
         </div>
 
         <div class="my-account-right-footer">
+
+            <div class="user-details-link">
+                <a href=""><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
+            </div>
+            <div class="user-details-link">
+                <a href=""><img src="assets/img/clock-solid.svg" alt="Retards">Retards</a>
+            </div>
+            <div class="user-details-link">
+                <a href=""><img src="assets/img/square-xmark-solid.svg" alt="Absences">Absences</a>
+            </div>
+            
+            <div class="modal-trigger-archive" id="archive">
+                <p><img src="assets/img/box-archive-solid.svg" alt="Archiver">Archiver</p>
+            </div>
+
             <form method="POST">
                 <button type="submit" name="disconnection_submit" id="disconnect"><img src="assets/img/disconnect-solid.svg" alt="Deconnection">Déconnexion</button>
             </form>
@@ -97,6 +130,7 @@
             <form method="POST">
                 <button type="submit" name="disconnection_submit" id="disconnect"><img src="assets/img/disconnect-solid.svg" alt="Deconnection">Déconnexion</button>
             </form>
+
         </div>
     </div>
 
@@ -192,6 +226,23 @@
     </div>
 
 <!--Edit name-->
+
+    <div class="modal-container-name">
+        <div class="overlay modal-trigger-name"></div>
+        <div class="modal">
+            <div class="modal-header">
+                <p>Nom</p>
+                <button class="modal-trigger-name"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
+            </div>
+            <form method="POST">
+                
+                <label for="lastname"><img src="assets/img/black-user-solid.svg" alt="Nom">Nom</label>
+                <input type="text" name="edit_lastname" value="<?= $userDetails['user_lastname']?>">
+            
+                <label for="firstname"><img src="assets/img/black-user-solid.svg" alt="Prénom">Prénom</label>
+                <input type="text" name="edit_firstname" value="<?= $userDetails['user_firstname']?>">
+    
+
 <div class="modal-container-name">
         <div class="overlay modal-trigger-name"></div>
         <div class="modal">
@@ -210,11 +261,53 @@
                         <input type="text" name="edit_firstname" value="<?= $userDetails['user_firstname']?>">
                     </div>
                 </div>
+
                 <button type="submit" name="edit_name_user_details_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
             </form>
         </div>
     </div>
 
 <!--Edit status-->
+
+    <div class="modal-container-status">
+        <div class="overlay modal-trigger-status"></div>
+        <div class="modal">
+            <div class="modal-header">
+                <p>Statut</p>
+                <button class="modal-trigger-status"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
+            </div>
+            <form method="POST">
+                <label for="status"><img src="assets/img/user-status-solid.svg" alt="Statut" id="add-status-img">Statut</label>
+                <select name="edit_status" id="add-status">
+                    <option value="" disabled selected>Sélectionner un statut</option>
+                    <option value="1">Candidat</option>
+                    <option value="2">Stagiaire</option>
+                    <option value="3">Intervenant</option>
+                    <option value="4">Assistant administratif</option>
+                    <option value="5">Responsable formation</option>
+                    <option value="6">Responsable vie scolaire</option>
+                    <option value="7">Responsable d'établissement</option>
+                </select>
+                <button type="submit" name="edit_status_user_details_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="Mettre à jour" class="update-user-check-img"></div>Mettre à jour</button>
+            </form>
+        </div>
+    </div>
+
+<!--confirm archive-->
+    <div class="modal-container-archive">
+        <div class="overlay modal-trigger-archive"></div>
+        <div class="modal">
+            <div class="modal-header">
+                <p>Archiver</p>
+                <button class="modal-trigger-archive"><img src="assets/img/black-xmark-solid.svg" alt="Fermer la fenêtre"></button>
+            </div>
+            <form method="POST">
+                <p>Etes-vous sûre de vouloir archiver l'utilisateur?</p>
+                <button type="submit" name="archive_user_submit"><div class="check-update"><img src="assets/img/green-check-solid.svg" alt="archiver" class="update-user-check-img"></div>Archiver</button>
+            </form>
+        </div>
+    </div>
+
 <div class="modal-container-status"></div>
+
 </div>
