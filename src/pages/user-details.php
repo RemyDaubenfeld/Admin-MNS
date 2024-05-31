@@ -92,12 +92,11 @@ if(isset($_POST['edit_location_user_details_submit'])) {
 
 // mise à jour genre
 if(isset($_POST['edit_gender_user_details_submit'])) {
-    var_dump($_POST);
     $errors = [];
     if (empty($_POST['edit_gender_user_details'])) {
         $errors['edit_gender_user_details'] = "Le genre de l'utilisateur est obligatoire.";
     }
-    var_dump($errors);
+
     if(empty($errors)) {
         $query = $dbh->prepare("UPDATE user SET user_gender = :user_gender WHERE user_id = :user_id");
         $query->execute(['user_gender' => $_POST['edit_gender_user_details'], 'user_id' => $_GET['user_details_id']]);
@@ -110,6 +109,48 @@ if(isset($_POST['edit_gender_user_details_submit'])) {
         }
     }
 }
+
+// mise à jour nom
+if(isset($_POST['edit_name_user_details_submit'])) {
+    $errors = [];
+    if (empty($_POST['edit_lastname'])) {
+        $errors['edit_lastname'] = "Le nom de famille est obligatoire.";
+    }
+    if (empty($_POST['edit_firstname'])) {
+        $errors['edit_firstname'] = "Le prénom est obligatoire.";
+    }  
+    if(empty($errors)) {
+        $query = $dbh->prepare("UPDATE user SET user_lastname = :user_lastname, user_firstname = :user_firstname WHERE user_id = :user_id");
+        $query->execute(['user_lastname' => $_POST['edit_lastname'], 'user_firstname' => $_POST['edit_firstname'], 'user_id' => $_GET['user_details_id']]);
+        if($query) {
+            $_SESSION['edit_name_user_details'] = "Le nom de l'utilisateur a été mis à jour avec succès.";
+            header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+            exit;
+        } else {
+            $errors = "Une erreur s'est produite lors de la mise à jour.";
+        }
+    }
+}
+
+// mise à jour statut
+if(isset($_POST['edit_status_user_details_submit'])) {
+    $errors = [];
+    if (empty($_POST['edit_status'])) {
+        $errors['edit_status'] = "Le statut de l'utilisateur est obligatoire.";
+    }
+    if(empty($errors)) {
+        $query = $dbh->prepare("UPDATE user SET status_id = :status_id WHERE user_id = :user_id");
+        $query->execute(['status_id' => $_POST['edit_status'], 'user_id' => $_GET['user_details_id']]);
+        if($query) {
+            $_SESSION['edit_status_user_details'] = "Le statut de l'utilisateur a été mis à jour avec succès.";
+            header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+            exit;
+        } else {
+            $errors = "Une erreur s'est produite lors de la mise à jour.";
+        }
+    }
+}
+
 
 
 // Récupération des initiales de l'utilisateur

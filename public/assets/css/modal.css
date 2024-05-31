@@ -177,10 +177,10 @@
         }
       }
 
-      #male-gender {
-        margin-left: 15px;
-      }
-    }
+            #male-gender {
+                margin-left: 15px;
+            }
+        }
 
     .edit-location {
       display: flex;
@@ -259,13 +259,6 @@
     }
   }
 }
-.modal-container-mail.active,
-.modal-container-phone.active,
-.modal-container-location.active,
-.modal-container-password.active,
-.modal-container-add-user.active,
-.modal-container-gender.active,
-.modal-container-name.active,
-.modal-container-status.active {
-  display: block;
+.modal-container-mail.active, .modal-container-phone.active, .modal-container-location.active, .modal-container-password.active, .modal-container-add-user.active, .modal-container-gender.active, .modal-container-name.active, .modal-container-status.active {
+    display: block;
 }
