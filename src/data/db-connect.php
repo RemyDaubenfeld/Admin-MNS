@@ -1,9 +1,14 @@
 <?php
 
-$host = 'localhost';
-$dbname = 'admax';
-$user = 'root';
-$pwd = '';
+$host = '193.203.168.44';
+$dbname = 'u675771680_admax';
+$user = 'u675771680_adminadmax';
+$pwd = 'FilRougeAdmax2024';
+
+// $host = 'localhost';
+// $dbname = 'admax';
+// $user = 'root';
+// $pwd = '';
 
 try
 {
@@ -16,3 +21,4 @@ catch (PDOException $e)
     echo "Erreur lors de la connexion à la base de données : " . $e->getMessage();
     exit;
 }
+

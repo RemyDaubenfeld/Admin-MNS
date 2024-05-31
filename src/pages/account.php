@@ -13,7 +13,6 @@ if (isset($_SESSION['user_id'])) {
     $user = $query->fetch();
 }
 
-
 // mise à jour mail
 if(isset($_POST['edit_mail_submit'])) {
     $errors = [];
@@ -119,14 +118,6 @@ if(isset($_POST['edit_password_submit'])) {
     }
 }
 
-
-// Récupération des initiales de l'utilisateur
-if(isset($user['user_image']) && !empty($user['user_image'])) {
-    $initials = "<img src='assets/uploads/" . $user['user_image'] . "' alt='Photo de profil'>";
-} else {
-    $initials = strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1));
-}
-
 // Mise à jour photo de profil
 if(isset($_POST['edit_picture_submit'])) {
     $error = [];
@@ -170,10 +161,4 @@ if(isset($_POST['edit_picture_submit'])) {
     } else {
         $error['profil_picture'] = "Echec lors du téléversement du fichier.";
     }
-}
-
-//deconnexion
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['disconnection_submit'])) {
-    session_destroy();
-    header('Location: /');
 }

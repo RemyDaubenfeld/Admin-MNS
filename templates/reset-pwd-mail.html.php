@@ -9,13 +9,13 @@
     </head>
 
     <body>
-        <div class='container'>
+        <div class='mail-container background-dark'>
             <h1>Admax - Réinitialiser mon mot de passe</h1>
             <p>Bonjour <?= $userName ?>,</p>
             <p>Vous avez demandé une réinitialisation de votre mot de passe. Ce lien est valide pendant 1 heure.</p>
             <form action="http://admax.loc/?page=reset-pwd" method="POST" target="_blank">
                 <input type="hidden" name="token" value="<?= $token ?>">
-                <button type="submit">Réinitialiser mon mot de passe</button>
+                <button type="submit" class="button button-secondary">Réinitialiser mon mot de passe</button>
             </form>
             <p>Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer ce mail.</p>
             <p>Cordialement,</p>

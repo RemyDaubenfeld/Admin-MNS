@@ -1,0 +1,122 @@
+.my-account {
+  display: flex;
+  height: 100%;
+
+  .my-account-left {
+    flex: 1;
+
+    .account-section {
+      border-bottom: 1px solid var(--color-black);
+      margin-bottom: 15px;
+    }
+
+    .account-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: 10px;
+
+      svg {
+        fill: var(--color-black);
+        height: 17px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .account-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: 10px;
+
+      svg {
+        fill: var(--color-black);
+        cursor: pointer;
+        height: 17px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .my-account-right {
+    width: 250px;
+    background-color: var(--color-secondary);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px 30px;
+
+    .my-account-right-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+
+      .profil-picture {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font: var(--font-body-bold);
+        color: var(--color-primary-light);
+        font-size: 8vw;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        background-color: var(--color-primary);
+        border-radius: 10px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .edit-form {
+        .edit-profil-picture {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50px;
+          background-color: var(--color-grey-dark-1);
+          border: 4px solid var(--color-secondary);
+          position: relative;
+          top: -20px;
+          padding: 7px;
+          cursor: pointer;
+
+          svg {
+            fill: var(--color-white);
+            height: 17px;
+          }
+        }
+
+        input {
+          display: none;
+        }
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .name {
+        font-family: var(--font-body-bold);
+      }
+    }
+
+    .my-account-right-footer {
+      display: flex;
+      flex-direction: column-reverse;
+      width: 100%;
+      margin: 0 auto 20px auto;
+    }
+  }
+}
