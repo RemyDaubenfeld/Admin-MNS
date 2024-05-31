@@ -23,13 +23,13 @@
                 <img src="assets/img/logo.gif" alt="Logo Admax">
             </div>
             <div class="header-right">
-                <a href="/?page=acount" class="user-status">
-                    <div>
+                <a href="/?page=account" class="user-status">
+                    <div class="user-infos">
                         <p><?= $user['user_firstname'].' '.$user['user_lastname'] ?></p>
                         <p><?= $user['user_gender'] == 1 ? $user['status_female_name'] : $user['status_male_name'] ?></p>
                     </div>
-                    <div id="icon-header">
-                        <?php if(!empty($user['user_image'])): ?>
+                    <div class="icon-header">
+                        <?php if(!empty($user['user_image']) && file_exists('assets/uploads/'.$user['user_image'])): ?>
                             <img src="assets/uploads/<?= $user['user_image'] ?>" alt="Photo de profil">
                         <?php else: ?>
                             <p><?= strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) ?></p>
@@ -38,102 +38,49 @@
                 </a>
             </div>
         </header>
-    
-        <main>
-            <div class="navigation">
 
-                <!--Affichage candidat-->
-                <?php if ($user['status_id'] == 1): ?>
-                    <div class="list-nav">
-                        <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
-                        <a href="/?page=documents"><img src="assets/img/file-solid.svg" alt="Documents">Documents</a>
-                    </div>
-                    <div class="contact-nav">
-                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
-                        <a href="/?page=contact"><img src="assets/img/message.svg" alt="Contact">Contact</a>
-                    </div>
-                <?php endif; ?>
+        <div class="main-container">
+            <nav class="navigation background-dark">
+                <div class="navigation-box">
+                    <a href="/" class="navigation-link<?= $page == 'index' ? ' navigation-active' : '' ?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"> <!-- Icone Dashboard -->
+                            <path d="M304 240V16.6c0-9 7-16.6 16-16.6C443.7 0 544 100.3 544 224c0 9-7.6 16-16.6 16H304zM32 272C32 150.7 122.1 50.3 239 34.3c9.2-1.3 17 6.1 17 15.4V288L412.5 444.5c6.7 6.7 6.2 17.7-1.5 23.1C371.8 495.6 323.8 512 272 512C139.5 512 32 404.6 32 272zm526.4 16c9.3 0 16.6 7.8 15.4 17c-7.7 55.9-34.6 105.6-73.9 142.3c-6 5.6-15.4 5.2-21.2-.7L320 288H558.4z"/>
+                        </svg>
+                        <p class="navigation-text">Tableau de bord</p>
+                    </a>
+                    <?php foreach ($userPages as $userPage): ?>
+                        <a href="/?page=<?= $userPage['page_link'] ?>" class="navigation-link<?= $page == $userPage['page_link'] ? ' navigation-active' : '' ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="<?= $userPage['page_icone_viewBox'] ?>"> <!-- Icone de l'onglet -->
+                                <path d="<?= $userPage['page_icone_path'] ?>"/>
+                            </svg>
+                            <p class="navigation-text"><?= $userPage['page_name'] ?></p>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
 
-                <!--Affichage stagiaire-->
-                <?php if ($user['status_id'] == 2): ?>
-                    <div class="list-nav">
-                        <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
-                        <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
-                        <a href="/?page=retards"><img src="assets/img/clock-solid.svg" alt="Retards">Retards</a>
-                        <a href="/?page=absences"><img src="assets/img/square-xmark-solid.svg" alt="Absences">Absences</a>
-                    </div>
-                    <div class="contact-nav">
-                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
-                        <a href="/?page=contact">Contact</a>
-                    </div>
-                <?php endif; ?>
-
-                <!--Affichage intervenant-->
-                <?php if ($user['status_id'] == 3): ?>
-                    <div class="list-nav">
-                        <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
-                        <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
-                    </div>
-                    <div class="contact-nav">
-                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
-                        <a href="/?page=contact"><img src="assets/img/-solid.svg" alt="contact">Contact</a>
-                    </div>
-                <?php endif; ?>
-
-                <!--Affichage assistant administatif-->
-                <?php if ($user['status_id'] == 4): ?>
-                    <div class="list-nav">
-                        <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
-                        <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
-                        <a href="/?page=retards"><img src="assets/img/clock-solid.svg" alt="Retards">Retards</a>
-                        <a href="/?page=absences"><img src="assets/img/square-xmark-solid.svg" alt="Absences">Absences</a>
-                        <a href="/?page=inscriptions"><img src="assets/img/file-lines-solid.svg" alt="Inscriptions">Inscriptions</a>
-                    </div>
-                    <div class="contact-nav">
-                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
-                    </div>
-                <?php endif; ?>
-
-                <!--Affichage responsable formation-->
-                <?php if ($user['status_id'] == 5): ?>
-                    <div class="list-nav">
-                        <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
-                        <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
-                    </div>
-                    <div class="contact-nav">
-                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
-                    </div>
-                <?php endif; ?>
-
-                <!--Affichage responsable vie scolaire-->
-                <?php if ($user['status_id'] == 6): ?>
-                    <div class="list-nav">
-                        <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
-                        <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
-                    </div>
-                    <div class="contact-nav">
-                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
-                    </div>
-                <?php endif; ?>
-                
-                <!--Affichage responsable d'établissement-->
-                <?php if ($user['status_id'] == 7): ?>
-                    <div class="list-nav">
-                        <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
-                        <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
-                        <a href="/?page=directory"><img src="assets/img/calendar-solid.svg" alt="Planning">Répertoire</a>
-                    </div>
-                    <div class="contact-nav">
-                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
-                        <a href="/?page=contact"><img src="assets/img/message.svg" alt="Contact">Contact</a>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <div class="pages">
+                <div class="navigation-box">
+                    <?php if ($userStaff == 1): ?>
+                        <a href="/?page=contact" class="navigation-link<?= $page == 'contact' ? ' navigation-active' : '' ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <!-- Icone Contact -->
+                                <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z"/>
+                            </svg>
+                            <p class="navigation-text">Contact</p>
+                        </a>
+                    <?php endif; ?>
+                    <a href="/?page=account" class="navigation-link<?= $page == 'account' ? ' navigation-active' : '' ?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"> <!-- Icone Compte -->
+                            <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+                        </svg>
+                        <p class="navigation-text">Compte</p>
+                    </a>
+                </div>
+            </nav>
+            
+            <main class="pages">
                 <?php require "../templates/$page.html.php";?>
-            </div>
-            <?php require '../templates/modal-messages.html.php';?>
-        </main>
+                <?php require '../templates/modal-messages.html.php';?>
+            </main>
+        </div>
         
         <footer>
             <div>

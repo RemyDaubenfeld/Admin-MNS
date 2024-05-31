@@ -1,13 +1,4 @@
-<?php
-
-// if(isset($_SESSION['modal_messages'])){
-//     var_dump($_SESSION['modal_messages']);
-// }
-
-?>
-
-<div class="container">
-    <div class="login-fields">
+    <div class="login-fields background-dark">
         <h1>Réinitialiser mon mot de passe</h1>
 
         <form method="POST" id="resetPasswordForm">
@@ -92,7 +83,7 @@
             <input type="hidden" name="token" value="<?= $_POST['token'] ?>" required>
 
             <div class="field">
-                <button type="submit" name="new_pwd_submit" id="resetPasswordFormSubmit">
+                <button type="submit" name="new_pwd_submit" id="resetPasswordFormSubmit" class="button button-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"> <!-- Icone valider -->
                         <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                     </svg>
@@ -113,4 +104,3 @@
     <div class="login-picture">
         <img src="assets/img/reset-password.gif" alt="Illustration de la page 'Réinitialiser mon mot de passe'.">
     </div>
-</div>

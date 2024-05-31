@@ -1,285 +1,92 @@
 .container {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
+}
+
+h1 {
+  margin-bottom: 20px;
 }
 
 .login-picture {
-    width: 60%;
-    height: 100%;
-    background-color: var(--light_secondary_color);
-    display: flex;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-secondary-light);
+  width: 60%;
+  height: 100%;
 
-    img {
-        max-width: 70%;
-        max-height: auto;
-    }
+  img {
+    max-width: 70%;
+    max-height: auto;
+  }
 }
 
 .login-fields {
-    box-sizing: border-box;
-    width: 40%;
-    background-color: var(--primary_color);
-    color: var(--color_white);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40%;
+  padding: 50px;
 
-    form {
-        .field {
-            width: 100%;
-            margin: auto;
-            padding-top: 20px;
+  .back {
+    padding-top: 20px;
 
-            .field-label {
-                display: flex;
-                gap: .5em;
-                align-items: center;
-                margin-bottom: 10px;
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--color-white);
 
-                .info {
-                    margin-left: auto;
-                    cursor: pointer;
-                }
+      svg {
+        fill: var(--color-white);
+        margin-right: 10px;
+        width: 17px;
+      }
 
-                .info:hover {
-                    svg {
-                        fill: var(--secondary_color);
-                    }
-                }
+      &:hover {
+        color: var(--color-secondary);
 
-                svg {
-                    fill: var(--color_white);
-                    height: 17px;
-                }
-            }
-            
-            input {
-                box-sizing: border-box;
-                width: 100%;
-                height: 40px;
-                border-radius: 10px;
-                border: none;
-                padding: 10px;
-            }
-
-            .password-input {
-                position: relative;
-                display: flex;
-                align-items: center;
-                box-sizing: border-box;
-            }
-
-            .visibility-password {
-                position: absolute;
-                display: flex;
-                align-items: center;
-                right: 10px;
-                height: 100%;
-                cursor: pointer;
-
-                svg {
-                    fill: var(--primary_color);
-                    width: 19px;
-                }
-
-                svg:hover {
-                    fill: var(--light_primary_color);
-                }
-            }
-
-            .alert {
-                margin-top: 5px;
-                padding: 10px;
-                border-radius: 10px;
-                display: flex;
-                justify-content: space-between;
-                overflow-wrap: break-word;
-
-                p {
-                    margin: 0;
-
-                    span {
-                        font-family: var(--font-body-bold);
-                    }
-                }
-
-                span {
-                    svg {
-                        fill: var(--color_white);
-                        width: 17px;
-                        min-width: 17px;
-                        height: 17px;
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            .alert-error {
-                background-color: var(--error-color);
-            }
-
-            .alert-warning {
-                background-color: var(--warning-color);
-            }
-
-            .alert-info {
-                background-color: var(--information-color);
-            }
-
-            .alert-success {
-                background-color: var(--success-color);
-            }
-
-            .password-strength-box {
-                p {
-                    font-size: 12px;
-                    margin-bottom: 5px;
-
-                    span {
-                        font-family: var(--font-body-bold);
-                    }
-
-                    .password-empty {
-                        color: var(--error-color);
-                    }
-
-                    .password-insufficient {
-                        color: var(--error-color);
-                    }
-
-                    .password-acceptable {
-                        color: var(--warning-color);
-                    }
-
-                    .password-strong {
-                        color: var(--success-color);
-                    }
-
-                    .password-stronger {
-                        color: var(--success-color);
-                    }
-
-                }
-
-                .password-progressbar {
-                    height: 15px;
-                    width: 100%;
-                    background-color: var(--color_light_grey_2);
-                    border-radius: 5px;
-                    padding: 2px;
-                    box-sizing: border-box;
-
-                    .password-strength {
-                        height: 100%;
-                        border-radius: 4px;
-                        transition: width 0.6s ease;
-                    }
-
-                    .password-empty {
-                        width: 15px;
-                        background-color: var(--error-color);
-                    }
-
-                    .password-insufficient {
-                        width: 25%;
-                        background-color: var(--error-color);
-                    }
-
-                    .password-acceptable {
-                        width: 50%;
-                        background-color: var(--warning-color);
-                    }
-
-                    .password-strong {
-                        width: 75%;
-                        background-color: var(--success-color);
-                    }
-
-                    .password-stronger {
-                        width: 100%;
-                        background-color: var(--success-color);
-                    }
-                }
-            }
-
-            button {
-                font-family: var(--font-body-bold);
-                color: var(--color_black);
-                cursor: pointer;
-                font-weight: bold;
-                width: 100%;
-                height: 40px;
-                padding: 0;
-                border-radius: 10px;
-                border: none;
-                background-color: var(--secondary_color);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: .5em;
-
-                svg {
-                    fill: var(--color_black);
-                    width: 17px;
-                }
-
-                &:hover {
-                    background-color: var(--dark_secondary_color);
-                }
-            }
+        svg {
+          fill: var(--color-secondary);
         }
-
-        .forgotten-pwd {
-            margin-top: 5px;
-            text-align: right;
-            a {
-                font-size: 12px;
-                color: var(--color_white);
-                text-decoration: none;
-            }
-
-            a:hover {
-                color: var(--secondary_color);
-            }
-        }
+      }
     }
-
-    .back {
-        padding-top: 20px;
-        
-        a {
-            text-decoration: none;
-            color: var(--color_white);
-            display: flex;
-            align-items: center;
-
-            svg {
-                margin-right: 10px;
-                fill: var(--color_white);
-                width: 17px;
-            }
-        } 
-
-        a:hover {
-            color: var(--secondary_color);
-
-            svg {
-                fill: var(--secondary_color);
-            }
-        }
-    }
+  }
 }
 
 @media (max-width: 800px) {
-    .login-picture {
-        display: none;
-    }
+  .login-picture {
+    display: none;
+  }
 
-    .login-fields {
-        width: 100%;
+  .login-fields {
+    width: 100%;
+  }
+}
+
+/* FOOTER */
+
+footer {
+  font-family: var(--font-body-light);
+  text-align: center;
+  font-size: 15px;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  padding: 14px 0;
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--color-secondary-light);
+    margin: 0;
+
+    &:hover {
+      color: var(--color-secondary);
     }
+  }
 }

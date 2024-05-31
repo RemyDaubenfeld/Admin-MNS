@@ -1,8 +1,11 @@
 <?php
 
-$input = json_decode(file_get_contents('php://input'), true);
+if (empty($_SESSION['user_id'])) {
+    echo json_encode('Vous devez être connecté.');
+    exit;
+}
 
-// $_SESSION['modal_messages'] = [];
+$input = json_decode(file_get_contents('php://input'), true);
 
 if ($input) {
     $_SESSION['modal_messages'][] = ['type' => $input['type'], 'message' => $input['message'], 'start' => time()];

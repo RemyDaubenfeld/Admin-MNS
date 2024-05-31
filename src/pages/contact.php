@@ -5,27 +5,40 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
+// var_dump($_POST);
+// exit;
+
 $title = 'Contact';
 
-if (isset($_SESSION['user_id'])) {
-    $query = $dbh->prepare("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_id = :user_id");
-    $query->execute(['user_id' => $_SESSION['user_id']]);
-    $user = $query->fetch();
-}
+$query = $dbh->query("SELECT * FROM category WHERE category_active = 1");
+$categories = $query->fetchAll();
 
+$categoriesNames = [];
+foreach ($categories as $category) {
+    $categoriesNames[] = $category['category_name'];
+}
  
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contact_form_submit']))
-{
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contact_form_hidden_submit'])) {
     $errors = [];
 
-    if (empty($_POST['subject']) || strlen($_POST['subject']) < 1)
-    {
-        $errors['subject'] = 'Le champs OBJET est obligatoire.';
+    if (empty($_POST['contact_category'])) {
+        $errors['contact_category']['required_category'] = ['alert_id' => 'requiredCategoryAlert', 'message' => 'Veuillez choisir une catégorie.'];
     }
 
-    if (empty($_POST['message']) || strlen($_POST['message']) < 1)
-    {
-        $errors['message'] = 'Veuillez entrer votre message.';
+    if (!empty($_POST['contact_category']) && !in_array($_POST['contact_category'], $categoriesNames)) {
+        $errors['contact_category']['unknown_category'] = ['alert_id' => 'unknownCategoryAlert', 'message' => 'Catégorie inconnue.'];
+    }
+
+    if (empty($_POST['contact_object'])) {
+        $errors['contact_object']['required_object'] = ['alert_id' => 'requiredObjectAlert', 'message' => 'L\'objet est obligatoire.'];
+    }
+
+    if (strlen($_POST['contact_object']) > 255) {
+        $errors['contact_object']['too_long_object'] = ['alert_id' => 'tooLongObjectAlert', 'message' => 'L\'objet ne peux pas dépasser 255 caractères (il comporte actuelement '.strlen($_POST['contact_object']).' caractères).'];
+    }
+
+    if (empty($_POST['contact_body'])) {
+        $errors['contact_body']['required_body'] = ['alert_id' => 'requiredBodyAlert', 'message' => 'Vous ne pouvez pas envoyer un message vide.'];
     }
 
     if (empty($errors))

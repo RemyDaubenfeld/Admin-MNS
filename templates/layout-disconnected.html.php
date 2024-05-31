@@ -16,7 +16,7 @@
             <script defer type="module" src="assets/js/<?= $page ?>.js"></script>
         <?php endif; ?>
     </head>
-    <body>
+    <body class="full-screen">
         
         <main>
             <div class="container">
