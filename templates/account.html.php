@@ -7,46 +7,19 @@
             <div class="account-section">
                 <p class="account-label"><img src="assets/img/black-envelope-solid.svg" alt="Email" class="img-label">Email</p>
                 <p><?= $user['user_mail'] ?? ''?><button class="modal-trigger-mail"><img src="assets/img/black-edit.svg" alt="Modifier email" class="icon-edit"></button></p>
-                <?php if (!empty($_SESSION['edit_user_mail'])) : ?>
-                    <script type="text/javascript">
-                         messageModal("succès","<?= $_SESSION['edit_user_mail'] ?>")   
-                    </script>
-                    <?php unset($_SESSION['edit_user_mail']);?>
-                <?php endif; ?>
             </div>
             <div class="account-section">
                 <p class="account-label"><img src="assets/img/phone-solid.svg" alt="Téléphone" class="img-label">Téléphone</p>
                 <p><?= $user['user_phone'] ?? ''?><button class="modal-trigger-phone"><img src="assets/img/black-edit.svg" alt="Modifier téléphone"></button></p>
-                <?php if (!empty($success['edit_user_phone'])) : ?>
-                    <script type="text/javascript">
-                        messageModal("succès","<?= $success['edit_user_phone'] ?>")   
-                    </script>
-                <?php endif; ?>
             </div>
             <div class="account-section">
                 <p class="account-label"><img src="assets/img/house-solid.svg" alt="Adresse" class="img-label">Adresse</p>
                 <p><?= ($user['user_address_number'] . ' ' . $user['user_street'] . ', ' . $user['user_zip_code'] . ' ' . $user['user_city'] . ', ' . $user['user_country']) ?? ''?><button class="modal-trigger-location"><img src="assets/img/black-edit.svg" alt="Modifier adresse" class="icon-edit"></button></p>
-                <?php if (isset($_success['edit_user_location'])) : ?>
-                    <script type="text/javascript">
-                        messageModal("succès","<?= $_success['edit_user_location'] ?>")   
-                    </script>
-                <?php endif; ?>
             </div>
             <div>
                 <p class="account-label"><img src="assets/img/black-lock-solid.svg" alt="Mot de passe" class="img-label">Mot de passe</p>
                 <p>**********<button class="modal-trigger-password"><img src="assets/img/black-edit.svg" alt="Modifier mot de passe" class="icon-edit"></button></p>
-                <?php if (isset($_success['edit_user_password'])) : ?>
-                    <script type="text/javascript">
-                        messageModal("succès","<?= $_success['edit_user_password'] ?>")   
-                    </script>
-                <?php endif; ?>
             </div>
-            <?php if (!empty($errors)) : ?>
-                <script type="text/javascript">
-                    console.log($errors);
-                    messageModal("erreur","<?= $errors?>")   
-                </script>
-            <?php endif;?>
         </div>
     </div>
     <div class="my-account-right">
@@ -63,11 +36,6 @@
                 <input type="file" name="profil_picture" id="file-input" accept=".jpg, .png, .jpeg">
                 <input type="submit" name="edit_picture_submit" id="edit-picture-submit">
             </form>
-            <?php if (!empty($error['profil_picture'])) : ?>
-                <script>
-                    messageModal('erreur', '<?= $error['profil_picture'] ?>')   
-                </script>
-            <?php endif; ?>
             
             <p id="name"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname'] ?></p>
             <p><?php echo $user['status_male_name']?></p>

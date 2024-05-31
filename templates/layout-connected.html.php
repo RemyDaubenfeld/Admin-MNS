@@ -11,7 +11,6 @@
             <link rel="stylesheet" href="assets/css/<?= $page ?>.css">
         <?php endif; ?>
         <script defer src="assets/js/script.js"></script>
-        <script defer src="assets/js/modal.js"></script>
         <script defer type="module" src="assets/js/main.js"></script>
         <?php if (file_exists("assets/js/$page.js")): ?>
             <script defer type="module" src="assets/js/<?= $page ?>.js"></script>
@@ -50,7 +49,7 @@
                         <a href="/?page=documents"><img src="assets/img/file-solid.svg" alt="Documents">Documents</a>
                     </div>
                     <div class="contact-nav">
-                        <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
+                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
                         <a href="/?page=contact"><img src="assets/img/message.svg" alt="Contact">Contact</a>
                     </div>
                 <?php endif; ?>
@@ -64,7 +63,7 @@
                         <a href="/?page=absences"><img src="assets/img/square-xmark-solid.svg" alt="Absences">Absences</a>
                     </div>
                     <div class="contact-nav">
-                        <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
+                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
                         <a href="/?page=contact">Contact</a>
                     </div>
                 <?php endif; ?>
@@ -76,7 +75,7 @@
                         <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
                     </div>
                     <div class="contact-nav">
-                        <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
+                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
                         <a href="/?page=contact"><img src="assets/img/-solid.svg" alt="contact">Contact</a>
                     </div>
                 <?php endif; ?>
@@ -91,7 +90,7 @@
                         <a href="/?page=inscriptions"><img src="assets/img/file-lines-solid.svg" alt="Inscriptions">Inscriptions</a>
                     </div>
                     <div class="contact-nav">
-                        <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
+                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
                     </div>
                 <?php endif; ?>
 
@@ -102,7 +101,7 @@
                         <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
                     </div>
                     <div class="contact-nav">
-                        <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
+                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
                     </div>
                 <?php endif; ?>
 
@@ -113,7 +112,7 @@
                         <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
                     </div>
                     <div class="contact-nav">
-                        <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
+                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
                     </div>
                 <?php endif; ?>
                 
@@ -122,9 +121,10 @@
                     <div class="list-nav">
                         <a href="/"><img src="assets/img/chart-pie-solid.svg" alt="Tableau de bord">Tableau de bord</a>
                         <a href="/?page=planning"><img src="assets/img/calendar-solid.svg" alt="Planning">Planning</a>
+                        <a href="/?page=directory"><img src="assets/img/calendar-solid.svg" alt="Planning">Répertoire</a>
                     </div>
                     <div class="contact-nav">
-                        <a href="/?page=compte"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
+                        <a href="/?page=account"><img src="assets/img/user-solid.svg" alt="Compte">Compte</a>
                         <a href="/?page=contact"><img src="assets/img/message.svg" alt="Contact">Contact</a>
                     </div>
                 <?php endif; ?>

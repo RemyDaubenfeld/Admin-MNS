@@ -31,11 +31,11 @@ if(isset($_POST['edit_mail_submit'])) {
             $query = $dbh->prepare("UPDATE user SET user_mail = :user_mail WHERE user_id = :user_id");
             $query->execute(['user_mail' => $_POST['edit_mail'], 'user_id' => $_SESSION['user_id']]);
             if($query) {
-                $_SESSION['edit_user_mail'] = "L'adresse mail a été modifié avec succès";
-                header("Location: /?page=compte");
+                $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "L'adresse mail a été modifié avec succès.", 'start' => time()];
+                header("Location: /?page=account");
                 exit;
             } else {
-                $errors = "Une erreur s'est produite lors de la mise à jour.";
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
             }
         }
     }
@@ -51,9 +51,11 @@ if(isset($_POST['edit_phone_submit'])) {
         $query = $dbh->prepare("UPDATE user SET user_phone = :user_phone WHERE user_id = :user_id");
         $query->execute(['user_phone' => $_POST['edit_phone'], 'user_id' => $_SESSION['user_id']]);
         if($query) {
-            $success['edit_user_phone'] = 'Le numéro de téléphone a été modifié avec succès';
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Le numéro de téléphone a été modifié avec succès.", 'start' => time()];
+            header("Location: /?page=account");
+            exit;
         } else {
-            $errors = "Une erreur s'est produite lors de la mise à jour.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
         }
     }
 }
@@ -80,9 +82,11 @@ if(isset($_POST['edit_location_submit'])) {
         $query = $dbh->prepare("UPDATE user SET user_address_number = :user_address_number, user_street = :user_street, user_zip_code = :user_zip_code, user_city = :user_city, user_country = :user_country WHERE user_id = :user_id");
         $query->execute(['user_address_number' => $_POST['edit_address_number'], 'user_street' => $_POST['edit_street'], 'user_zip_code' => $_POST['edit_zip_code'], 'user_city' => $_POST['edit_city'], 'user_country' => $_POST['edit_country'], 'user_id' => $_SESSION['user_id']]);
         if($query) {
-            $_success['edit_user_location'] = "L'adresse a été modifié avec succès";
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "L'adresse a été modifié avec succès.", 'start' => time()];
+            header("Location: /?page=account");
+            exit;
         } else {
-            $errors = "Une erreur s'est produite lors de la mise à jour.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
         }
     }
 }
@@ -106,15 +110,17 @@ if(isset($_POST['edit_password_submit'])) {
                 $query = $dbh->prepare("UPDATE user SET user_password = :user_password WHERE user_id = :user_id");
                 $query->execute(['user_password' => password_hash($_POST['new_password'] . 'mns', PASSWORD_DEFAULT), 'user_id' => $_SESSION['user_id']]);
                 if($query) {
-                    $_success['edit_user_password'] = "Le mot de passe a été modifié avec succès";
+                    $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Le mot de passe a été modifié avec succès.", 'start' => time()];
+                    header("Location: /?page=account");
+                    exit;
                 } else {
-                    $errors = "Une erreur s'est produite lors de la mise à jour.";
+                    $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
                 }
             } else {
-                $errors = "Le mot de passe est incorrect.";
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Le mot de passe est incorrect.", 'start' => time()];
             }
         } else {
-            $errors = "Les mots de passe doivent être identique.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Les mots de passe doivent être identique.", 'start' => time()];
         }
     }
 }
@@ -155,20 +161,21 @@ if(isset($_POST['edit_picture_submit'])) {
                     $query = $dbh->prepare("UPDATE user SET user_image = :user_image WHERE user_id = :user_id");
                     $query->execute(['user_image' => $filename, 'user_id' => $_SESSION['user_id']]);
                     if($query) {
-                        header("Location: /?page=compte");
+                        $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "La photo a été modifié avec succès.", 'start' => time()];
+                        header("Location: /?page=account");
                         exit;
                     } else {
-                        $error['profil_picture'] = "Une erreur s'est produite lors de la mise à jour de la photo.";
+                        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour de la photo.", 'start' => time()];
                     }
                 }
             } else {
-                $error['profil_picture'] = "Le fichier est trop volumineux (taille max autorisée: 5 Mo).";
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Le fichier est trop volumineux (taille max autorisée: 5 Mo).", 'start' => time()];
             }
         } else {
-            $error['profil_picture'] = "Erreur, le fichier doit être une image (jpg, jpeg, png).";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Erreur, le fichier doit être une image (jpg, jpeg, png).", 'start' => time()];
         }
     } else {
-        $error['profil_picture'] = "Echec lors du téléversement du fichier.";
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Echec lors du téléversement du fichier.", 'start' => time()];
     }
 }
 

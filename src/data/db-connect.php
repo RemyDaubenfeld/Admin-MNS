@@ -1,9 +1,9 @@
 <?php
 
-$host = 'localhost';
-$dbname = 'admax';
-$user = 'root';
-$pwd = '';
+$host = '193.203.168.44';
+$dbname = 'u675771680_admax';
+$user = 'u675771680_adminadmax';
+$pwd = 'FilRougeAdmax2024';
 
 try
 {
