@@ -26,14 +26,14 @@
             <div class="header-right">
                 <a href="/?page=account" class="user-status">
                     <div class="user-infos">
-                        <p><?= $user['user_firstname'].' '.$user['user_lastname'] ?></p>
-                        <p><?= $user['user_gender'] == 1 ? $user['status_female_name'] : $user['status_male_name'] ?></p>
+                        <p><?= $userFullName ?></p>
+                        <p><?= $userStatus ?></p>
                     </div>
                     <div class="icon-header">
-                        <?php if(!empty($user['user_image']) && file_exists('assets/uploads/'.$user['user_image'])): ?>
-                            <img src="assets/uploads/<?= $user['user_image'] ?>" alt="Photo de profil">
+                        <?php if(!empty($userImage) && file_exists("assets/uploads/$userImage")): ?>
+                            <img src="assets/uploads/<?= $userImage ?>" alt="Photo de profil">
                         <?php else: ?>
-                            <p><?= strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) ?></p>
+                            <p><?= strtoupper(substr($userFirstname, 0, 1) . substr($userLastname, 0, 1)) ?></p>
                         <?php endif; ?>
                     </div>
                 </a>

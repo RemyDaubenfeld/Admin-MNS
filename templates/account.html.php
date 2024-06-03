@@ -70,10 +70,10 @@
     <div class="my-account-right">
         <div class="my-account-right-header">
             <div class="profil-picture">
-                <?php if(!empty($user['user_image']) && file_exists('assets/uploads/'.$user['user_image'])): ?>
-                    <img src="assets/uploads/<?= $user['user_image'] ?>" alt="Photo de profil">
+                <?php if(!empty($userImage) && file_exists("assets/uploads/$userImage")): ?>
+                    <img src="assets/uploads/<?= $userImage ?>" alt="Photo de profil">
                 <?php else: ?>
-                    <p><?= strtoupper(substr($user['user_firstname'], 0, 1) . substr($user['user_lastname'], 0, 1)) ?></p>
+                    <p><?= strtoupper(substr($userFirstname, 0, 1) . substr($userLastname, 0, 1)) ?></p>
                 <?php endif; ?>
             </div>
             <form method="POST" enctype="multipart/form-data" class="edit-form">
@@ -86,7 +86,7 @@
                 <input type="submit" name="edit_picture_submit" id="EditPictureSubmit">
             </form>
             
-            <p class="name"><?= $userFullname ?></p>
+            <p class="name"><?= $userFullName ?></p>
             <p><?= $userStatus ?></p>
         </div>
 

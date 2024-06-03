@@ -12,7 +12,7 @@ if (!empty($_SESSION['user_id'])) {
     $userPassword = $user['user_password'];
     $userFirstname = $user['user_firstname'];
     $userLastname = $user['user_lastname'];
-    $userFullname = "$userFirstname $userLastname";
+    $userFullName = "$userFirstname $userLastname";
     $userGender = $user['user_gender'];
     $userPhone = $user['user_phone'];
     $userAddressNumber = $user['user_address_number'];

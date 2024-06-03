@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
                 // mail($recipient, $subject, $message, $headers);
                 // $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Un mail de réinitialisation vous a été envoyé à '$email'.", 'start' => time()];
                 // header('Location: /');
+                // exit;
                 // FIN DU CODE EN PROD
 
                 // CODE EN LOCAL
@@ -77,8 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
             } catch (Exception $e) {
                 $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'L\'envoi de l\'e-mail de réinitialisation a échoué.', 'start' => time()];
             }
-            header('Location: /');
-            exit;
         } else {
             $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Cette adresse email n\'existe pas.', 'start' => time()];
         }

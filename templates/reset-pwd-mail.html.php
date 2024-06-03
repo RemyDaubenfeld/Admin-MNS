@@ -25,13 +25,3 @@
         </div>
     </body>
 </html>
-
-<?php 
-$date = new DateTime();
-
-// Ajouter une heure à l'heure actuelle
-$date->modify('+1 hour');
-
-// Formater la date et l'heure dans le format souhaité
-$expirationTime = $date->format('H:i');
-$expirationDate = $date->format('d/m/Y');
