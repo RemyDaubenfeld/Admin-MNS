@@ -41,9 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
                 $existingToken = $query->fetch();
             } while ($existingToken);
 
-            $query = $dbh->prepare('UPDATE user SET user_token = :user_token, user_token_valid = NOW() WHERE user_id = :user_id');
+            $query = $dbh->prepare('UPDATE user SET user_token = :user_token, user_token_valid = :user_token_valid WHERE user_id = :user_id');
             $query->execute([
                 'user_token' => $token,
+                'user_token_valid' => date('Y-m-d H:i:s'),
                 'user_id' => $user['user_id']
             ]);
 

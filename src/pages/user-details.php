@@ -1,5 +1,7 @@
 <?php
 
+$title = 'Répertoire';
+
 if (isset($_GET['user_details_id'])) {
     $query = $dbh->prepare("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_id = :user_id");
     $query->execute(['user_id' => $_GET['user_details_id']]);
@@ -23,11 +25,11 @@ if(isset($_POST['edit_mail_user_details_submit'])) {
             $query = $dbh->prepare("UPDATE user SET user_mail = :user_mail WHERE user_id = :user_id");
             $query->execute(['user_mail' => $_POST['edit_mail_user_details'], 'user_id' => $_GET['user_details_id']]);
             if($query) {
-                $_SESSION['edit_mail_user_details'] = "L'adresse mail a été modifié avec succès";
-                header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+                $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "L'adresse mail a été modifié avec succès.", 'start' => time()];
+                header("Location: /?page=account");
                 exit;
             } else {
-                $errors = "Une erreur s'est produite lors de la mise à jour.";
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
             }
         }
     }
@@ -43,11 +45,11 @@ if(isset($_POST['edit_phone_user_details_submit'])) {
         $query = $dbh->prepare("UPDATE user SET user_phone = :user_phone WHERE user_id = :user_id");
         $query->execute(['user_phone' => $_POST['edit_phone_user_details'], 'user_id' => $_GET['user_details_id']]);
         if($query) {
-            $_SESSION['edit_phone_user_details'] = 'Le numéro de téléphone a été modifié avec succès';
-            header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Le numéro de téléphone a été modifié avec succès.", 'start' => time()];
+            header("Location: /?page=user-details&user_details_id=".$_GET['user_details_id']);
             exit;
         } else {
-            $errors = "Une erreur s'est produite lors de la mise à jour.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
         }
     }
 }
@@ -81,11 +83,11 @@ if(isset($_POST['edit_location_user_details_submit'])) {
             'user_id' => $_GET['user_details_id']
         ]);
         if($query) {
-            $_SESSION['edit_location_user_details'] = "L'adresse a été modifié avec succès.";
-            header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "L'adresse a été modifié avec succès.", 'start' => time()];
+            header("Location: /?page=user-details&user_details_id=".$_GET['user_details_id']);
             exit;
         } else {
-            $errors = "Une erreur s'est produite lors de la mise à jour.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
         }
     }
 }
@@ -101,11 +103,11 @@ if(isset($_POST['edit_gender_user_details_submit'])) {
         $query = $dbh->prepare("UPDATE user SET user_gender = :user_gender WHERE user_id = :user_id");
         $query->execute(['user_gender' => $_POST['edit_gender_user_details'], 'user_id' => $_GET['user_details_id']]);
         if($query) {
-            $_SESSION['edit_gender_user_details'] = "Le genre de l'utilisateur a été mis à jour avec succès.";
-            header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Le genre de l'utilisateur a été modifié avec succès.", 'start' => time()];
+            header("Location: /?page=user-details&user_details_id=".$_GET['user_details_id']);
             exit;
         } else {
-            $errors = "Une erreur s'est produite lors de la mise à jour.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
         }
     }
 }
@@ -123,11 +125,11 @@ if(isset($_POST['edit_name_user_details_submit'])) {
         $query = $dbh->prepare("UPDATE user SET user_lastname = :user_lastname, user_firstname = :user_firstname WHERE user_id = :user_id");
         $query->execute(['user_lastname' => $_POST['edit_lastname'], 'user_firstname' => $_POST['edit_firstname'], 'user_id' => $_GET['user_details_id']]);
         if($query) {
-            $_SESSION['edit_name_user_details'] = "Le nom de l'utilisateur a été mis à jour avec succès.";
-            header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Le nom de l'utilisateur a été modifié avec succès.", 'start' => time()];
+            header("Location: /?page=user-details&user_details_id=".$_GET['user_details_id']);
             exit;
         } else {
-            $errors = "Une erreur s'est produite lors de la mise à jour.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
         }
     }
 }
@@ -142,14 +144,28 @@ if(isset($_POST['edit_status_user_details_submit'])) {
         $query = $dbh->prepare("UPDATE user SET status_id = :status_id WHERE user_id = :user_id");
         $query->execute(['status_id' => $_POST['edit_status'], 'user_id' => $_GET['user_details_id']]);
         if($query) {
-            $_SESSION['edit_status_user_details'] = "Le statut de l'utilisateur a été mis à jour avec succès.";
-            header("Location: /?page=user_details&user_details_id=".$_GET['user_details_id']);
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Le statut de l'utilisateur a été modifié avec succès.", 'start' => time()];
+            header("Location: /?page=user-details&user_details_id=".$_GET['user_details_id']);
             exit;
         } else {
-            $errors = "Une erreur s'est produite lors de la mise à jour.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite lors de la mise à jour.", 'start' => time()];
         }
     }
 }
+
+// archivage utilisateur
+if(isset($_POST['archive_user_submit'])) {
+    $query = $dbh->prepare("UPDATE user set user_active = 2 WHERE user_id = :user_id");
+    $query->execute(['user_id' => $_GET['user_details_id']]);
+    if($query) {
+        $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "L'utilisateur a été archivé avec succès.", 'start' => time()];
+        header("Location: /?page=directory");
+        exit;
+    } else {
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Une erreur s'est produite , veuillez réessayer.", 'start' => time()];
+    }
+}
+
 
 
 
@@ -159,5 +175,3 @@ if(isset($userDetails['user_image']) && !empty($userDetails['user_image'])) {
 } else {
     $initials = strtoupper(substr($userDetails['user_firstname'], 0, 1) . substr($userDetails['user_lastname'], 0, 1));
 }
-
-$title = 'Répertoire';
