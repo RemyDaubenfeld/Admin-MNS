@@ -5,7 +5,8 @@
 .modal-container-add-user,
 .modal-container-gender,
 .modal-container-name,
-.modal-container-status {
+.modal-container-status,
+.modal-container-archive {
   display: none;
   position: fixed;
   top: 0px;
@@ -259,6 +260,14 @@
     }
   }
 }
-.modal-container-mail.active, .modal-container-phone.active, .modal-container-location.active, .modal-container-password.active, .modal-container-add-user.active, .modal-container-gender.active, .modal-container-name.active, .modal-container-status.active {
+.modal-container-mail.active,
+.modal-container-phone.active,
+.modal-container-location.active,
+.modal-container-password.active,
+.modal-container-add-user.active,
+.modal-container-gender.active,
+.modal-container-name.active,
+.modal-container-status.active,
+.modal-container-archive.active {
     display: block;
 }

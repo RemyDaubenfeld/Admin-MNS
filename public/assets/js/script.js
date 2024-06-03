@@ -122,3 +122,16 @@ modalTriggerStatus.forEach((trigger) =>
 function toggleModalStatus() {
   modalContainerStatus.classList.toggle("active");
 }
+
+// ARCHIVAGE
+
+const modalContainerArchive = document.querySelector(".modal-container-archive");
+const modalTriggerArchive = document.querySelectorAll(".modal-trigger-archive");
+
+modalTriggerArchive.forEach((trigger) =>
+  trigger.addEventListener("click", toggleModalArchive)
+);
+
+function toggleModalArchive() {
+  modalContainerArchive.classList.toggle("active");
+}
