@@ -1,9 +1,9 @@
-import { passwordVisibilityToggle, closeAlert } from './lib.fields.js';
+import { passwordVisibilityToggle, closeAlert } from "./lib.fields.js";
 
 // Visibilité du mot de passe
-passwordVisibilityToggle("userPassword");
+passwordVisibilityToggle(null, "userPassword");
 
 // Fermeture des messages d'erreurs php
-closeAlert('requiredMail');
-closeAlert('invalidMail');
-closeAlert('requiredPassword');
+closeAlert("requiredMail");
+closeAlert("invalidMail");
+closeAlert("requiredPassword");

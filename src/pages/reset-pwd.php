@@ -1,10 +1,5 @@
 <?php
 
-if (!empty($_SESSION['user_id']) || empty($_POST['token'])) {
-    header('Location: /');
-    exit;
-}
-
 $query = $dbh->prepare('SELECT user_token, user_token_valid FROM user WHERE user_token = :user_token');
 $query->execute(['user_token' => $_POST['token']]);
 $token = $query->fetch();
@@ -51,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['new_pwd_hidden_submit'
         $salt = "mns";
         $password = $_POST['new_password'] . $salt;
 
-        $query = $dbh->prepare('UPDATE user SET user_password = :new_password WHERE user_token = :user_token');
+        $query = $dbh->prepare('UPDATE user SET user_password = :new_password WHERE user_token = :user_token AND user_active = 0');
         $query->execute([
             'new_password' => password_hash($password, PASSWORD_DEFAULT),
             'user_token' => $token['user_token']

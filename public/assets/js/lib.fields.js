@@ -1,3 +1,4 @@
+import { ajaxFetch } from "./lib.utils.js";
 import { addModalMessage } from "./lib.modal-message.js";
 
 const passwordInfoMessage =
@@ -9,11 +10,15 @@ const passwordFormatMessage =
 const passwordRequiredMessage = "Le champ mot de passe est obligatoire.";
 
 const confirmPasswordInfoMessage =
-  "Les deux mots de passe doivent correspondrent.";
+  "Les deux nouveaux mots de passe doivent correspondrent.";
 const confirmPasswordDifferentMessage =
-  "Les deux mots de passe doivent correspondrent.";
+  "Les deux nouveaux mots de passe doivent correspondrent.";
 const confirmPasswordRequireMessage =
   "Le champ de confirmation du mot de passe est obligatoire.";
+
+const mailFormatMessage = "Cette adresse mail est incorrect.";
+const mailLenthMessage = "L'adresse mail ne doit pas dépasser 50 caractères.";
+const mailExistingMessage = "Cette adresse mail est déjà utilisé.";
 
 function regexPasswordAcceptable(password) {
   return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
@@ -33,12 +38,34 @@ function regexPasswordStronger(password) {
   );
 }
 
-export function passwordVisibilityToggle(passwordId) {
-  const password = document.querySelector(`#${passwordId}`);
-  const passwordVisibility = document.querySelector(`#${passwordId}Visibility`);
+function regexMail(mail) {
+  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))+$/i.test(
+    mail
+  );
+}
+
+function regexName(name) {
+  return /^[a-zà-öø-ÿ' -]+$/i.test(name);
+}
+
+function regexPhone(phone) {
+  return /^(0|\+33\s?)[1-9]([ .-]?\d{2}){4}$/.test(phone);
+}
+
+export function passwordVisibilityToggle(passwordNode, passwordId = null) {
+  let password = null;
+  let passwordVisibility = null;
+
+  if (passwordNode === null) {
+    password = document.querySelector(`#${passwordId}`);
+    passwordVisibility = document.querySelector(`#${passwordId}Visibility`);
+  } else {
+    password = passwordNode.input;
+    passwordVisibility = passwordNode.visibility;
+  }
 
   if (!password || !passwordVisibility) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
@@ -83,7 +110,7 @@ export function showInfos(type, infoId) {
   const alertBox = document.querySelector(`#${infoId}AlertBox`);
 
   if (!info || !alertBox) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
@@ -97,7 +124,7 @@ export function showInfos(type, infoId) {
       message = confirmPasswordInfoMessage;
       break;
     default:
-      console.log("Erreur");
+      console.error("Erreur");
       return;
   }
 
@@ -123,13 +150,13 @@ export function createAlert(type, alertBoxId, alertId, message) {
       label = "Succès : ";
       break;
     default:
-      console.log("Erreur");
+      console.error("Erreur");
       return;
   }
   const alertBox = document.querySelector(`#${alertBoxId}`);
 
   if (!alertBox) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
@@ -171,15 +198,25 @@ export function createAlert(type, alertBoxId, alertId, message) {
   alertBox.appendChild(alert);
 }
 
-export function passwordCheckStrength(passwordId) {
-  const password = document.querySelector(`#${passwordId}`);
-  const passwordStrengthLabel = document.querySelector(
-    `#${passwordId}StrengthLabel`
-  );
-  const passwordStrength = document.querySelector(`#${passwordId}Strength`);
+export function passwordCheckStrength(passwordNode, passwordId = null) {
+  let password = null;
+  let passwordStrengthLabel = null;
+  let passwordStrength = null;
+
+  if (passwordNode === null) {
+    password = document.querySelector(`#${passwordId}`);
+    passwordStrengthLabel = document.querySelector(
+      `#${passwordId}StrengthLabel`
+    );
+    passwordStrength = document.querySelector(`#${passwordId}Strength`);
+  } else {
+    password = passwordNode.input;
+    passwordStrengthLabel = passwordNode.label;
+    passwordStrength = passwordNode.strength;
+  }
 
   if (!password || !passwordStrengthLabel || !passwordStrength) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
@@ -210,15 +247,11 @@ export function passwordCheckStrength(passwordId) {
   });
 }
 
-export function passwordCheck(passwordId, submit) {
+async function passwordCheck(passwordId, submit) {
   const password = document.querySelector(`#${passwordId}`);
-  const passwordStrengthLabel = document.querySelector(
-    `#${passwordId}StrengthLabel`
-  );
-  const passwordStrength = document.querySelector(`#${passwordId}Strength`);
 
-  if (!password || !passwordStrengthLabel || !passwordStrength) {
-    console.log("Erreur");
+  if (!password) {
+    console.error("Erreur");
     return;
   }
 
@@ -289,12 +322,12 @@ export function passwordCheck(passwordId, submit) {
         return false;
       }
     default:
-      console.log("Erreur");
+      console.error("Erreur");
       return;
   }
 }
 
-export function confirmPasswordCheck(
+async function confirmPasswordCheck(
   confirmPasswordId,
   validatePasswordId,
   submit
@@ -303,7 +336,7 @@ export function confirmPasswordCheck(
   const validatePassword = document.querySelector(`#${validatePasswordId}`);
 
   if (!confirmPassword || !validatePassword) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
@@ -355,17 +388,17 @@ export function confirmPasswordCheck(
         return false;
       }
     default:
-      console.log("Erreur");
+      console.error("Erreur");
       return;
   }
 }
 
-export function selectCheck(selectId, selectOptions, submit) {
+async function selectCheck(selectId, selectOptions, submit) {
   const select = document.querySelector(`#${selectId}`);
   let selectedOption = select.value;
 
   if (!select) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
@@ -426,16 +459,16 @@ export function selectCheck(selectId, selectOptions, submit) {
         return false;
       }
     default:
-      console.log("Erreur");
+      console.error("Erreur");
       return;
   }
 }
 
-export function textCheck(textId, minLen, maxLen, submit) {
+async function textCheck(textSort, textId, minLen, maxLen, submit) {
   const text = document.querySelector(`#${textId}`);
 
   if (!text) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
@@ -466,6 +499,31 @@ export function textCheck(textId, minLen, maxLen, submit) {
                 }.`
               );
             }
+          }
+
+          switch (textSort) {
+            case "name":
+              if (!regexName(text.value)) {
+                createAlert(
+                  "warning",
+                  `${textId}AlertBox`,
+                  `${textId}FormatAlert`,
+                  "Ce nom est invalide."
+                );
+              }
+              break;
+            case "phone":
+              if (!regexPhone(text.value)) {
+                createAlert(
+                  "warning",
+                  `${textId}AlertBox`,
+                  `${textId}FormatAlert`,
+                  "Ce numéro de téléphone est invalide."
+                );
+              }
+              break;
+            default:
+              break;
           }
         }
       });
@@ -500,6 +558,34 @@ export function textCheck(textId, minLen, maxLen, submit) {
             );
           }
         }
+
+        switch (textSort) {
+          case "name":
+            if (!regexName(text.value)) {
+              errors++;
+              createAlert(
+                "warning",
+                `${textId}AlertBox`,
+                `${textId}FormatAlert`,
+                "Ce nom est invalide."
+              );
+            }
+            break;
+          case "phone":
+            if (!regexPhone(text.value)) {
+              errors++;
+              createAlert(
+                "warning",
+                `${textId}AlertBox`,
+                `${textId}FormatAlert`,
+                "Ce numéro de téléphone est invalide."
+              );
+            }
+            break;
+          default:
+            console.error("Erreur");
+            return;
+        }
       } else {
         errors++;
         createAlert(
@@ -516,61 +602,397 @@ export function textCheck(textId, minLen, maxLen, submit) {
         return false;
       }
     default:
-      console.log("Erreur");
+      console.error("Erreur");
       return;
   }
 }
 
-export function fieldCheck(field, submit) {
+async function mailCheck(mailId, currentMail, submit) {
+  const mail = document.querySelector(`#${mailId}`);
+
+  if (!mail) {
+    console.error("Erreur");
+    return;
+  }
+
+  let existingEmail = await ajaxFetch("existing-email", mail.value);
+
+  switch (submit) {
+    case false:
+      mail.addEventListener("change", async function (e) {
+        resetAlerts(`${mailId}AlertBox`);
+
+        existingEmail = await ajaxFetch("existing-email", e.target.value);
+
+        if (mail.value.length != 0) {
+          if (!regexMail(mail.value)) {
+            createAlert(
+              "warning",
+              `${mailId}AlertBox`,
+              `${mailId}FormatAlert`,
+              mailFormatMessage
+            );
+          }
+
+          if (mail.value.length > 50) {
+            createAlert(
+              "warning",
+              `${mailId}AlertBox`,
+              `${mailId}LenthAlert`,
+              mailLenthMessage
+            );
+          }
+
+          if (existingEmail["nb"] > 0 && e.target.value != currentMail) {
+            createAlert(
+              "warning",
+              `${mailId}AlertBox`,
+              `${mailId}ExistingAlert`,
+              mailExistingMessage
+            );
+          }
+        }
+      });
+      break;
+    case true:
+      resetAlerts(`${mailId}AlertBox`);
+
+      let errors = 0;
+
+      if (mail.value.length != 0) {
+        if (!regexMail(mail.value)) {
+          errors++;
+          createAlert(
+            "warning",
+            `${mailId}AlertBox`,
+            `${mailId}FormatAlert`,
+            mailFormatMessage
+          );
+        }
+
+        if (mail.value.length > 50) {
+          errors++;
+          createAlert(
+            "warning",
+            `${mailId}AlertBox`,
+            `${mailId}LenthAlert`,
+            mailLenthMessage
+          );
+        }
+
+        if (existingEmail["nb"] > 0 && mail.value != currentMail) {
+          errors++;
+          createAlert(
+            "warning",
+            `${mailId}AlertBox`,
+            `${mailId}ExistingAlert`,
+            mailExistingMessage
+          );
+        }
+      } else {
+        errors++;
+        createAlert(
+          "warning",
+          `${mailId}AlertBox`,
+          `${mailId}RequiredAlert`,
+          "Ce champ est obligatoire."
+        );
+      }
+
+      if (errors === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    default:
+      console.error("Erreur");
+      return;
+  }
+}
+
+async function addressCheck(addressId, submit) {
+  const addressNumber = document.querySelector(`#${addressId}Number`);
+  const addressStreet = document.querySelector(`#${addressId}Street`);
+  const addressZipCode = document.querySelector(`#${addressId}ZipCode `);
+  const addressCity = document.querySelector(`#${addressId}City`);
+
+  if (!addressNumber || !addressStreet || !addressZipCode || !addressCity) {
+    console.error("Erreur");
+    return;
+  }
+
+  switch (submit) {
+    case false:
+      addressNumber.addEventListener("change", async function (e) {
+        resetAlerts(`${addressId}AlertBox`);
+
+        if (addressNumber.value.length != 0) {
+          if (addressNumber.value.length < 1) {
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}NumberLengthAlert`,
+              "Le numéro doit comporter au minimum 1 caractère."
+            );
+          }
+          if (addressNumber.value.length > 10) {
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}NumberLengthAlert`,
+              "Le numéro doit comporter au maximum 10 caractères."
+            );
+          }
+        }
+      });
+
+      addressStreet.addEventListener("change", async function (e) {
+        resetAlerts(`${addressId}AlertBox`);
+
+        if (addressStreet.value.length != 0) {
+          if (addressStreet.value.length < 1) {
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}StreetLengthAlert`,
+              "Le nom de la rue doit comporter au minimum 1 caractère."
+            );
+          }
+          if (addressStreet.value.length > 50) {
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}StreetLengthAlert`,
+              "Le nom de la rue doit comporter au maximum 50 caractères."
+            );
+          }
+        }
+      });
+
+      addressZipCode.addEventListener("change", async function (e) {
+        resetAlerts(`${addressId}AlertBox`);
+
+        if (addressZipCode.value.length != 0) {
+          if (addressZipCode.value.length != 5 || isNaN(value.length)) {
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}ZipCodeLengthAlert`,
+              "Le code postal doit comporter 5 chiffres."
+            );
+          }
+        }
+      });
+
+      addressCity.addEventListener("change", async function (e) {
+        resetAlerts(`${addressId}AlertBox`);
+
+        if (addressCity.value.length != 0) {
+          if (addressCity.value.length < 1) {
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}CityLengthAlert`,
+              "Le nom de la ville doit comporter au minimum 1 caractère."
+            );
+          }
+          if (addressCity.value.length > 60) {
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}CityLengthAlert`,
+              "Le nom de la ville doit comporter au maximum 60 caractères."
+            );
+          }
+        }
+      });
+      break;
+    case true:
+      resetAlerts(`${addressId}AlertBox`);
+
+      let errors = 0;
+
+      if (addressNumber.value.length != 0) {
+        if (addressNumber.value.length < 1) {
+          errors++;
+          createAlert(
+            "warning",
+            `${addressId}AlertBox`,
+            `${addressId}NumberLengthAlert`,
+            "Le numéro doit comporter au minimum 1 caractère."
+          );
+        }
+        if (addressNumber.value.length > 10) {
+          errors++;
+          createAlert(
+            "warning",
+            `${addressId}AlertBox`,
+            `${addressId}NumberLengthAlert`,
+            "Le numéro doit comporter au maximum 10 caractères."
+          );
+        }
+      } else {
+        errors++;
+        createAlert(
+          "warning",
+          `${addressId}AlertBox`,
+          `${addressId}NumberRequiredAlert`,
+          "Le numéro est obligatoire."
+        );
+      }
+
+      if (addressStreet.value.length != 0) {
+        if (addressStreet.value.length < 1) {
+          errors++;
+          createAlert(
+            "warning",
+            `${addressId}AlertBox`,
+            `${addressId}StreetLengthAlert`,
+            "Le nom de la rue doit comporter au minimum 1 caractère."
+          );
+        }
+        if (addressStreet.value.length > 50) {
+          errors++;
+          createAlert(
+            "warning",
+            `${addressId}AlertBox`,
+            `${addressId}StreetLengthAlert`,
+            "Le nom de la rue doit comporter au maximum 50 caractères."
+          );
+        }
+      } else {
+        errors++;
+        createAlert(
+          "warning",
+          `${addressId}AlertBox`,
+          `${addressId}StreetRequiredAlert`,
+          "Le nom de la rue est obligatoire."
+        );
+      }
+
+      if (addressZipCode.value.length != 0) {
+        if (addressZipCode.value.length != 5 || isNaN(addressZipCode.value)) {
+          errors++;
+          createAlert(
+            "warning",
+            `${addressId}AlertBox`,
+            `${addressId}ZipCodeLengthAlert`,
+            "Le code postal doit comporter 5 chiffres."
+          );
+        }
+      } else {
+        errors++;
+        createAlert(
+          "warning",
+          `${addressId}AlertBox`,
+          `${addressId}ZipCodeRequiredAlert`,
+          "Le code postal est obligatoire."
+        );
+      }
+
+      if (addressCity.value.length != 0) {
+        if (addressCity.value.length < 1) {
+          errors++;
+          createAlert(
+            "warning",
+            `${addressId}AlertBox`,
+            `${addressId}CityLengthAlert`,
+            "Le nom de la ville doit comporter au minimum 1 caractère."
+          );
+        }
+        if (addressCity.value.length > 60) {
+          errors++;
+          createAlert(
+            "warning",
+            `${addressId}AlertBox`,
+            `${addressId}CityLengthAlert`,
+            "Le nom de la ville doit comporter au maximum 60 caractères."
+          );
+        }
+      } else {
+        errors++;
+        createAlert(
+          "warning",
+          `${addressId}AlertBox`,
+          `${addressId}CityRequiredAlert`,
+          "Le nom de la ville est obligatoire."
+        );
+      }
+
+      if (errors === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    default:
+      console.error("Erreur");
+      return;
+  }
+}
+
+async function fieldCheck(field, submit) {
   if (!field.type || !field.id) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
   const currentField = document.querySelector(`#${field.id}`);
 
   if (!currentField) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
   switch (field.type) {
     case "password":
-      return passwordCheck(field.id, submit);
+      return await passwordCheck(field.id, submit);
     case "confirmPassword":
-      return confirmPasswordCheck(field.id, field.validate, submit);
+      return await confirmPasswordCheck(field.id, field.validate, submit);
     case "select":
-      return selectCheck(field.id, field.options, submit);
+      return await selectCheck(field.id, field.options, submit);
     case "text":
-      return textCheck(field.id, field.minLen, field.maxLen, submit);
+      return await textCheck(
+        field.sort,
+        field.id,
+        field.minLen,
+        field.maxLen,
+        submit
+      );
+    case "mail":
+      return await mailCheck(field.id, field.currentMail, submit);
+    case "address":
+      return await addressCheck(field.id, submit);
     default:
-      console.log("Erreur");
-      return;
+      break;
   }
 }
 
-export function formCheck(formId, fields) {
+async function fieldsCheck(fields, submit) {
+  const controlledFields = [];
+  for (const field of fields) {
+    const result = await fieldCheck(field, submit);
+    controlledFields.push(result);
+  }
+  return controlledFields;
+}
+
+export async function formCheck(formId, fields) {
   const form = document.querySelector(`#${formId}`);
   const formSubmit = document.querySelector(`#${formId}Submit`);
 
   if (!form || !formSubmit) {
-    console.log("Erreur");
+    console.error("Erreur");
     return;
   }
 
-  fields.forEach((field) => {
-    fieldCheck(field, false);
-  });
+  await fieldsCheck(fields, false);
 
   formSubmit.addEventListener("click", async function (e) {
     e.preventDefault();
 
     let validForm = true;
-    let controlledFields = [];
 
-    fields.forEach((field) => {
-      controlledFields.push(fieldCheck(field, true));
-    });
+    const controlledFields = await fieldsCheck(fields, true);
 
     let errors = 0;
 
@@ -580,8 +1002,6 @@ export function formCheck(formId, fields) {
         errors++;
       }
     });
-
-    console.log(controlledFields);
 
     const errorsCount =
       errors > 1 ? `${errors} champs invalides` : `${errors} champ invalide`;

@@ -4,7 +4,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 900;
+  z-index: 500;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -159,10 +159,20 @@ header {
 }
 
 .page-title {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  text-decoration: none;
   border: 3px solid var(--color-primary);
   color: var(--color-primary);
   padding: 15px 30px 10px 30px;
   border-radius: 10px;
+
+  svg {
+    fill: var(--color-primary);
+    width: 25px;
+    height: auto;
+  }
 }
 
 .building-pages {

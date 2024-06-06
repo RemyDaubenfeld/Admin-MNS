@@ -3,14 +3,12 @@ import {
   closeAlert,
   showInfos,
   passwordCheckStrength,
-  passwordCheck,
-  confirmPasswordCheck,
   formCheck,
 } from "./lib.fields.js";
 
 // Visibilité des mots de passe
-passwordVisibilityToggle("newPassword");
-passwordVisibilityToggle("confirmPassword");
+passwordVisibilityToggle(null, "newPassword");
+passwordVisibilityToggle(null, "confirmPassword");
 
 // Fermeture des messages d'erreurs php
 closeAlert("lengthNewPassword");
@@ -24,7 +22,7 @@ showInfos("password", "newPassword");
 showInfos("confirmPassword", "confirmPassword");
 
 // Vérification de la force du mot de passe
-passwordCheckStrength("newPassword");
+passwordCheckStrength(null, "newPassword");
 
 // Vérification du formulaire
 formCheck("resetPasswordForm", [

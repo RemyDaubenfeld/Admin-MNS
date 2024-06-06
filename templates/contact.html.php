@@ -63,7 +63,7 @@
                 </svg>
                 <label for="contact_body">Message</label>
             </div>
-            <textarea name="contact_body" id="contactBody" cols="30" rows="10" placeholder="Saisissez le contenu de votre body" minlength="1" required><?= $_POST['contact_body'] ?? '' ?></textarea>
+            <textarea name="contact_body" id="contactBody" cols="30" rows="10" placeholder="Saisissez le contenu de votre message" minlength="1" required><?= $_POST['contact_body'] ?? '' ?></textarea>
             <div id="contactBodyAlertBox">
                 <?php if (!empty($errors['contact_body'])) : ?>
                     <?php foreach ($errors['contact_body'] as $error) : ?>

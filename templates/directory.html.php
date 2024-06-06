@@ -35,7 +35,7 @@
                         <p><?php echo ($userCard['user_gender'] == 1) ? $userCard['status_male_name'] : $userCard['status_female_name']?></p>
                     </div>
                     <div class="card-footer">
-                        <a href="/?page=user-details&user_details_id=<?= $userCard['user_id'] ?>"><img src="assets/img/chevron-right-solid.svg" alt="Voir plus">Voir plus</a>
+                        <a href="/?page=account&user-id=<?= $userCard['user_id'] ?>"><img src="assets/img/chevron-right-solid.svg" alt="Voir plus">Voir plus</a>
                     </div>
                 </div>
             <?php endforeach; ?>

@@ -10,8 +10,6 @@
         <?php if (file_exists("assets/css/$page.css")): ?>
             <link rel="stylesheet" href="assets/css/<?= $page ?>.css">
         <?php endif; ?>
-        <script defer src="assets/js/script.js"></script>
-        <script defer src="assets/js/modal.js"></script>
         <script defer type="module" src="assets/js/main.js"></script>
         <?php if (file_exists("assets/js/$page.js")): ?>
             <script defer type="module" src="assets/js/<?= $page ?>.js"></script>
