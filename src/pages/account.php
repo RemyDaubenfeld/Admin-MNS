@@ -25,7 +25,7 @@ if(isset($_POST['edit_mail_submit'])) {
         $user = $query->fetch();
 
         if ($user) {
-            $errors = "Un utilisateur existe déjà avec cette adresse mail.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Un utilisateur existe déjà avec cette adresse mail.", 'start' => time()];
         } else {
             $query = $dbh->prepare("UPDATE user SET user_mail = :user_mail WHERE user_id = :user_id");
             $query->execute(['user_mail' => $_POST['edit_mail'], 'user_id' => $_SESSION['user_id']]);

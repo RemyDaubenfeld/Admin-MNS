@@ -155,7 +155,7 @@ if(isset($_POST['edit_status_user_details_submit'])) {
 
 // archivage utilisateur
 if(isset($_POST['archive_user_submit'])) {
-    $query = $dbh->prepare("UPDATE user set user_active = 2 WHERE user_id = :user_id");
+    $query = $dbh->prepare("UPDATE user set user_active = false WHERE user_id = :user_id");
     $query->execute(['user_id' => $_GET['user_details_id']]);
     if($query) {
         $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "L'utilisateur a été archivé avec succès.", 'start' => time()];

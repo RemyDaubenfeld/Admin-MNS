@@ -1,8 +1,16 @@
 <?php
 
+if (empty($_SESSION['user_id'])) {
+    header('Location: /?page=connection');
+    exit;
+}
+
 $title = 'Répertoire';
 
-$query = $dbh->query("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_active = 1 ORDER BY user_lastname");
+$query = $dbh->query("SELECT status_id, status_male_name FROM status WHERE status_active = true ORDER BY status_id");
+$status = $query->fetchAll();
+
+$query = $dbh->query("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_active = true ORDER BY user_lastname");
 $users = $query->fetchAll();
 
 
@@ -57,7 +65,7 @@ if(isset($_POST['add_user_submit']))
         $user = $query->fetch();
 
         if ($user) {
-            $errors['add_mail'] = "L'adresse mail de l'utilisateur est déjà utilisée.";
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Cette addresse email est déjà lié à un compte.", 'start' => time()];
         } else {
             $query = $dbh->prepare("
                 INSERT INTO user (user_mail, user_lastname, user_firstname, user_gender, user_phone, user_address_number, user_street, user_zip_code, user_city, user_country, user_active, status_id)
@@ -74,15 +82,15 @@ if(isset($_POST['add_user_submit']))
                 'user_zip_code'=>$_POST['add_zip_code'],
                 'user_city'=>$_POST['add_city'],
                 'user_country'=>$_POST['add_country'],
-                'user_active'=>'1',
+                'user_active'=>true,
                 'status_id'=>$_POST['add_status']
             ]);
 
             if(!$dbh->lastInsertId())
             {
-                $errors['error'] = "Erreur lors de la création de l'utilisateur";
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Echec lors de la création de l'utilisateur.", 'start' => time()];
             } else {
-                $success = 'Utilisateur ajouté avec succès';
+                $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Utilisateur ajouté avec succès.", 'start' => time()];
                 header('Location: /?page=directory');
                 exit;
             }

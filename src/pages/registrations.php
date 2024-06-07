@@ -5,4 +5,4 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
-$title = 'Tableau de bord';
+$title = 'Inscriptions';

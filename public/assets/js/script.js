@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+
+
 // EDIT MAIL
 const modalContainerMail = document.querySelector(".modal-container-mail");
 const modalTriggerMail = document.querySelectorAll(".modal-trigger-mail");
