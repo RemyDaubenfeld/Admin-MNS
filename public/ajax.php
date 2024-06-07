@@ -10,6 +10,7 @@ if(file_exists($path)){
     require '../src/data/db-connect.php';
     require $path;
 } else {
-    echo json_encode("Fichier '$ajax' inexistant.");
+    $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Fichier '$ajax' inexistant.", 'start' => time()];
+    echo json_encode("Fichier $ajax inexistant.");
     exit;
 }

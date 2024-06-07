@@ -1,11 +1,12 @@
 <?php
 
-if (empty($_SESSION['user_id'])) {
-    echo json_encode('Vous devez être connecté.');
+$input = json_decode(file_get_contents('php://input'), true);
+
+if (!$input) {
+    $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Aucun message à ajouter.', 'start' => time()];
+    echo json_encode('Aucun message à ajouter.');
     exit;
 }
-
-$input = json_decode(file_get_contents('php://input'), true);
 
 if ($input && isset($_SESSION['modal_messages'][$input['modal_message_index']])) {
     unset($_SESSION['modal_messages'][$input['modal_message_index']]);

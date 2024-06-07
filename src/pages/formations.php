@@ -1,10 +1,5 @@
 <?php
 
-if (empty($_SESSION['user_id'])) {
-    header('Location: /?page=connection');
-    exit;
-}
-
 $title = 'Formations';
 
 $query = $dbh->query("SELECT * FROM sector WHERE sector_active = true ORDER BY sector_name");

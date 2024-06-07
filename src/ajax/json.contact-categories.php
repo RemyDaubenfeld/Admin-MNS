@@ -1,6 +1,7 @@
 <?php
 
 if (empty($_SESSION['user_id'])) {
+    $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Vous devez être connecté.', 'start' => time()];
     echo json_encode('Vous devez être connecté.');
     exit;
 }

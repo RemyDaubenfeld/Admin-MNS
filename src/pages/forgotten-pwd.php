@@ -1,10 +1,5 @@
 <?php
 
-if (!empty($_SESSION['user_id'])) {
-    header('Location: /');
-    exit;
-}
-
 $title = 'Mot de passe oublié';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
@@ -20,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
 
     if (empty($errors)) {
         $email = $_POST['user_mail'];
-        $query = $dbh->prepare('SELECT * FROM user WHERE user_mail = :user_mail');
+        $query = $dbh->prepare('SELECT * FROM user WHERE user_mail = :user_mail AND user_active = 1');
         $query->execute(['user_mail' => $email]);
         $user = $query->fetch();
 
@@ -41,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
                 $existingToken = $query->fetch();
             } while ($existingToken);
 
-            $query = $dbh->prepare('UPDATE user SET user_token = :user_token, user_token_valid = :user_token_valid WHERE user_id = :user_id');
+            $query = $dbh->prepare('UPDATE user SET user_token = :user_token, user_token_valid = :user_token_valid WHERE user_id = :user_id AND user_active = 0');
             $query->execute([
                 'user_token' => $token,
                 'user_token_valid' => date('Y-m-d H:i:s'),
@@ -69,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
                 // mail($recipient, $subject, $message, $headers);
                 // $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => "Un mail de réinitialisation vous a été envoyé à '$email'.", 'start' => time()];
                 // header('Location: /');
+                // exit;
                 // FIN DU CODE EN PROD
 
                 // CODE EN LOCAL
@@ -78,8 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_pwd_submit'])) {
             } catch (Exception $e) {
                 $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'L\'envoi de l\'e-mail de réinitialisation a échoué.', 'start' => time()];
             }
-            header('Location: /');
-            exit;
         } else {
             $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Cette adresse email n\'existe pas.', 'start' => time()];
         }

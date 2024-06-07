@@ -1,10 +1,5 @@
 <?php
 
-if (!empty($_SESSION['user_id'])) {
-    header('Location: /');
-    exit;
-}
-
 $title = 'Connexion';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
@@ -24,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
 
     if(empty($errors)) {
         $email = $_POST['user_mail'];
-        $query = $dbh->prepare("SELECT * FROM user INNER JOIN status ON user.status_id = status.status_id WHERE user_mail = :user_mail");
+        $query = $dbh->prepare("SELECT * FROM user INNER JOIN status ON user.status_id = status.status_id WHERE user_mail = :user_mail AND user_active = 1");
         $query->execute(['user_mail' => $email]);
         $user = $query->fetch();
 

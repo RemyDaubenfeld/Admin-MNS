@@ -27,7 +27,7 @@
     width: 95%;
     max-width: 500px;
     min-width: 300px;
-    background: white;
+    background: var(--color-secondary-light);
     border-radius: 15px;
     position: absolute;
     top: 52%;
@@ -181,10 +181,10 @@
         }
       }
 
-            .male-gender {
-                margin-left: 15px;
-            }
-        }
+      #male-gender {
+        margin-left: 15px;
+      }
+    }
 
     .edit-location {
       display: flex;
@@ -263,14 +263,14 @@
     }
   }
 }
-.modal-container-mail,
-.modal-container-phone,
-.modal-container-location,
-.modal-container-password,
-.modal-container-add-user,
-.modal-container-gender,
-.modal-container-name,
-.modal-container-status,
-.modal-container-archive {
-    display: none;
+.modal-container-mail.active,
+.modal-container-phone.active,
+.modal-container-location.active,
+.modal-container-password.active,
+.modal-container-add-user.active,
+.modal-container-gender.active,
+.modal-container-name.active,
+.modal-container-status.active,
+.modal-container-archive.active {
+    display: block;
 }
