@@ -1,5 +1,10 @@
 <?php
 
+if (empty($_SESSION['user_id'])) {
+    header('Location: /?page=connection');
+    exit;
+}
+
 $title = 'Répertoire';
 
 $query = $dbh->query("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_active = 1 ORDER BY user_lastname, user_firstname, user.status_id");

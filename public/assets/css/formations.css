@@ -1,0 +1,134 @@
+ .page-containt {
+
+     .tab {
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+        padding: 10px 0;
+        margin-top: -92px;
+
+        #button-formations,
+        #button-sectors,
+        #button-subjects {
+            font-size: 20px;
+            border-radius: 10px;
+            border: none;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            cursor: pointer;
+        }
+
+        #button-formations:hover,
+        #button-sectors:hover,
+        #button-subjects:hover,
+        #button-formations.active,
+        #button-sectors.active,
+        #button-subjects.active {
+            color: var(--color-secondary);
+        }
+     }
+
+     #formations-cards-container,
+     #sectors-cards-container,
+     #subjects-cards-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+         margin-top: 50px;
+         padding: 10px;
+         gap: 20px;
+
+         .add-card {
+             background-color: var(--color-secondary-dark);
+             border-radius: 8px;
+             max-width: 20%;
+             flex: 1 1 calc(25% - 40px);
+             cursor: pointer;
+             display: flex;
+             flex-direction: column;
+             text-align: center;
+
+             img {
+                 margin: auto;
+             }
+
+             p {
+                 font-family: var(--font-body-bold);
+             }
+         }
+
+         .card {
+             background-color: #fff;
+             border: 1px solid #ddd;
+             border-radius: 8px;
+             max-width: 20%;
+             flex: 1 1 calc(25% - 40px);
+             text-align: center;
+             height: 200px;
+             display: flex;
+             flex-direction: column;
+             justify-content: space-between;
+
+             .header {
+                 background-color: var(--color-primary-light);
+                 border-top-left-radius: 8px;
+                 border-top-right-radius: 8px;
+                 height: 50%;
+                 overflow: hidden;
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+
+                 h4 {
+                     color: var(--color-white);
+                     font-size: 25px;
+                 }
+             }
+
+             .main {
+                 p {
+                     margin: 0;
+                 }
+
+                 .name {
+                     font-family: var(--font-body-bold);
+                 }
+             }
+
+             .footer,
+             .edit-card,
+             .delete-card {
+                 background-color: var(--color-secondary-dark);
+                 width: 80%;
+                 padding: 5px;
+                 border-radius: 10px;
+                 cursor: pointer;
+                 border: none;
+                 margin: auto;
+                 font-size: 15px;
+
+                 a {
+                     text-decoration: none;
+                     color: var(--color-black);
+                     display: flex;
+                     justify-content: center;
+
+                     img {
+                         margin-right: 6px;
+                     }
+                 }
+             }
+
+             .footer {
+                margin: 5px auto 15px auto;
+             }
+
+             .delete-card {
+                background-color: var(--color-error);
+                color: var(--color-white);
+             }
+         }
+     }
+ }
