@@ -1,9 +1,9 @@
-import { ajaxFetch } from "./lib.utils.js";
+import { ajaxFetch } from "./utils.js";
 import {
   passwordVisibilityToggle,
   passwordCheckStrength,
   formCheck,
-} from "./lib.fields.js";
+} from "./fields.js";
 
 export async function createUpdateModal(
   user,
@@ -19,6 +19,8 @@ export async function createUpdateModal(
   }
 
   button.addEventListener("click", async function () {
+    document.body.classList.add("no-scrollbar");
+
     const modalUpdateContainer = document.createElement("div");
     modalUpdateContainer.className = "modal-update-container";
 
@@ -44,6 +46,7 @@ export async function createUpdateModal(
     modalUpdateClose.classList.add("modal-update-close");
     modalUpdateClose.addEventListener("click", function (e) {
       modalUpdateContainer.remove();
+      document.body.classList.remove("no-scrollbar");
     });
     modalUpdateHeader.appendChild(modalUpdateClose);
 
@@ -64,6 +67,7 @@ export async function createUpdateModal(
     modalUpdateContainer.addEventListener("mousedown", function (e) {
       if (e.target === modalUpdateContainer) {
         modalUpdateContainer.remove();
+        document.body.classList.remove("no-scrollbar");
       }
     });
 
@@ -137,6 +141,7 @@ export async function createUpdateModal(
                 id: "firstnameInput",
                 minLen: 1,
                 maxLen: 50,
+                required: true,
               });
               break;
             case "lastname":
@@ -146,6 +151,7 @@ export async function createUpdateModal(
                 id: "lastnameInput",
                 minLen: 1,
                 maxLen: 50,
+                required: true,
               });
               break;
             case "phone":
@@ -155,13 +161,14 @@ export async function createUpdateModal(
                 id: "phoneInput",
                 minLen: 9,
                 maxLen: 17,
+                required: false,
               });
               break;
             case "mail":
               fields.push({
                 type: "mail",
                 id: "mailInput",
-                currentMail: user.user_mail,
+                currentMail: user ? user.user_mail : "",
               });
               break;
             case "address":
@@ -180,62 +187,110 @@ export async function createUpdateModal(
         confirmationBox.className = "modal-update-confirmation";
         modalUpdateBody.appendChild(confirmationBox);
 
-        const backButton = document.createElement("button");
-        backButton.className = "button button-gray";
+        elements.forEach((element) => {
+          switch (element) {
+            case "back":
+              const backButton = document.createElement("button");
+              backButton.className = "button button-gray";
 
-        const backButtonIcon = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "svg"
-        );
-        backButtonIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-        backButtonIcon.setAttribute("viewBox", "0 0 448 512");
-        backButton.appendChild(backButtonIcon);
+              const backButtonIcon = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg"
+              );
+              backButtonIcon.setAttribute(
+                "xmlns",
+                "http://www.w3.org/2000/svg"
+              );
+              backButtonIcon.setAttribute("viewBox", "0 0 448 512");
+              backButton.appendChild(backButtonIcon);
 
-        const backButtonIconPath = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "path"
-        );
-        backButtonIconPath.setAttribute(
-          "d",
-          "M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
-        );
-        backButtonIcon.appendChild(backButtonIconPath);
-        backButton.innerHTML += "Annuler";
+              const backButtonIconPath = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "path"
+              );
+              backButtonIconPath.setAttribute(
+                "d",
+                "M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+              );
+              backButtonIcon.appendChild(backButtonIconPath);
+              backButton.innerHTML += "Annuler";
 
-        confirmationBox.appendChild(backButton);
+              confirmationBox.appendChild(backButton);
 
-        backButton.addEventListener("click", function (e) {
-          modalUpdateContainer.remove();
+              backButton.addEventListener("click", function (e) {
+                modalUpdateContainer.remove();
+                document.body.classList.remove("no-scrollbar");
+              });
+              break;
+            case "archive":
+              const archiveButton = document.createElement("button");
+              archiveButton.className = "button button-red";
+
+              const archiveButtonIcon = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg"
+              );
+              archiveButtonIcon.setAttribute(
+                "xmlns",
+                "http://www.w3.org/2000/svg"
+              );
+              archiveButtonIcon.setAttribute("viewBox", "0 0 448 512");
+              archiveButton.appendChild(archiveButtonIcon);
+
+              const archiveButtonIconPath = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "path"
+              );
+              archiveButtonIconPath.setAttribute(
+                "d",
+                "M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+              );
+              archiveButtonIcon.appendChild(archiveButtonIconPath);
+              archiveButton.innerHTML += "Supprimer";
+
+              confirmationBox.appendChild(archiveButton);
+
+              archiveButton.addEventListener("click", function (e) {
+                window.location.href = `/?script=archive-user&value=${user.user_id}`;
+              });
+              break;
+            case "confirm":
+              const confirmButton = document.createElement("button");
+              confirmButton.className = "button button-primary";
+
+              const confirmButtonIcon = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg"
+              );
+              confirmButtonIcon.setAttribute(
+                "xmlns",
+                "http://www.w3.org/2000/svg"
+              );
+              confirmButtonIcon.setAttribute("viewBox", "0 0 448 512");
+              confirmButton.appendChild(confirmButtonIcon);
+
+              const confirmButtonIconPath = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "path"
+              );
+              confirmButtonIconPath.setAttribute(
+                "d",
+                "M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+              );
+              confirmButtonIcon.appendChild(confirmButtonIconPath);
+              confirmButton.innerHTML += "Confirmer";
+
+              confirmationBox.appendChild(confirmButton);
+
+              confirmButton.addEventListener("click", function (e) {
+                window.location.href = `/?script=disconnection&value=${user.user_id}`;
+              });
+              break;
+            default:
+              console.error("Erreur");
+              return;
+          }
         });
-
-        const archiveButton = document.createElement("button");
-        archiveButton.className = "button button-red";
-
-        const archiveButtonIcon = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "svg"
-        );
-        archiveButtonIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-        archiveButtonIcon.setAttribute("viewBox", "0 0 448 512");
-        archiveButton.appendChild(archiveButtonIcon);
-
-        const archiveButtonIconPath = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "path"
-        );
-        archiveButtonIconPath.setAttribute(
-          "d",
-          "M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
-        );
-        archiveButtonIcon.appendChild(archiveButtonIconPath);
-        archiveButton.innerHTML += "Supprimer";
-
-        confirmationBox.appendChild(archiveButton);
-
-        archiveButton.addEventListener("click", function (e) {
-          window.location.href = `scripts.php?script=archive-user&value=${user.user_id}`;
-        });
-
         document.body.appendChild(modalUpdateContainer);
         break;
       default:
@@ -263,7 +318,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
       labelText = "Adresse Mail";
       type = "email";
       placeholder = "Entrez votre mail";
-      value = user.user_mail;
+      value = user ? user.user_mail : "";
       required = true;
       break;
     case "phone":
@@ -273,9 +328,9 @@ async function createUpdateElement(user, modalUpdateForm, element) {
       labelText = "Téléphone";
       type = "text";
       placeholder = "Entrez votre numéro de téléphone";
-      minLen = 8;
-      maxLen = 13;
-      value = user.user_phone;
+      minLen = 9;
+      maxLen = 17;
+      value = user ? user.user_phone : "";
       required = false;
       break;
     case "address":
@@ -331,7 +386,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
       labelText = "Prénom";
       type = "text";
       placeholder = "Entrez votre prénom";
-      value = user.user_firstname;
+      value = user ? user.user_firstname : "";
       minLen = 1;
       maxLen = 50;
       required = true;
@@ -343,7 +398,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
       labelText = "Nom";
       type = "text";
       placeholder = "Entrez votre nom";
-      value = user.user_lastname;
+      value = user ? user.user_lastname : "";
       minLen = 1;
       maxLen = 50;
       required = true;
@@ -467,7 +522,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
     fieldInputNumber.type = "text";
     fieldInputNumber.name = "addressNumber";
     fieldInputNumber.placeholder = "86";
-    fieldInputNumber.value = user.user_address_number;
+    fieldInputNumber.value = user ? user.user_address_number : "";
     fieldInputNumber.minLength = "1";
     fieldInputNumber.maxLength = "10";
     fieldInputNumber.required = true;
@@ -479,7 +534,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
     fieldInputStreet.type = "text";
     fieldInputStreet.name = "addressStreet";
     fieldInputStreet.placeholder = "rue aux Arènes";
-    fieldInputStreet.value = user.user_street;
+    fieldInputStreet.value = user ? user.user_street : "";
     fieldInputStreet.minLength = "1";
     fieldInputStreet.maxLength = "50";
     fieldInputStreet.required = true;
@@ -491,7 +546,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
     fieldInputZipCode.type = "text";
     fieldInputZipCode.name = "addressZipCode";
     fieldInputZipCode.placeholder = "57000";
-    fieldInputZipCode.value = user.user_zip_code;
+    fieldInputZipCode.value = user ? user.user_zip_code : "";
     fieldInputZipCode.minLength = "5";
     fieldInputZipCode.maxLength = "5";
     fieldInputZipCode.required = true;
@@ -503,7 +558,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
     fieldInputCity.type = "text";
     fieldInputCity.name = "addressCity";
     fieldInputCity.placeholder = "Metz";
-    fieldInputCity.value = user.user_city;
+    fieldInputCity.value = user ? user.user_city : "";
     fieldInputCity.minLength = "1";
     fieldInputCity.maxLength = "60";
     fieldInputCity.required = true;
@@ -521,7 +576,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
 
     const fieldInputcheckboxMan = document.createElement("input");
     fieldInputcheckboxMan.type = "radio";
-    if (user.user_gender === 1) fieldInputcheckboxMan.checked = true;
+    if (user && user.user_gender === 1) fieldInputcheckboxMan.checked = true;
     fieldInputcheckboxMan.name = "gender";
     fieldInputcheckboxMan.value = "1";
     fieldInputcheckboxMan.id = "genderInputMan";
@@ -538,7 +593,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
 
     const fieldInputcheckboxWoman = document.createElement("input");
     fieldInputcheckboxWoman.type = "radio";
-    if (user.user_gender === 2) fieldInputcheckboxWoman.checked = true;
+    if (user && user.user_gender === 2) fieldInputcheckboxWoman.checked = true;
     fieldInputcheckboxWoman.name = "gender";
     fieldInputcheckboxWoman.value = "2";
     fieldInputcheckboxWoman.id = "genderInputWoman";
@@ -555,7 +610,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
 
     const fieldInputcheckboxNotSpecified = document.createElement("input");
     fieldInputcheckboxNotSpecified.type = "radio";
-    if (user.user_gender != 1 && user.user_gender != 2)
+    if (user && user.user_gender != 1 && user.user_gender != 2)
       fieldInputcheckboxNotSpecified.checked = true;
     fieldInputcheckboxNotSpecified.name = "gender";
     fieldInputcheckboxNotSpecified.value = "3";
@@ -575,10 +630,10 @@ async function createUpdateElement(user, modalUpdateForm, element) {
       const fieldInputOption = document.createElement("option");
       fieldInputOption.value = currentStatus.status_id;
       fieldInputOption.textContent =
-        user.user_gender == 2 && currentStatus.status_female_name
+        user && user.user_gender == 2 && currentStatus.status_female_name
           ? currentStatus.status_female_name
           : currentStatus.status_male_name;
-      if (currentStatus.status_id === user.status_id) {
+      if (user && currentStatus.status_id === user.status_id) {
         fieldInputOption.selected = true;
       }
       fieldInputSelect.appendChild(fieldInputOption);

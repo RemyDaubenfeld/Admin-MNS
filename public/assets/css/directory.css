@@ -36,7 +36,7 @@
 .page-containt {
   margin: 0 30px;
 
-  .cards-container {
+  /* .cards-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -124,5 +124,5 @@
         }
       }
     }
-  }
+  } */
 }

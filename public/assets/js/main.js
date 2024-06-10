@@ -1,3 +1,3 @@
-import { closeModalMessages } from './lib.modal-message.js';
+import { closeModalMessages } from "./libs/modal-message.js";
 
 closeModalMessages();

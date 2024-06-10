@@ -1,5 +1,5 @@
-import { closeAlert } from './lib.fields.js';
+import { closeAlert } from "./libs/fields.js";
 
 // Fermeture des messages d'erreurs php
-closeAlert('requiredMail');
-closeAlert('invalidMail');
+closeAlert("requiredMail");
+closeAlert("invalidMail");

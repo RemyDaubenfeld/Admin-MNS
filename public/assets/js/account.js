@@ -1,20 +1,23 @@
-import { ajaxFetch } from "./lib.utils.js";
-import { createUpdateModal } from "./lib.modal-update.js";
+import { ajaxFetch } from "./libs/utils.js";
+import { createUpdateModal } from "./libs/modal-update.js";
 
 const userId = new URLSearchParams(window.location.search).get("user-id");
 const user = await ajaxFetch("user-infos", userId);
 
 await createUpdateModal(user, "mailEdit", "Modifier l'email", "form", ["mail"]);
-createUpdateModal(
+
+await createUpdateModal(
   user,
   "phoneEdit",
   "Modifier le numéro de téléphone",
   "form",
   ["phone"]
 );
+
 await createUpdateModal(user, "addressEdit", "Modifier l'adresse", "form", [
   "address",
 ]);
+
 await createUpdateModal(
   user,
   "passwordEdit",
@@ -22,13 +25,16 @@ await createUpdateModal(
   "form",
   ["oldPassword", "newPassword", "confirmPassword"]
 );
+
 await createUpdateModal(user, "genderEdit", "Modifier le genre", "form", [
   "gender",
 ]);
+
 await createUpdateModal(user, "nameEdit", "Modifier le nom", "form", [
   "firstname",
   "lastname",
 ]);
+
 await createUpdateModal(user, "statusEdit", "Modifier le statut", "form", [
   "status",
 ]);
@@ -37,7 +43,16 @@ await createUpdateModal(
   user,
   "archiveUserButton",
   "Supprimer cet utilisateur ?",
-  "confirmation"
+  "confirmation",
+  ["back", "archive"]
+);
+
+await createUpdateModal(
+  user,
+  "disconnectionButton",
+  "Se déconnecter ?",
+  "confirmation",
+  ["back", "confirm"]
 );
 
 const editProfilePicture = document.querySelector("#editProfilPicture");

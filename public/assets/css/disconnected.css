@@ -56,7 +56,7 @@ h1 {
   }
 }
 
-@media (max-width: 800px) {
+@media screen and (max-width: 800px) {
   .login-picture {
     display: none;
   }

@@ -1,10 +1,10 @@
-import { ucFirst, onlyNumber } from "./lib.utils.js";
+import { ucFirst, onlyNumber } from "./utils.js";
 
 const containerModalMessage = document.querySelector("#containerModalMessage");
 
 export function addModalMessage(type, message) {
   // Ajout de la modale dans la session
-  fetch("ajax.php?ajax=add-modal-message", {
+  fetch("/?ajax=add-modal-message", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -150,7 +150,7 @@ export function closeModalMessages() {
 function removeModalMessage(modalMessage, timeout) {
   setTimeout(() => {
     // Supression de la modale dans la session
-    fetch("ajax.php?ajax=delete-modal-message", {
+    fetch("/?ajax=delete-modal-message", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

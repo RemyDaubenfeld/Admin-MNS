@@ -9,7 +9,7 @@ $query = $dbh->prepare('UPDATE user set user_active = false WHERE user_id = :use
 $query->execute(['user_id' => $value]);
 if($query) {
     if ($value == $_SESSION['user_id']) {
-        header("Location: /scripts?script=disconnection");
+        header("Location: /?script=disconnection");
         exit;
     }
 

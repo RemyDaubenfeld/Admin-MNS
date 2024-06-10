@@ -7,7 +7,6 @@ if (empty($_SESSION['user_id'])) {
 }
 
 if (empty($value)) {
-    $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Aucun email renseigné.', 'start' => time()];
     echo json_encode('Aucun email renseigné.');
     exit;
 }

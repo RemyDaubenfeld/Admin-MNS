@@ -9,7 +9,7 @@ export function onlyNumber(string) {
 export async function ajaxFetch(file, value = null) {
   try {
     const answer = await fetch(
-      `ajax.php?ajax=${file}${value ? `&value=${value}` : ""}`
+      `/?ajax=${file}${value ? `&value=${value}` : ""}`
     );
     const data = await answer.json();
     return data;

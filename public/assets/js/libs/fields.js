@@ -1,5 +1,5 @@
-import { ajaxFetch } from "./lib.utils.js";
-import { addModalMessage } from "./lib.modal-message.js";
+import { ajaxFetch } from "./utils.js";
+import { addModalMessage } from "./modal-message.js";
 
 const passwordInfoMessage =
   "Le mot de passe doit comporter entre 8 et 40 caractères et contenir au minimum une minuscule, une majuscule, un chiffre et un caractère spécial ( # , ? , ! , @ , $ , % , ^ , & , * , - ).";
@@ -49,7 +49,7 @@ function regexName(name) {
 }
 
 function regexPhone(phone) {
-  return /^(0|\+33\s?)[1-9]([ .-]?\d{2}){4}$/.test(phone);
+  return /^(0|\+33[ .-]?)[1-9]([ .-]?\d{2}){4}$/.test(phone);
 }
 
 export function passwordVisibilityToggle(passwordNode, passwordId = null) {
@@ -464,7 +464,7 @@ async function selectCheck(selectId, selectOptions, submit) {
   }
 }
 
-async function textCheck(textSort, textId, minLen, maxLen, submit) {
+async function textCheck(textSort, textId, minLen, maxLen, required, submit) {
   const text = document.querySelector(`#${textId}`);
 
   if (!text) {
@@ -586,7 +586,7 @@ async function textCheck(textSort, textId, minLen, maxLen, submit) {
             console.error("Erreur");
             return;
         }
-      } else {
+      } else if (required) {
         errors++;
         createAlert(
           "warning",
@@ -726,22 +726,29 @@ async function addressCheck(addressId, submit) {
       addressNumber.addEventListener("change", async function (e) {
         resetAlerts(`${addressId}AlertBox`);
 
-        if (addressNumber.value.length != 0) {
-          if (addressNumber.value.length < 1) {
-            createAlert(
-              "warning",
-              `${addressId}AlertBox`,
-              `${addressId}NumberLengthAlert`,
-              "Le numéro doit comporter au minimum 1 caractère."
-            );
-          }
-          if (addressNumber.value.length > 10) {
-            createAlert(
-              "warning",
-              `${addressId}AlertBox`,
-              `${addressId}NumberLengthAlert`,
-              "Le numéro doit comporter au maximum 10 caractères."
-            );
+        if (
+          addressNumber.value ||
+          addressStreet.value ||
+          addressZipCode.value ||
+          addressCity.value
+        ) {
+          if (addressNumber.value.length != 0) {
+            if (addressNumber.value.length < 1) {
+              createAlert(
+                "warning",
+                `${addressId}AlertBox`,
+                `${addressId}NumberLengthAlert`,
+                "Le numéro doit comporter au minimum 1 caractère."
+              );
+            }
+            if (addressNumber.value.length > 10) {
+              createAlert(
+                "warning",
+                `${addressId}AlertBox`,
+                `${addressId}NumberLengthAlert`,
+                "Le numéro doit comporter au maximum 10 caractères."
+              );
+            }
           }
         }
       });
@@ -749,22 +756,29 @@ async function addressCheck(addressId, submit) {
       addressStreet.addEventListener("change", async function (e) {
         resetAlerts(`${addressId}AlertBox`);
 
-        if (addressStreet.value.length != 0) {
-          if (addressStreet.value.length < 1) {
-            createAlert(
-              "warning",
-              `${addressId}AlertBox`,
-              `${addressId}StreetLengthAlert`,
-              "Le nom de la rue doit comporter au minimum 1 caractère."
-            );
-          }
-          if (addressStreet.value.length > 50) {
-            createAlert(
-              "warning",
-              `${addressId}AlertBox`,
-              `${addressId}StreetLengthAlert`,
-              "Le nom de la rue doit comporter au maximum 50 caractères."
-            );
+        if (
+          addressNumber.value ||
+          addressStreet.value ||
+          addressZipCode.value ||
+          addressCity.value
+        ) {
+          if (addressStreet.value.length != 0) {
+            if (addressStreet.value.length < 1) {
+              createAlert(
+                "warning",
+                `${addressId}AlertBox`,
+                `${addressId}StreetLengthAlert`,
+                "Le nom de la rue doit comporter au minimum 1 caractère."
+              );
+            }
+            if (addressStreet.value.length > 50) {
+              createAlert(
+                "warning",
+                `${addressId}AlertBox`,
+                `${addressId}StreetLengthAlert`,
+                "Le nom de la rue doit comporter au maximum 50 caractères."
+              );
+            }
           }
         }
       });
@@ -772,14 +786,24 @@ async function addressCheck(addressId, submit) {
       addressZipCode.addEventListener("change", async function (e) {
         resetAlerts(`${addressId}AlertBox`);
 
-        if (addressZipCode.value.length != 0) {
-          if (addressZipCode.value.length != 5 || isNaN(value.length)) {
-            createAlert(
-              "warning",
-              `${addressId}AlertBox`,
-              `${addressId}ZipCodeLengthAlert`,
-              "Le code postal doit comporter 5 chiffres."
-            );
+        if (
+          addressNumber.value ||
+          addressStreet.value ||
+          addressZipCode.value ||
+          addressCity.value
+        ) {
+          if (addressZipCode.value.length != 0) {
+            if (
+              addressZipCode.value.length != 5 ||
+              isNaN(addressZipCode.value.length)
+            ) {
+              createAlert(
+                "warning",
+                `${addressId}AlertBox`,
+                `${addressId}ZipCodeLengthAlert`,
+                "Le code postal doit comporter 5 chiffres."
+              );
+            }
           }
         }
       });
@@ -787,22 +811,29 @@ async function addressCheck(addressId, submit) {
       addressCity.addEventListener("change", async function (e) {
         resetAlerts(`${addressId}AlertBox`);
 
-        if (addressCity.value.length != 0) {
-          if (addressCity.value.length < 1) {
-            createAlert(
-              "warning",
-              `${addressId}AlertBox`,
-              `${addressId}CityLengthAlert`,
-              "Le nom de la ville doit comporter au minimum 1 caractère."
-            );
-          }
-          if (addressCity.value.length > 60) {
-            createAlert(
-              "warning",
-              `${addressId}AlertBox`,
-              `${addressId}CityLengthAlert`,
-              "Le nom de la ville doit comporter au maximum 60 caractères."
-            );
+        if (
+          addressNumber.value ||
+          addressStreet.value ||
+          addressZipCode.value ||
+          addressCity.value
+        ) {
+          if (addressCity.value.length != 0) {
+            if (addressCity.value.length < 1) {
+              createAlert(
+                "warning",
+                `${addressId}AlertBox`,
+                `${addressId}CityLengthAlert`,
+                "Le nom de la ville doit comporter au minimum 1 caractère."
+              );
+            }
+            if (addressCity.value.length > 60) {
+              createAlert(
+                "warning",
+                `${addressId}AlertBox`,
+                `${addressId}CityLengthAlert`,
+                "Le nom de la ville doit comporter au maximum 60 caractères."
+              );
+            }
           }
         }
       });
@@ -812,111 +843,118 @@ async function addressCheck(addressId, submit) {
 
       let errors = 0;
 
-      if (addressNumber.value.length != 0) {
-        if (addressNumber.value.length < 1) {
+      if (
+        addressNumber.value ||
+        addressStreet.value ||
+        addressZipCode.value ||
+        addressCity.value
+      ) {
+        if (addressNumber.value.length != 0) {
+          if (addressNumber.value.length < 1) {
+            errors++;
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}NumberLengthAlert`,
+              "Le numéro doit comporter au minimum 1 caractère."
+            );
+          }
+          if (addressNumber.value.length > 10) {
+            errors++;
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}NumberLengthAlert`,
+              "Le numéro doit comporter au maximum 10 caractères."
+            );
+          }
+        } else {
           errors++;
           createAlert(
             "warning",
             `${addressId}AlertBox`,
-            `${addressId}NumberLengthAlert`,
-            "Le numéro doit comporter au minimum 1 caractère."
+            `${addressId}NumberRequiredAlert`,
+            "Le numéro est obligatoire."
           );
         }
-        if (addressNumber.value.length > 10) {
-          errors++;
-          createAlert(
-            "warning",
-            `${addressId}AlertBox`,
-            `${addressId}NumberLengthAlert`,
-            "Le numéro doit comporter au maximum 10 caractères."
-          );
-        }
-      } else {
-        errors++;
-        createAlert(
-          "warning",
-          `${addressId}AlertBox`,
-          `${addressId}NumberRequiredAlert`,
-          "Le numéro est obligatoire."
-        );
-      }
 
-      if (addressStreet.value.length != 0) {
-        if (addressStreet.value.length < 1) {
+        if (addressStreet.value.length != 0) {
+          if (addressStreet.value.length < 1) {
+            errors++;
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}StreetLengthAlert`,
+              "Le nom de la rue doit comporter au minimum 1 caractère."
+            );
+          }
+          if (addressStreet.value.length > 50) {
+            errors++;
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}StreetLengthAlert`,
+              "Le nom de la rue doit comporter au maximum 50 caractères."
+            );
+          }
+        } else {
           errors++;
           createAlert(
             "warning",
             `${addressId}AlertBox`,
-            `${addressId}StreetLengthAlert`,
-            "Le nom de la rue doit comporter au minimum 1 caractère."
+            `${addressId}StreetRequiredAlert`,
+            "Le nom de la rue est obligatoire."
           );
         }
-        if (addressStreet.value.length > 50) {
-          errors++;
-          createAlert(
-            "warning",
-            `${addressId}AlertBox`,
-            `${addressId}StreetLengthAlert`,
-            "Le nom de la rue doit comporter au maximum 50 caractères."
-          );
-        }
-      } else {
-        errors++;
-        createAlert(
-          "warning",
-          `${addressId}AlertBox`,
-          `${addressId}StreetRequiredAlert`,
-          "Le nom de la rue est obligatoire."
-        );
-      }
 
-      if (addressZipCode.value.length != 0) {
-        if (addressZipCode.value.length != 5 || isNaN(addressZipCode.value)) {
+        if (addressZipCode.value.length != 0) {
+          if (addressZipCode.value.length != 5 || isNaN(addressZipCode.value)) {
+            errors++;
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}ZipCodeLengthAlert`,
+              "Le code postal doit comporter 5 chiffres."
+            );
+          }
+        } else {
           errors++;
           createAlert(
             "warning",
             `${addressId}AlertBox`,
-            `${addressId}ZipCodeLengthAlert`,
-            "Le code postal doit comporter 5 chiffres."
+            `${addressId}ZipCodeRequiredAlert`,
+            "Le code postal est obligatoire."
           );
         }
-      } else {
-        errors++;
-        createAlert(
-          "warning",
-          `${addressId}AlertBox`,
-          `${addressId}ZipCodeRequiredAlert`,
-          "Le code postal est obligatoire."
-        );
-      }
 
-      if (addressCity.value.length != 0) {
-        if (addressCity.value.length < 1) {
+        if (addressCity.value.length != 0) {
+          if (addressCity.value.length < 1) {
+            errors++;
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}CityLengthAlert`,
+              "Le nom de la ville doit comporter au minimum 1 caractère."
+            );
+          }
+          if (addressCity.value.length > 60) {
+            errors++;
+            createAlert(
+              "warning",
+              `${addressId}AlertBox`,
+              `${addressId}CityLengthAlert`,
+              "Le nom de la ville doit comporter au maximum 60 caractères."
+            );
+          }
+        } else {
           errors++;
           createAlert(
             "warning",
             `${addressId}AlertBox`,
-            `${addressId}CityLengthAlert`,
-            "Le nom de la ville doit comporter au minimum 1 caractère."
+            `${addressId}CityRequiredAlert`,
+            "Le nom de la ville est obligatoire."
           );
         }
-        if (addressCity.value.length > 60) {
-          errors++;
-          createAlert(
-            "warning",
-            `${addressId}AlertBox`,
-            `${addressId}CityLengthAlert`,
-            "Le nom de la ville doit comporter au maximum 60 caractères."
-          );
-        }
-      } else {
-        errors++;
-        createAlert(
-          "warning",
-          `${addressId}AlertBox`,
-          `${addressId}CityRequiredAlert`,
-          "Le nom de la ville est obligatoire."
-        );
       }
 
       if (errors === 0) {
@@ -956,6 +994,7 @@ async function fieldCheck(field, submit) {
         field.id,
         field.minLen,
         field.maxLen,
+        field.required,
         submit
       );
     case "mail":

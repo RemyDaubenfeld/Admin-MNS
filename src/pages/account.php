@@ -1,22 +1,5 @@
 <?php
 
-// if (empty($_GET['user-id'])) {
-//     $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Impossible d'accèder à cette page sans spécifier l'utilisateur recherché.", 'start' => time()];
-//     header('Location: /');
-//     exit;
-// }
-
-// if(!empty($_POST) && !empty($_FILES)) {
-//     var_dump($_POST);
-//     var_dump($_FILES);
-//     exit;
-// }
-
-// if(!empty($_POST)) {
-//     var_dump($_POST);
-//     exit;
-// }
-
 $isMyAccount = $_GET['user-id'] == $_SESSION['user_id'];
 
 if (!$isMyAccount) {
@@ -42,7 +25,7 @@ if (!$isMyAccount) {
     $isEditable = true;
 }
 
-$query = $dbh->prepare("SELECT * FROM user 
+$query = $dbh->prepare("SELECT * FROM user
                         JOIN status ON user.status_id = status.status_id
                         WHERE user_id = :user_id");
 $query->execute(['user_id' => $_GET['user-id']]);
@@ -62,8 +45,7 @@ $accountUserAddressNumber = $accountUser['user_address_number'];
 $accountUserStreet = $accountUser['user_street'];
 $accountUserZipCode = $accountUser['user_zip_code'];
 $accountUserCity = $accountUser['user_city'];
-$accountUserCountry = $accountUser['user_country'];
-$accountUserFullAdress = "$accountUserAddressNumber $accountUserStreet, $accountUserZipCode $accountUserCity, $accountUserCountry";
+$accountUserFullAdress = $accountUserAddressNumber && $accountUserStreet && $accountUserZipCode && $accountUserCity ? "$accountUserAddressNumber $accountUserStreet, $accountUserZipCode $accountUserCity" : null;
 $accountUserImage = $accountUser['user_image'];
 $accountUserStatus= $accountUser['user_gender'] == 2 && !empty($accountUser['status_female_name']) ? $accountUser['status_female_name'] : $accountUser['status_male_name'] ;
 $accountUserStaff = $accountUser['status_staff'];
@@ -121,28 +103,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mailEdit_hidden_submit'
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['phoneEdit_hidden_submit'])) {
     $errors = 0;
 
-    if (empty($_POST['phone'])) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro de téléphone est obligatoire.', 'start' => time()];
-    } else {
+    if(!empty($_POST['phone'])) {
         $phone = $_POST['phone'];
-    }
 
-    if(strlen($phone) < 9 || strlen($phone) > 17) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro doit comporter entre 9 et 17 caractères.', 'start' => time()];
-    }
-
-    // Formatage du numéro
-    $phone = preg_replace('/^(\+33|0)/', '', $phone);
-    $phone = preg_replace('/[ .-]/', '', $phone);
-    if (strlen($phone) == 9) {
-        $phone = "0$phone";
-    }
-
-    if(!preg_match('/^(0|\+33\s?)[1-9]([ .-]?\d{2}){4}$/', $phone)) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro est incorrect.', 'start' => time()];
+        if(strlen($phone) < 9 || strlen($phone) > 17) {
+            $errors++;
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro doit comporter entre 9 et 17 caractères.', 'start' => time()];
+        }
+    
+        // Formatage du numéro
+        $phone = preg_replace('/^(\+33|0)/', '', $phone);
+        $phone = preg_replace('/[ .-]/', '', $phone);
+        if (strlen($phone) == 9) {
+            $phone = "0$phone";
+        }
+    
+        if(!preg_match('/^(0|\+33\s?)[1-9]([ .-]?\d{2}){4}$/', $phone)) {
+            $errors++;
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro est incorrect.', 'start' => time()];
+        }
+    } else {
+        $phone = null;
     }
 
     if(empty($errors)) {
@@ -165,50 +146,57 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['phoneEdit_hidden_submit
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addressEdit_hidden_submit'])) {
     $errors = 0;
 
-    if (empty($_POST['addressNumber'])) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro est obligatoire.', 'start' => time()];
+    if (!empty($_POST['addressNumber']) || !empty($_POST['addressStreet']) || !empty($_POST['addressZipCode']) || !empty($_POST['addressCity'])) {
+        if (empty($_POST['addressNumber'])) {
+            $errors++;
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro est obligatoire.', 'start' => time()];
+        } else {
+            $addressNumber = $_POST['addressNumber'];
+        }
+
+        if (empty($_POST['addressStreet'])) {
+            $errors++;
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom de la rue est obligatoire.', 'start' => time()];
+        } else {
+            $addressStreet = $_POST['addressStreet'];
+        }
+
+        if (empty($_POST['addressZipCode'])) {
+            $errors++;
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le code postal est obligatoire.', 'start' => time()];
+        } else {
+            $addressZipCode = $_POST['addressZipCode'];
+        }
+
+        if (empty($_POST['addressCity'])) {
+            $errors++;
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom de la ville est obligatoire.', 'start' => time()];
+        } else {
+            $addressCity = $_POST['addressCity'];
+        }
     } else {
-        $addressNumber = $_POST['addressNumber'];
+        $addressNumber = null;
+        $addressStreet = null;
+        $addressZipCode = null;
+        $addressCity = null;
     }
 
-    if (empty($_POST['addressStreet'])) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom de la rue est obligatoire.', 'start' => time()];
-    } else {
-        $addressStreet = $_POST['addressStreet'];
-    }
-
-    if (empty($_POST['addressZipCode'])) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le code postal est obligatoire.', 'start' => time()];
-    } else {
-        $addressZipCode = $_POST['addressZipCode'];
-    }
-
-    if (empty($_POST['addressCity'])) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom de la ville est obligatoire.', 'start' => time()];
-    } else {
-        $addressCity = $_POST['addressCity'];
-    }
-
-    if(strlen($addressNumber) < 1 || strlen($addressNumber) > 10) {
+    if($addressNumber != null && (strlen($addressNumber) < 1 || strlen($addressNumber) > 10)) {
         $errors++;
         $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le numéro doit comporter entre 1 et 10 caractères.', 'start' => time()];
     }
 
-    if(strlen($addressStreet) < 1 || strlen($addressStreet) > 50) {
+    if($addressStreet != null && (strlen($addressStreet) < 1 || strlen($addressStreet) > 50)) {
         $errors++;
         $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom de la rue doit comporter entre 1 et 50 caractères.', 'start' => time()];
     }
 
-    if(strlen($addressZipCode) != 5 || !ctype_digit($addressZipCode)) {
+    if($addressZipCode != null && (strlen($addressZipCode) != 5 || !ctype_digit($addressZipCode))) {
         $errors++;
         $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le code postal doit comporter 5 chiffres.', 'start' => time()];
     }
 
-    if(strlen($addressCity) < 1 || strlen($addressCity) > 10) {
+    if($addressCity != null && (strlen($addressCity) < 1 || strlen($addressCity) > 10)) {
         $errors++;
         $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom de la ville doit comporter entre 1 et 10 caractères.', 'start' => time()];
     }
@@ -297,20 +285,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['passwordEdit_hidden_sub
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['genderEdit_hidden_submit'])) {
     $errors = 0;
 
-    if (empty($_POST['gender'])) {
+    if(!empty($_POST['gender']) && $_POST['gender'] != 1 && $_POST['gender'] != 2 && $_POST['gender'] != 3) {
         $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le genre est obligatoire (merci de cocher la case \'Non renseigné\' pour ne pas renseigner votre genre).', 'start' => time()];
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Genre inconnu.', 'start' => time()];
     } else {
-        $gender = $_POST['gender'];
-    }
-
-    if($gender != 1 && $gender != 2 && $gender != 3) {
-        $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Ce genre n\'existe pas.', 'start' => time()];
-    }
-
-    if ($gender == 3){
-        $gender = null;
+        if (empty($_POST['gender']) || $_POST['gender'] == 3){
+            $gender = null;
+        } else {
+            $gender = $_POST['gender'];
+        }
     }
 
     if(empty($errors)) {
@@ -406,8 +389,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nameEdit_hidden_submit'
 
     if(!preg_match("/^[a-zà-öø-ÿ' -]+$/i", $firstname)) {
         $errors++;
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le mot de passe doit comporter entre 8 et 40 caractères et contenir au minimum une minuscule, une majuscule, un chiffre et un caractère spécial ( # , ? , ! , @ , $ , % , ^ , & , * , - ).', 'start' => time()];
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le prénom ne peux comporter que des lettres et les caractères spéciaux suivants ( \' , - ).', 'start' => time()];
     }
+
+    if(!preg_match("/^[a-zà-öø-ÿ' -]+$/i", $lastname)) {
+        $errors++;
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom ne peux comporter que des lettres et les caractères spéciaux suivants ( \' , - ).', 'start' => time()];
+    }
+
+    $firstname = ucwords($firstname);
+    $lastname = strtoupper($lastname);
 
     if(empty($errors)) {
         $query = $dbh->prepare('UPDATE user SET user_gender = :user_gender WHERE user_id = :user_id');

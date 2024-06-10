@@ -3,7 +3,7 @@
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Admax - Réinitialisation de mot de passe</title>
+        <title><?= $subject ?></title>
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="assets/css/mail.css">
     </head>

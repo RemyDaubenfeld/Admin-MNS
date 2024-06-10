@@ -1,4 +1,4 @@
-import { passwordVisibilityToggle, closeAlert } from "./lib.fields.js";
+import { passwordVisibilityToggle, closeAlert } from "./libs/fields.js";
 
 // Visibilité du mot de passe
 passwordVisibilityToggle(null, "userPassword");

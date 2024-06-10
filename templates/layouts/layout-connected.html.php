@@ -22,16 +22,16 @@
                 <img src="assets/img/logo.gif" alt="Logo Admax">
             </div>
             <div class="header-right">
-                <a href="/?page=account&user-id=<?= $userId ?>" class="user-status">
+                <a href="/?page=account&user-id=<?= $connectedUserId ?>" class="user-status">
                     <div class="user-infos">
-                        <p><?= $userFullName ?></p>
-                        <p><?= $userStatus ?></p>
+                        <p><?= $connectedUserFullName ?></p>
+                        <p><?= $connectedUserStatus ?></p>
                     </div>
                     <div class="icon-header">
-                        <?php if(!empty($userImage) && file_exists("assets/uploads/$userImage")): ?>
-                            <img src="assets/uploads/<?= $userImage ?>" alt="Photo de profil">
+                        <?php if(!empty($connectedUserImage) && file_exists("assets/uploads/$connectedUserImage")): ?>
+                            <img src="assets/uploads/<?= $connectedUserImage ?>" alt="Photo de profil">
                         <?php else: ?>
-                            <p><?= strtoupper(substr($userFirstname, 0, 1) . substr($userLastname, 0, 1)) ?></p>
+                            <p><?= $connectedUserInitials ?></p>
                         <?php endif; ?>
                     </div>
                 </a>
@@ -47,18 +47,18 @@
                         </svg>
                         <p class="navigation-text">Tableau de bord</p>
                     </a>
-                    <?php foreach ($userPages as $userPage): ?>
-                        <a href="/?page=<?= $userPage['page_link'] ?>" class="navigation-link<?= $page == $userPage['page_link'] || $parentPage == $userPage['page_link'] ? ' navigation-active' : '' ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="<?= $userPage['page_icone_viewBox'] ?>"> <!-- Icone de l'onglet -->
-                                <path d="<?= $userPage['page_icone_path'] ?>"/>
+                    <?php foreach ($connectedUserPages as $connectedUserPage): ?>
+                        <a href="/?page=<?= $connectedUserPage['page_link'] ?>" class="navigation-link<?= $page == $connectedUserPage['page_link'] || $parentPage == $connectedUserPage['page_link'] ? ' navigation-active' : '' ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="<?= $connectedUserPage['page_icone_viewBox'] ?>"> <!-- Icone de l'onglet -->
+                                <path d="<?= $connectedUserPage['page_icone_path'] ?>"/>
                             </svg>
-                            <p class="navigation-text"><?= $userPage['page_name'] ?></p>
+                            <p class="navigation-text"><?= $connectedUserPage['page_name'] ?></p>
                         </a>
                     <?php endforeach; ?>
                 </div>
 
                 <div class="navigation-box">
-                    <?php if ($userStaff == 1): ?>
+                    <?php if ($connectedUserStaff == 1): ?>
                         <a href="/?page=contact" class="navigation-link<?= $page == 'contact' ? ' navigation-active' : '' ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <!-- Icone Contact -->
                                 <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z"/>
@@ -66,7 +66,7 @@
                             <p class="navigation-text">Contact</p>
                         </a>
                     <?php endif; ?>
-                    <a href="/?page=account&user-id=<?= $userId ?>" class="navigation-link<?= $page == 'account' && $_GET['user-id'] == $userId ? ' navigation-active' : '' ?>">
+                    <a href="/?page=account&user-id=<?= $connectedUserId ?>" class="navigation-link<?= $page == 'account' && $_GET['user-id'] == $connectedUserId ? ' navigation-active' : '' ?>">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"> <!-- Icone Compte -->
                             <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
                         </svg>

@@ -1,5 +1,5 @@
-import { ajaxFetch } from "./lib.utils.js";
-import { closeAlert, formCheck } from "./lib.fields.js";
+import { ajaxFetch } from "./libs/utils.js";
+import { closeAlert, formCheck } from "./libs/fields.js";
 
 // Fermeture des messages d'erreurs php
 closeAlert("requiredCategory");

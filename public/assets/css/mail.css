@@ -3,4 +3,9 @@
   margin: 50px auto;
   border-radius: 5px;
   padding: 20px;
+
+  .highlighted {
+    font-family: var(--font-body-bold);
+    color: var(--color-secondary-light);
+  }
 }

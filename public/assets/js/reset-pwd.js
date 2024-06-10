@@ -4,7 +4,7 @@ import {
   showInfos,
   passwordCheckStrength,
   formCheck,
-} from "./lib.fields.js";
+} from "./libs/fields.js";
 
 // Visibilité des mots de passe
 passwordVisibilityToggle(null, "newPassword");

@@ -3,14 +3,14 @@
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Admax - Réinitialisation de mot de passe</title>
+        <title><?= $subject ?></title>
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="assets/css/mail.css">
     </head>
 
     <body>
         <div class='mail-container background-dark'>
-            <h1>Admax - Réinitialiser mon mot de passe</h1>
+            <h1><?= $subject ?></h1>
             <p>Bonjour <?= $userName ?>,</p>
             <p>Vous avez demandé une réinitialisation de votre mot de passe. Ce lien est valide pendant 1 heure.</p>
             <form action="http://admax.loc/?page=reset-pwd" method="POST" target="_blank">
@@ -19,9 +19,9 @@
             </form>
             <p>Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer ce mail.</p>
             <p>Cordialement,</p>
-            <p>Admax</p>
+            <p>L'équipe Admax</p>
 
-            <small>Expiration à <?= $expiry->format('H:i') ?> le <?= $expiry->format('d/m/Y') ?>.</small>
+            <small>Expiration du lien à <?= $expiry->format('H:i') ?> le <?= $expiry->format('d/m/Y') ?>.</small>
         </div>
     </body>
 </html>

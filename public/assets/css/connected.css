@@ -193,6 +193,112 @@ header {
   }
 }
 
+/* CARTES */
+
+.cards-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+
+  .card {
+    box-sizing: border-box;
+    flex: 1 1 100%;
+    max-width: 100%;
+    background-color: var(--color-white);
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+
+    @media screen and (min-width: 576px) and (max-width: 991px) {
+      flex: 1 1 calc(50% - 1em);
+      max-width: calc(50% - 1em);
+    }
+
+    @media screen and (min-width: 992px) and (max-width: 1199px) {
+      flex: 1 1 calc(33.3333333% - 1em);
+      max-width: calc(33.3333333% - 1em);
+    }
+
+    @media screen and (min-width: 1200px) and (max-width: 1399px) {
+      flex: 1 1 calc(25% - 1em);
+      max-width: calc(25% - 1em);
+    }
+
+    @media screen and (min-width: 1400px) {
+      flex: 1 1 calc(20% - 1em);
+      max-width: calc(20% - 1em);
+    }
+
+    .card-header {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background-color: var(--color-primary-light);
+      height: 150px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      p {
+        font-size: 80px;
+        margin: 0;
+      }
+    }
+
+    .card-main {
+      padding: 10px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+      .card-title {
+        font-family: var(--font-body-bold);
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .card-footer {
+      padding: 10px;
+    }
+  }
+
+  .card-add {
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-secondary);
+    padding: 20px;
+    cursor: pointer;
+
+    svg {
+      fill: var(--color-black);
+      max-width: 100px;
+    }
+
+    p {
+      font-family: var(--font-body-bold);
+    }
+
+    &:hover {
+      background-color: var(--color-secondary-dark);
+    }
+  }
+}
+
 /* FOOTER */
 
 footer {
