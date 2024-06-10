@@ -1,32 +1,56 @@
+import { ajaxFetch } from "./lib.utils.js";
+
 // Chargement de l'onglet 'formations' au chargement de la page
 document.addEventListener("DOMContentLoaded", () => {
     displayFormations(); 
 });
 
+function addDeleteEventListener() {
+    const container = document.querySelector('#subjects-cards-container');
+    if (container) {
+        container.addEventListener('click', async function(event) {
+            if (event.target.classList.contains('delete-card')) {
+                const card = event.target.closest('.card');
+                const subjectId = card.getAttribute('data-id');
+
+                const deleteSubject = ajaxFetch('delete-subject', subjectId)
+                
+                if (deleteSubject) {
+                    card.remove();
+                    refreshSubject(subjectId);
+                } else {
+                    alert('Erreur lors de la suppression de la matière.');
+                }
+            };
+        });
+    };
+};
+
+
 // ONGLET FORMATION
 function displayFormations() {
     removeDisplay();
-    let formationTemplate = document.querySelector('#formation-template');
-    let formationClone = formationTemplate.content.cloneNode(true);
+    const formationTemplate = document.querySelector('#formation-template');
+    const formationClone = formationTemplate.content.cloneNode(true);
     document.querySelector("#display").appendChild(formationClone);
 
-    let addFormations = document.querySelector("#modal-open-add-formation");
+    const addFormations = document.querySelector("#modal-open-add-formation");
     addFormations.addEventListener('click', function () {
-        let addFormation = document.querySelector('#add-formation');
-        let addFormationClone = addFormation.content.cloneNode(true);
+        const addFormation = document.querySelector('#add-formation');
+        const addFormationClone = addFormation.content.cloneNode(true);
         document.querySelector("#display").appendChild(addFormationClone);
 
-        let closeModal = document.querySelectorAll(".modal-close-add-formation");
+        const closeModal = document.querySelectorAll(".modal-close-add-formation");
         closeModal.forEach(function (closeModal) {
             closeModal.addEventListener('click', function () {
-                let closeModal = document.querySelector(".modal-container-add-formation");
+                const closeModal = document.querySelector(".modal-container-add-formation");
                 closeModal.remove();
             })
         })
     })
 }
 
-let formations = document.querySelector("#button-formations");
+const formations = document.querySelector("#button-formations");
 formations.addEventListener('click', function (event) {
     handleClick(event);
     displayFormations();
@@ -37,27 +61,27 @@ formations.addEventListener('click', function (event) {
 // ONGLET SECTOR
 function displaySectors() {
     removeDisplay();
-    let sectorTemplate = document.querySelector('#sector-template');
-    let sectorClone = sectorTemplate.content.cloneNode(true);
+    const sectorTemplate = document.querySelector('#sector-template');
+    const sectorClone = sectorTemplate.content.cloneNode(true);
     document.querySelector("#display").appendChild(sectorClone);
 
-    let addSectors = document.querySelector("#modal-open-add-sector");
+    const addSectors = document.querySelector("#modal-open-add-sector");
     addSectors.addEventListener('click', function () {
-        let addSector = document.querySelector('#add-sector');
-        let addSectorClone = addSector.content.cloneNode(true);
+        const addSector = document.querySelector('#add-sector');
+        const addSectorClone = addSector.content.cloneNode(true);
         document.querySelector("#display").appendChild(addSectorClone);
 
-        let closeModal = document.querySelectorAll(".modal-close-add-sector");
+        const closeModal = document.querySelectorAll(".modal-close-add-sector");
         closeModal.forEach(function (closeModal) {
             closeModal.addEventListener('click', function () {
-                let closeModal = document.querySelector(".modal-container-add-sector");
+                const closeModal = document.querySelector(".modal-container-add-sector");
                 closeModal.remove();
             })
         })
     })
 }
 
-let sectors = document.querySelector("#button-sectors");
+const sectors = document.querySelector("#button-sectors");
 sectors.addEventListener('click', function (event) {
     handleClick(event);
     displaySectors();
@@ -67,40 +91,43 @@ sectors.addEventListener('click', function (event) {
 // ONGLET SUBJECT
 function displaySubjects() {
     removeDisplay();
-    let subjectTemplate = document.querySelector('#subject-template');
-    let subjectClone = subjectTemplate.content.cloneNode(true);
+    const subjectTemplate = document.querySelector('#subject-template');
+    const subjectClone = subjectTemplate.content.cloneNode(true);
     document.querySelector("#display").appendChild(subjectClone);
 
-    let addSubjects = document.querySelector("#modal-open-add-subject");
+    const addSubjects = document.querySelector("#modal-open-add-subject");
     addSubjects.addEventListener('click', function () {
-        let addSubject = document.querySelector('#add-subject');
-        let addSubjectClone = addSubject.content.cloneNode(true);
+        const addSubject = document.querySelector('#add-subject');
+        const addSubjectClone = addSubject.content.cloneNode(true);
         document.querySelector("#display").appendChild(addSubjectClone);
 
-        let closeModal = document.querySelectorAll(".modal-close-add-subject");
+        const closeModal = document.querySelectorAll(".modal-close-add-subject");
         closeModal.forEach(function (closeModal) {
             closeModal.addEventListener('click', function () {
-                let closeModal = document.querySelector(".modal-container-add-subject");
+                const closeModal = document.querySelector(".modal-container-add-subject");
                 closeModal.remove();
             })
         })
     })
+    addDeleteEventListener();
 }
 
-let subjects = document.querySelector("#button-subjects");
+const subjects = document.querySelector("#button-subjects");
 subjects.addEventListener('click', function (event) {
     handleClick(event);
     displaySubjects();
+    refreshSubjects();
 })
 
 
 // DELETE DISPLAY
 function removeDisplay() {
-    let remove = document.querySelector('#display');
+    const remove = document.querySelector('#display');
     remove.innerHTML = '';
 }
 
 
+// MISE EN EVIDENCE DE L'ONGLET ACTUEL
 function removeActiveClass() {
     document.querySelector('#button-formations').classList.remove('active');
     document.querySelector('#button-sectors').classList.remove('active');

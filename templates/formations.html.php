@@ -63,7 +63,7 @@
             </div>
             <?php if (!empty($subjects)) : ?>
                 <?php foreach ($subjects as $indice => $subjectsCard) : ?>
-                    <div class="card" data-id="<?= $subjectsCard['subject_id'] ?>">
+                    <div class="card" data-id="<?=$subjectsCard['subject_id']?>">
                         <div class="header">
                             <h4><?= $subjectsCard['subject_name'] ?></h4>
                         </div>
