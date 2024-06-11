@@ -482,7 +482,7 @@ async function createUpdateElement(user, modalUpdateForm, element) {
 
     passwordVisibilityToggle({ input: fieldInput, visibility: visibilityBox });
 
-    if (element === "password") {
+    if (element === "newPassword") {
       const passwordStrengthBox = document.createElement("div");
       passwordStrengthBox.className = "password-strength-box";
       field.appendChild(passwordStrengthBox);
