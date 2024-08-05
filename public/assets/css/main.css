@@ -413,9 +413,10 @@ form {
   height: 40px;
   border-radius: 10px;
   padding: 10px;
+  margin: 0;
 
   svg {
-    width: 17px;
+    height: 100%;
   }
 }
 
@@ -429,6 +430,19 @@ form {
 
   &:hover {
     background-color: var(--color-primary);
+  }
+}
+
+.button-primary-dark {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+
+  svg {
+    fill: var(--color-white);
+  }
+
+  &:hover {
+    background-color: var(--color-primary-dark);
   }
 }
 
@@ -468,6 +482,16 @@ form {
 
   &:hover {
     background-color: var(--color-error-dark);
+  }
+}
+
+.button-disable {
+  color: var(--color-white);
+  background-color: var(--color-grey-dark-1);
+  cursor: auto;
+
+  svg {
+    fill: var(--color-white);
   }
 }
 
@@ -544,73 +568,5 @@ form {
   .fade-out {
     opacity: 0;
     transition: opacity 0.5s ease-out;
-  }
-}
-
-/* MODALES UPDATE */
-
-.modal-update-container {
-  z-index: 900;
-  box-sizing: border-box;
-  overflow: auto;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 50px;
-
-  .modal-update-content {
-    box-sizing: border-box;
-    overflow-y: auto;
-    border-radius: 10px;
-    width: 500px;
-    max-width: 500px;
-    max-height: calc(100% - 100px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-    .modal-update-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 2em;
-      background-color: var(--color-primary);
-      padding: 20px;
-
-      .modal-update-title {
-        color: var(--color-white);
-      }
-
-      .modal-message-close {
-        fill: var(--color-white);
-        cursor: pointer;
-        margin-left: auto;
-        height: 17px;
-        width: 17px;
-        min-width: 17px;
-      }
-
-      .modal-update-close {
-        fill: var(--color-white);
-        cursor: pointer;
-        margin-left: auto;
-        height: 17px;
-        width: 17px;
-        min-width: 17px;
-      }
-    }
-  }
-
-  .modal-update-body {
-    background-color: var(--color-secondary-light);
-    padding: 20px;
-
-    .modal-update-confirmation {
-      display: flex;
-      gap: 1em;
-    }
   }
 }

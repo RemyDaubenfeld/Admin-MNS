@@ -7,15 +7,15 @@ if (empty($_SESSION['user_id'])) {
 }
 
 if (empty($value)) {
-    echo json_encode('Aucun email renseigné.');
+    echo json_encode('Aucun mail renseigné.');
     exit;
 }
 
 if(isset($value)){
     $query = $dbh->prepare("SELECT count(*) AS nb FROM user WHERE LOWER(user_mail) = LOWER(:user_mail);");
     $query->execute(['user_mail' => $value]);
-    $user_email = $query->fetch();
+    $user_mail = $query->fetch();
 
-    echo json_encode($user_email);
+    echo json_encode($user_mail);
     exit;
 }

@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contact_form_hidden_sub
 
         $subject = $_POST['contact_category'].' - '.$_POST['contact_object'];
 
-        $message = file_get_contents('../templates/contact-mail.html.php');
+        $message = file_get_contents('../templates/mails/contact.html.php');
 
         try {
             // CODE EN PROD  
@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contact_form_hidden_sub
             // FIN DU CODE EN PROD
 
             // CODE EN LOCAL
-            require '../templates/contact-mail.html.php';
+            require '../templates/mails/contact.html.php';
             exit;
             // FIN DU CODE EN LOCAL
         } catch (Exception $e) {

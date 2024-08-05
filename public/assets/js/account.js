@@ -4,7 +4,7 @@ import { createUpdateModal } from "./libs/modal-update.js";
 const userId = new URLSearchParams(window.location.search).get("user-id");
 const user = await ajaxFetch("user-infos", userId);
 
-await createUpdateModal(user, "mailEdit", "Modifier l'email", "form", ["mail"]);
+await createUpdateModal(user, "mailEdit", "Modifier l'adresse mail", "form", ["mail"]);
 
 await createUpdateModal(
   user,

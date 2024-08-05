@@ -61,7 +61,7 @@ if (!empty($_GET['ajax'])) { // AJAX
             if (!empty($_GET['user-id'])) {
                 require '../src/data/current-user.php';
             }
-            $parentPage = $page == 'account' && $_GET['user-id'] != $currentUserId ? 'directory' : null;
+            $parentPage = $page == 'account' && $_GET['user-id'] != $connectedUserId ? 'directory' : null;
 
             if (!$connectedUserPageAccess) {
                 $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Vous n'avez pas accès à cette page.", 'start' => time()];

@@ -615,14 +615,14 @@ async function mailCheck(mailId, currentMail, submit) {
     return;
   }
 
-  let existingEmail = await ajaxFetch("existing-email", mail.value);
+  let existingEmail = await ajaxFetch("existing-mail", mail.value);
 
   switch (submit) {
     case false:
       mail.addEventListener("change", async function (e) {
         resetAlerts(`${mailId}AlertBox`);
 
-        existingEmail = await ajaxFetch("existing-email", e.target.value);
+        existingEmail = await ajaxFetch("existing-mail", e.target.value);
 
         if (mail.value.length != 0) {
           if (!regexMail(mail.value)) {
