@@ -16,9 +16,20 @@ const confirmPasswordDifferentMessage =
 const confirmPasswordRequireMessage =
   "Le champ de confirmation du mot de passe est obligatoire.";
 
-const mailFormatMessage = "Cette adresse mail est incorrect.";
+const mailFormatMessage = "Cette adresse mail est incorrecte.";
 const mailLenthMessage = "L'adresse mail ne doit pas dépasser 50 caractères.";
 const mailExistingMessage = "Cette adresse mail est déjà utilisé.";
+
+const dateFormatMessage = "Cette date est incorrecte.";
+const dateExistingMessage = "Cette date n'existe pas.";
+const dateWeekEndMessage = "La date ne peux pas être pendant un week-end.";
+
+const timeFormatMessage = "Cette heure est incorrecte.";
+const timeExistingMessage = "Cette heure n'existe pas.";
+const timeNotWorkMessage =
+  "L'heure ne peux pas être avant 08h30 ou après 17h00.";
+const timeSmallerMessage =
+  "L'heure de fin ne peux pas être avant l'heure de départ.";
 
 function regexPasswordAcceptable(password) {
   return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
@@ -50,6 +61,14 @@ function regexName(name) {
 
 function regexPhone(phone) {
   return /^(0|\+33[ .-]?)[1-9]([ .-]?\d{2}){4}$/.test(phone);
+}
+
+function regexDate(date) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(date);
+}
+
+function regexTime(time) {
+  return /^\d{2}:\d{2}$/.test(time);
 }
 
 export function passwordVisibilityToggle(passwordNode, passwordId = null) {
@@ -968,6 +987,332 @@ async function addressCheck(addressId, submit) {
   }
 }
 
+async function dateCheck(dateId, submit) {
+  const date = document.querySelector(`#${dateId}`);
+
+  if (!date) {
+    console.error("Erreur");
+    return;
+  }
+
+  let verifDate = new Date(date.value);
+  let year = verifDate.getFullYear();
+  let month = verifDate.getMonth() + 1;
+  let day = verifDate.getDate();
+  let [inputYear, inputMonth, inputDay] = date.value.split("-").map(Number);
+
+  switch (submit) {
+    case false:
+      date.addEventListener("change", async function (e) {
+        resetAlerts(`${dateId}AlertBox`);
+
+        verifDate = new Date(date.value);
+        year = verifDate.getFullYear();
+        month = verifDate.getMonth() + 1;
+        day = verifDate.getDate();
+        [inputYear, inputMonth, inputDay] = date.value.split("-").map(Number);
+
+        if (!regexDate(date.value)) {
+          createAlert(
+            "warning",
+            `${dateId}AlertBox`,
+            `${dateId}FormatAlert`,
+            dateFormatMessage
+          );
+        } else if (
+          inputYear != year ||
+          inputMonth != month ||
+          inputDay != day
+        ) {
+          createAlert(
+            "warning",
+            `${dateId}AlertBox`,
+            `${dateId}ExistingAlert`,
+            dateExistingMessage
+          );
+        } else if (day === 6 || day === 7) {
+          createAlert(
+            "warning",
+            `${dateId}AlertBox`,
+            `${dateId}ExistingAlert`,
+            dateWeekEndMessage
+          );
+        }
+      });
+    case true:
+      resetAlerts(`${dateId}AlertBox`);
+
+      let errors = 0;
+
+      if (!regexDate(date.value)) {
+        errors++;
+        createAlert(
+          "warning",
+          `${dateId}AlertBox`,
+          `${dateId}FormatAlert`,
+          dateFormatMessage
+        );
+      } else if (inputYear != year || inputMonth != month || inputDay != day) {
+        errors++;
+        createAlert(
+          "warning",
+          `${dateId}AlertBox`,
+          `${dateId}ExistingAlert`,
+          dateExistingMessage
+        );
+      } else if (day === 6 || day === 7) {
+        errors++;
+        createAlert(
+          "warning",
+          `${dateId}AlertBox`,
+          `${dateId}ExistingAlert`,
+          dateWeekEndMessage
+        );
+      }
+
+      if (errors === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    default:
+      console.error("Erreur");
+      return;
+  }
+}
+
+async function startTimeCheck(timeId, submit) {
+  const time = document.querySelector(`#${timeId}`);
+
+  if (!time) {
+    console.error("Erreur");
+    return;
+  }
+
+  const startMorning = 8 * 60 + 30;
+  const endMorning = 12 * 60;
+  const startAfternoon = 13 * 60 + 30;
+  const endAfternoon = 17 * 60;
+  let [inputHours, inputMinutes] = time.value.split(":").map(Number);
+  let minutesTime = inputHours * 60 + inputMinutes;
+
+  switch (submit) {
+    case false:
+      time.addEventListener("change", async function (e) {
+        resetAlerts(`${timeId}AlertBox`);
+
+        [inputHours, inputMinutes] = time.value.split("-").map(Number);
+        minutesTime = inputHours * 60 + inputMinutes;
+
+        if (!regexTime(time.value)) {
+          createAlert(
+            "warning",
+            `${timeId}AlertBox`,
+            `${timeId}FormatAlert`,
+            timeFormatMessage
+          );
+        } else if (
+          inputHours < 0 ||
+          inputHours > 23 ||
+          inputMinutes < 0 ||
+          inputMinutes > 59
+        ) {
+          createAlert(
+            "warning",
+            `${timeId}AlertBox`,
+            `${timeId}ExistingAlert`,
+            timeExistingMessage
+          );
+        } else if (
+          minutesTime < startMorning ||
+          (minutesTime > endMorning && minutesTime < startAfternoon) ||
+          minutesTime > endAfternoon
+        ) {
+          createAlert(
+            "warning",
+            `${timeId}AlertBox`,
+            `${timeId}ExistingAlert`,
+            timeNotWorkMessage
+          );
+        }
+      });
+    case true:
+      resetAlerts(`${timeId}AlertBox`);
+
+      let errors = 0;
+
+      if (!regexTime(time.value)) {
+        errors++;
+        createAlert(
+          "warning",
+          `${timeId}AlertBox`,
+          `${timeId}FormatAlert`,
+          timeFormatMessage
+        );
+      } else if (
+        inputHours < 0 ||
+        inputHours > 23 ||
+        inputMinutes < 0 ||
+        inputMinutes > 59
+      ) {
+        errors++;
+        createAlert(
+          "warning",
+          `${timeId}AlertBox`,
+          `${timeId}ExistingAlert`,
+          timeExistingMessage
+        );
+      } else if (
+        minutesTime < startMorning ||
+        (minutesTime > endMorning && minutesTime < startAfternoon) ||
+        minutesTime > endAfternoon
+      ) {
+        errors++;
+        createAlert(
+          "warning",
+          `${timeId}AlertBox`,
+          `${timeId}NotWorkAlert`,
+          timeNotWorkMessage
+        );
+      }
+
+      if (errors === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    default:
+      console.error("Erreur");
+      return;
+  }
+}
+
+async function endTimeCheck(endTimeId, startTimeID, submit) {
+  const endTime = document.querySelector(`#${endTimeId}`);
+  const startTime = document.querySelector(`#${startTimeID}`);
+
+  if (!endTime || !startTime) {
+    console.error("Erreur");
+    return;
+  }
+
+  const startMorning = 8 * 60 + 30;
+  const endMorning = 12 * 60;
+  const startAfternoon = 13 * 60 + 30;
+  const endAfternoon = 17 * 60;
+  let [endInputHours, endInputMinutes] = endTime.value.split(":").map(Number);
+  let endMinutesTime = endInputHours * 60 + endInputMinutes;
+  let [startInputHours, startInputMinutes] = startTime.value
+    .split(":")
+    .map(Number);
+  let startMinutesTime = startInputHours * 60 + startInputMinutes;
+
+  switch (submit) {
+    case false:
+      endTime.addEventListener("change", async function (e) {
+        resetAlerts(`${endTimeId}AlertBox`);
+
+        [endInputHours, endInputMinutes] = endTime.value.split("-").map(Number);
+        endMinutesTime = endInputHours * 60 + endInputMinutes;
+
+        if (!regexTime(endTime.value)) {
+          createAlert(
+            "warning",
+            `${endTimeId}AlertBox`,
+            `${endTimeId}FormatAlert`,
+            timeFormatMessage
+          );
+        } else if (
+          endInputHours < 0 ||
+          endInputHours > 23 ||
+          endInputMinutes < 0 ||
+          endInputMinutes > 59
+        ) {
+          createAlert(
+            "warning",
+            `${endTimeId}AlertBox`,
+            `${endTimeId}ExistingAlert`,
+            timeExistingMessage
+          );
+        } else if (
+          endMinutesTime < startMorning ||
+          (endMinutesTime > endMorning && endMinutesTime < startAfternoon) ||
+          endMinutesTime > endAfternoon
+        ) {
+          createAlert(
+            "warning",
+            `${endTimeId}AlertBox`,
+            `${endTimeId}NotWorkAlert`,
+            timeNotWorkMessage
+          );
+        } else if (endMinutesTime <= startMinutesTime) {
+          createAlert(
+            "warning",
+            `${endTimeId}AlertBox`,
+            `${endTimeId}SmallerAlert`,
+            timeSmallerMessage
+          );
+        }
+      });
+    case true:
+      resetAlerts(`${endTimeId}AlertBox`);
+
+      let errors = 0;
+
+      if (!regexTime(endTime.value)) {
+        errors++;
+        createAlert(
+          "warning",
+          `${endTimeId}AlertBox`,
+          `${endTimeId}FormatAlert`,
+          timeFormatMessage
+        );
+      } else if (
+        endInputHours < 0 ||
+        endInputHours > 23 ||
+        endInputMinutes < 0 ||
+        endInputMinutes > 59
+      ) {
+        errors++;
+        createAlert(
+          "warning",
+          `${endTimeId}AlertBox`,
+          `${endTimeId}ExistingAlert`,
+          timeExistingMessage
+        );
+      } else if (
+        endMinutesTime < startMorning ||
+        (endMinutesTime > endMorning && endMinutesTime < startAfternoon) ||
+        endMinutesTime > endAfternoon
+      ) {
+        errors++;
+        createAlert(
+          "warning",
+          `${endTimeId}AlertBox`,
+          `${endTimeId}NotWorkAlert`,
+          timeNotWorkMessage
+        );
+      } else if (endMinutesTime <= startMinutesTime) {
+        errors++;
+        createAlert(
+          "warning",
+          `${endTimeId}AlertBox`,
+          `${endTimeId}SmallerAlert`,
+          timeSmallerMessage
+        );
+      }
+
+      if (errors === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    default:
+      console.error("Erreur");
+      return;
+  }
+}
+
 async function fieldCheck(field, submit) {
   if (!field.type || !field.id) {
     console.error("Erreur");
@@ -1001,6 +1346,12 @@ async function fieldCheck(field, submit) {
       return await mailCheck(field.id, field.currentMail, submit);
     case "address":
       return await addressCheck(field.id, submit);
+    case "date":
+      return await dateCheck(field.id, submit);
+    case "startTime":
+      return await startTimeCheck(field.id, submit);
+    case "endTime":
+      return await endTimeCheck(field.id, field.start, submit);
     default:
       break;
   }

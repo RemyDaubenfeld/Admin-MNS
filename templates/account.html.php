@@ -3,7 +3,7 @@
         <div class="page-containt">
             <div class="page-header">
                 <?php if ($isMyAccount): ?>
-                    <h1 class="page-title"><?= $title ?></h1>
+                    <h1 class="page-title">Mon compte</h1>
                 <?php else: ?>
                     <a href="/?page=directory" class="page-title">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"> <!-- Icone retour -->
@@ -24,7 +24,7 @@
                     </div>
                     <div class="account-info">
                         <p>
-                            <?= $currentUserMail ?? 'Non renseignée'?>
+                            <?= $currentUserMail ?? 'Non renseignée' ?>
                             <?php if ($isEditable): ?>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="mailEdit"> <!-- Icone Modifier -->
@@ -45,7 +45,7 @@
                     </div>
                     <div class="account-info">
                         <p>
-                            <?= $currentUserPhone ?? 'Non renseigné'?>
+                            <?= $currentUserPhone ?? 'Non renseigné' ?>
                             <?php if ($isEditable): ?>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="phoneEdit"> <!-- Icone Modifier -->
@@ -66,7 +66,7 @@
                     </div>
                     <div class="account-info">
                         <p>
-                            <?= $currentUserFullAdress ?? 'Non renseignée'?>
+                            <?= $currentUserFullAdress ?? 'Non renseignée' ?>
                             <?php if ($isEditable): ?>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="addressEdit"> <!-- Icone Modifier -->
@@ -107,7 +107,7 @@
                         </div>
                         <div class="account-info">
                             <p>
-                                <?= $currentUserGenderName ?? 'Non renseigné'?>
+                                <?= $currentUserGenderName ?? 'Non renseigné' ?>
                                 <?php if ($isEditable): ?>
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="genderEdit"> <!-- Icone Modifier -->
@@ -172,26 +172,32 @@
 
         <div class="my-account-right-footer">
             <?php if (!$isMyAccount): ?>
-                <a href="/?page=planning&user-id=<?= $currentUserId ?>" class="button button-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Icone Planning -->
-                        <path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z"/>
-                    </svg>
-                    Planning
-                </a>
+                <?php if (!$currentUserStaff && in_array("planning", $currentUserPagesAccess)): ?>
+                    <a href="/?page=planning&user-id=<?= $currentUserId ?>" class="button button-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Icone Planning -->
+                            <path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z"/>
+                        </svg>
+                        Planning
+                    </a>
+                <?php endif; ?>
 
-                <a href="/?page=lateness&user-id=<?= $currentUserId ?>" class="button button-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <!-- Icone Retards -->
-                        <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
-                    </svg>
-                    Retards
-                </a>
+                <?php if (!$currentUserStaff && in_array("lateness", $currentUserPagesAccess)): ?>
+                    <a href="/?page=lateness&user-id=<?= $currentUserId ?>" class="button button-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <!-- Icone Retards -->
+                            <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                        </svg>
+                        Retards
+                    </a>
+                <?php endif; ?>
 
-                <a href="/?page=absences&user-id=<?= $currentUserId ?>" class="button button-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"> <!-- Absences -->
-                        <path d="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zM305 305c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47z"/>
-                    </svg>
-                    Absences
-                </a>
+                <?php if (!$currentUserStaff && in_array("absences", $currentUserPagesAccess)): ?>
+                    <a href="/?page=absences&user-id=<?= $currentUserId ?>" class="button button-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"> <!-- Absences -->
+                            <path d="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zM305 305c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47z"/>
+                        </svg>
+                        Absences
+                    </a>
+                <?php endif; ?>
             <?php endif; ?>
 
             <?php if (in_array('directory', $connectedUserPagesAccess) && $isEditable && !$isMyAccount): ?>
@@ -200,7 +206,7 @@
                         <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
                     </svg>
                     Supprimer
-            </button>
+                </button>
             <?php endif; ?>
 
             <?php if ($isMyAccount): ?>

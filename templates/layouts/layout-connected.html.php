@@ -47,18 +47,18 @@
                         </svg>
                         <p class="navigation-text">Tableau de bord</p>
                     </a>
-                    <?php foreach ($connectedUserPages as $connectedUserPage): ?>
-                        <a href="/?page=<?= $connectedUserPage['page_link'] ?>" class="navigation-link<?= $page == $connectedUserPage['page_link'] || $parentPage == $connectedUserPage['page_link'] ? ' navigation-active' : '' ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="<?= $connectedUserPage['page_icone_viewBox'] ?>"> <!-- Icone de l'onglet -->
-                                <path d="<?= $connectedUserPage['page_icone_path'] ?>"/>
+                    <?php foreach ($connectedUserPagesPerso as $connectedUserPagePerso): ?>
+                        <a href="/?page=<?= $connectedUserPagePerso['page_link'] ?>" class="navigation-link<?= $parentPage == $connectedUserPagePerso['page_link'] ? ' navigation-active' : '' ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="<?= $connectedUserPagePerso['page_icone_viewBox'] ?>"> <!-- Icone de l'onglet -->
+                                <path d="<?= $connectedUserPagePerso['page_icone_path'] ?>"/>
                             </svg>
-                            <p class="navigation-text"><?= $connectedUserPage['page_name'] ?></p>
+                            <p class="navigation-text"><?= $connectedUserPagePerso['page_name'] ?></p>
                         </a>
                     <?php endforeach; ?>
                 </div>
 
                 <div class="navigation-box">
-                    <?php if ($connectedUserStaff == 1): ?>
+                    <?php if ($connectedUserStaff != 1): ?>
                         <a href="/?page=contact" class="navigation-link<?= $page == 'contact' ? ' navigation-active' : '' ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <!-- Icone Contact -->
                                 <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z"/>

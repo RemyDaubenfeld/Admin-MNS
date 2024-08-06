@@ -12,7 +12,7 @@ function firstnameCheck($firstname) {
             $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le prénom doit comporter entre 1 et 50 caractères.', 'start' => time()];
         }
     
-        if (!preg_match("/^[a-zà-öø-ÿ' -]+$/i", $firstname)) {
+        if (!preg_match("/^[a-zA-Zà-öÀ-Öø-ÿØ-ß' -]+$/i", $firstname)) {
             $errors++;
             $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le prénom ne peux comporter que des lettres et les caractères spéciaux suivants ( \' , - ).', 'start' => time()];
         }
@@ -35,7 +35,7 @@ function lastnameCheck($lastname) {
             $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom doit comporter entre 1 et 50 caractères.', 'start' => time()];
         }
     
-        if (!preg_match("/^[a-zà-öø-ÿ' -]+$/i", $lastname)) {
+        if (!preg_match("/^[a-zA-Zà-öÀ-Öø-ÿØ-ß' -]+$/i", $lastname)) {
             $errors++;
             $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le nom ne peux comporter que des lettres et les caractères spéciaux suivants ( \' , - ).', 'start' => time()];
         }
@@ -275,4 +275,100 @@ function resetPasswordCheck($newPassword, $confirmPassword) {
     $newPassword = $newPassword.$salt;
 
     return ['errors' => $errors, 'password' => $newPassword];
+}
+
+function isValidDate($dateString) {
+    if (empty($dateString)) {
+        return [false, 'La date est obligatoire.'];
+    } else if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateString )) {
+        return [false, 'Cette date est incorrecte.'];
+    } else {
+        $date = DateTime::createFromFormat('Y-m-d', $dateString);
+        $day = date('w', strtotime($dateString));
+
+        if ($dateString != $date->format('Y-m-d')) {
+            return [false, 'Cette date n\'existe pas.'];
+        } else if ($day == 6 || $day == 0) {
+            return [false, 'La date ne peux pas être pendant un week-end.'];
+        } else {
+            return [true];
+        }
+    }
+}
+
+function dateCheck($date) {
+    $errors = 0;
+    $validDate = isValidDate($date);
+
+    if (!$validDate[0]) {
+        $errors++;
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => isValidDate($date)[1], 'start' => time()];
+    }
+
+    return ['errors' => $errors, 'date' => $date];
+}
+
+function isValidTime($timeString, $timeType = "heure") {
+    $startMorning = 8 * 60 + 30; // 08:30
+    $endMorning = 12 * 60; // 12:00
+    $startAfternoon = 13 * 60 + 30; // 13:30
+    $endAfternoon = 17 * 60; // 17:00
+
+    if (empty($timeString)) {
+        return [false, "L'$timeType est obligatoire."];
+    } else if (!preg_match('/^\d{2}:\d{2}$/', $timeString )) {
+        return [false, "L'$timeType est incorrecte."];
+    } else {
+        list($hours, $minutes) = explode(":", $timeString);
+        $hours = intval($hours);
+        $minutes = intval($minutes);
+        $minutesTime = $hours * 60 + $minutes;
+
+        if ($hours < 0 || $hours > 23 || $minutes < 0 || $minutes > 59) {
+            return [false, "L'$timeType n'existe pas."];
+        } else if (
+            $minutesTime < $startMorning ||
+            ($minutesTime > $endMorning && $minutesTime < $startAfternoon) ||
+            $minutesTime > $endAfternoon
+        ) {
+            return [false, "L'$timeType ne peux pas être avant 08h30 ou après 17h00."];
+        } else {
+            return [true, $minutesTime];
+        }
+    }
+}
+
+function startTimeCheck($time) {
+    $errors = 0;
+    $validTime = isValidTime($time, "heure de départ");
+
+    if (!$validTime[0]) {
+        $errors++;
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => $validTime[1], 'start' => time()];
+    }
+
+    return ['errors' => $errors, 'startTime' => $time];
+}
+
+function endTimeCheck($endTime, $startTime) {
+    $errors = 0;
+    $validEndTime = isValidTime($endTime, "heure de fin");
+    $validStartTime = isValidTime($startTime, "heure de départ");
+
+    if (!$validEndTime[0]) {
+        $errors++;
+        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => $validEndTime[1], 'start' => time()];
+    }
+
+    if (!$validStartTime[0]) {
+        $errors++;
+    }
+
+    if (($validEndTime[0] && $validStartTime[0]) && ($validEndTime[1] <= $validStartTime[1])) {
+        $errors++;
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'L\'heure de fin ne peux pas être avant l\'heure de départ.', 'start' => time()];
+
+    }
+
+    return ['errors' => $errors, 'endTime' => $endTime];
 }

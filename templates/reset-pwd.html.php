@@ -79,8 +79,8 @@
                 </div>
             </div>
 
-            <input type="hidden" name="new_pwd_hidden_submit" required>
-            <input type="hidden" name="token" value="<?= $_POST['token'] ?>" required>
+            <input type="hidden" name="new_pwd_hidden_submit" required/>
+            <input type="hidden" name="token" value="<?= $_POST['token'] ?>" required/>
 
             <div class="field">
                 <button type="submit" name="new_pwd_submit" id="resetPasswordFormSubmit" class="button button-secondary">

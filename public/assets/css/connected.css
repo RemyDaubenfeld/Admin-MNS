@@ -164,8 +164,16 @@ header {
   gap: 1em;
   margin-bottom: 20px;
 
+  .button {
+    width: auto;
+  }
+
   @media screen and (max-width: 800px) {
     flex-direction: column;
+
+    .button {
+      width: 100%;
+    }
   }
 }
 
@@ -183,6 +191,7 @@ header {
   svg {
     fill: var(--color-primary);
     width: 25px;
+    min-width: 25px;
     height: auto;
   }
 
@@ -204,43 +213,63 @@ header {
   padding: 20px;
 }
 
-/* BARRE DE RECHERCHE */
+/* FILTRES ET RECHERCHE */
 
-.search-bar {
+.filters-form {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: end;
   text-align: center;
   gap: 0.5em;
 
-  input {
-    box-sizing: border-box;
-    height: 40px;
-    margin: 0;
+  .filter {
     border: 2.5px solid var(--color-primary-light);
     border-radius: 10px;
     padding: 10px;
   }
 
-  .button {
-    width: auto;
+  .last-filter {
+    display: flex;
+    gap: 0.5em;
+
+    input {
+      box-sizing: border-box;
+      height: 40px;
+      margin: 0;
+      border: 2.5px solid var(--color-primary-light);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .button {
+      width: auto;
+    }
   }
 
   @media screen and (max-width: 800px) {
     width: 100%;
 
-    input {
-      width: 100%;
+    .last-filter,
+    .filter {
+      flex: 1;
+
+      input {
+        flex: 1;
+      }
     }
   }
 }
 
 .search-result {
   display: flex;
-  align-items: center;
-  gap: 1em;
+  gap: 0.5em;
   margin-bottom: 20px;
 
   p {
+    padding: 10px;
+    background-color: var(--color-white);
+    border-radius: 10px;
     margin: 0;
 
     span {
@@ -365,11 +394,124 @@ header {
 .paging {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 0.5em;
   margin-top: 20px;
 
   .button {
     width: auto;
+  }
+}
+
+/* TABLEAUX */
+
+.table {
+  form {
+    float: right;
+    margin-bottom: 15px;
+
+    .field {
+      width: auto;
+    }
+  }
+
+  table {
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      color: var(--color-white);
+      font-family: var(--font-body-bold);
+      font-size: 1.2em;
+      background-color: var(--color-primary-light);
+      border: 3px solid var(--color-primary-light);
+    }
+
+    td {
+      background-color: var(--color-secondary);
+      border-top: 3px solid var(--color-secondary-dark);
+      border-bottom: 3px solid var(--color-secondary-dark);
+
+      div {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+
+        .icon-container {
+          fill: var(--color-black);
+          width: 17px;
+          min-width: 17px;
+        }
+
+        p {
+          margin: 0;
+
+          .time {
+            font-family: var(--font-body-light);
+          }
+
+          .update-icon {
+            cursor: pointer;
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    .table-row {
+      &:first-child {
+        border-left: 3px solid var(--color-secondary-dark);
+      }
+
+      &:last-child {
+        border-right: 3px solid var(--color-secondary-dark);
+      }
+    }
+
+    .add-table {
+      color: var(--color-white);
+      background-color: var(--color-primary);
+      border: 3px solid var(--color-primary);
+      cursor: pointer;
+
+      div {
+        display: flex;
+        align-items: center;
+
+        span {
+          fill: var(--color-white);
+          width: 17px;
+          min-width: 17px;
+        }
+      }
+
+      &:hover {
+        background-color: var(--color-primary-dark);
+      }
+    }
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  tfoot td {
+    text-align: center;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 0 0 10px 10px;
+
+    .paging {
+      margin: 0;
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { ajaxFetch } from "./utils.js";
+import { ajaxFetch, getUrlParameter } from "./utils.js";
 import {
   passwordVisibilityToggle,
   passwordCheckStrength,
@@ -177,6 +177,25 @@ export async function createUpdateModal(
                 id: "addressInput",
               });
               break;
+            case "date":
+              fields.push({
+                type: "date",
+                id: "dateInput",
+              });
+              break;
+            case "startTime":
+              fields.push({
+                type: "startTime",
+                id: "startTimeInput",
+              });
+              break;
+            case "endTime":
+              fields.push({
+                type: "endTime",
+                id: "endTimeInput",
+                start: "startTimeInput",
+              });
+              break;
           }
         });
 
@@ -188,101 +207,68 @@ export async function createUpdateModal(
         modalUpdateBody.appendChild(confirmationBox);
 
         elements.forEach((element) => {
-          switch (element) {
+          const button = document.createElement("button");
+          const buttonIcon = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+          );
+          button.appendChild(buttonIcon);
+
+          const buttonIconPath = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+          );
+          buttonIcon.appendChild(buttonIconPath);
+
+          confirmationBox.appendChild(button);
+
+          switch (element[0]) {
             case "back":
-              const backButton = document.createElement("button");
-              backButton.className = "button button-gray";
+              button.className = "button button-gray";
 
-              const backButtonIcon = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "svg"
-              );
-              backButtonIcon.setAttribute(
-                "xmlns",
-                "http://www.w3.org/2000/svg"
-              );
-              backButtonIcon.setAttribute("viewBox", "0 0 448 512");
-              backButton.appendChild(backButtonIcon);
+              buttonIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+              buttonIcon.setAttribute("viewBox", "0 0 448 512");
 
-              const backButtonIconPath = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "path"
-              );
-              backButtonIconPath.setAttribute(
+              buttonIconPath.setAttribute(
                 "d",
                 "M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
               );
-              backButtonIcon.appendChild(backButtonIconPath);
-              backButton.innerHTML += "Annuler";
+              button.innerHTML += "Annuler";
 
-              confirmationBox.appendChild(backButton);
-
-              backButton.addEventListener("click", function (e) {
+              button.addEventListener("click", function (e) {
                 modalUpdateContainer.remove();
                 document.body.classList.remove("no-scrollbar");
               });
               break;
             case "archive":
-              const archiveButton = document.createElement("button");
-              archiveButton.className = "button button-red";
+              button.className = "button button-red";
 
-              const archiveButtonIcon = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "svg"
-              );
-              archiveButtonIcon.setAttribute(
-                "xmlns",
-                "http://www.w3.org/2000/svg"
-              );
-              archiveButtonIcon.setAttribute("viewBox", "0 0 448 512");
-              archiveButton.appendChild(archiveButtonIcon);
+              buttonIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+              buttonIcon.setAttribute("viewBox", "0 0 448 512");
 
-              const archiveButtonIconPath = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "path"
-              );
-              archiveButtonIconPath.setAttribute(
+              buttonIconPath.setAttribute(
                 "d",
                 "M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
               );
-              archiveButtonIcon.appendChild(archiveButtonIconPath);
-              archiveButton.innerHTML += "Supprimer";
+              button.innerHTML += "Supprimer";
 
-              confirmationBox.appendChild(archiveButton);
-
-              archiveButton.addEventListener("click", function (e) {
-                window.location.href = `/?script=archive-user&value=${user.user_id}`;
+              button.addEventListener("click", function (e) {
+                window.location.href = `/?script=${element[1]}&value=${user.user_id}`;
               });
               break;
-            case "confirm":
-              const confirmButton = document.createElement("button");
-              confirmButton.className = "button button-primary";
+            case "disconnection":
+              button.className = "button button-primary";
 
-              const confirmButtonIcon = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "svg"
-              );
-              confirmButtonIcon.setAttribute(
-                "xmlns",
-                "http://www.w3.org/2000/svg"
-              );
-              confirmButtonIcon.setAttribute("viewBox", "0 0 448 512");
-              confirmButton.appendChild(confirmButtonIcon);
+              buttonIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+              buttonIcon.setAttribute("viewBox", "0 0 448 512");
 
-              const confirmButtonIconPath = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "path"
-              );
-              confirmButtonIconPath.setAttribute(
+              buttonIconPath.setAttribute(
                 "d",
                 "M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
               );
-              confirmButtonIcon.appendChild(confirmButtonIconPath);
-              confirmButton.innerHTML += "Confirmer";
+              button.innerHTML += "Confirmer";
 
-              confirmationBox.appendChild(confirmButton);
-
-              confirmButton.addEventListener("click", function (e) {
+              button.addEventListener("click", function (e) {
                 window.location.href = `/?script=disconnection&value=${user.user_id}`;
               });
               break;
@@ -301,6 +287,12 @@ export async function createUpdateModal(
 }
 
 async function createUpdateElement(user, modalUpdateForm, element) {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const hours = today.getHours().toString().padStart(2, "0");
+  const minutes = today.getMinutes().toString().padStart(2, "0");
   let iconViewBox = "";
   let iconPath = "";
   let labelText = "";
@@ -309,6 +301,8 @@ async function createUpdateElement(user, modalUpdateForm, element) {
   let value = "";
   let minLen = "";
   let maxLen = "";
+  let min = "";
+  let max = "";
   let required = false;
   switch (element) {
     case "mail":
@@ -408,6 +402,37 @@ async function createUpdateElement(user, modalUpdateForm, element) {
       iconPath =
         "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c10 0 18.8-4.9 24.2-12.5l-99.2-99.2c-14.9-14.9-23.3-35.1-23.3-56.1v-33c-15.9-4.7-32.8-7.2-50.3-7.2H178.3zM384 224c-17.7 0-32 14.3-32 32v82.7c0 17 6.7 33.3 18.7 45.3L478.1 491.3c18.7 18.7 49.1 18.7 67.9 0l73.4-73.4c18.7-18.7 18.7-49.1 0-67.9L512 242.7c-12-12-28.3-18.7-45.3-18.7H384zm24 80a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z";
       labelText = "Statut";
+      required = true;
+      break;
+    case "date":
+      iconViewBox = "0 0 448 512";
+      iconPath =
+        "M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H336zM64 400v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H208zm112 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H336c-8.8 0-16 7.2-16 16z";
+      labelText = "Date";
+      type = "date";
+      value = `${year}-${month}-${day}`;
+      required = true;
+      break;
+    case "startTime":
+      iconViewBox = "0 0 512 512";
+      iconPath =
+        "M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z";
+      labelText = "Heure de départ";
+      type = "time";
+      value = hours > 13 || (hours === 13 && minutes > 30) ? "13:30" : "08:30";
+      min = "08:30";
+      max = "17:00";
+      required = true;
+      break;
+    case "endTime":
+      iconViewBox = "0 0 512 512";
+      iconPath =
+        "M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z";
+      labelText = "Heure de fin";
+      type = "time";
+      value = `${hours}:${minutes}`;
+      min = "08:30";
+      max = "17:00";
       required = true;
       break;
     default:
@@ -633,7 +658,11 @@ async function createUpdateElement(user, modalUpdateForm, element) {
         user && user.user_gender == 2 && currentStatus.status_female_name
           ? currentStatus.status_female_name
           : currentStatus.status_male_name;
-      if (user && currentStatus.status_id === user.status_id) {
+      if (
+        (user && currentStatus.status_id === user.status_id) ||
+        (!user &&
+          currentStatus.status_id === parseInt(getUrlParameter("status")))
+      ) {
         fieldInputOption.selected = true;
       }
       fieldInputSelect.appendChild(fieldInputOption);
@@ -647,6 +676,8 @@ async function createUpdateElement(user, modalUpdateForm, element) {
     fieldInput.value = value;
     if (minLen) fieldInput.minLength = minLen;
     if (maxLen) fieldInput.maxLength = maxLen;
+    if (min) fieldInput.min = min;
+    if (max) fieldInput.max = max;
     fieldInput.required = true;
     field.appendChild(fieldInput);
   }

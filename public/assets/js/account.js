@@ -4,7 +4,9 @@ import { createUpdateModal } from "./libs/modal-update.js";
 const userId = new URLSearchParams(window.location.search).get("user-id");
 const user = await ajaxFetch("user-infos", userId);
 
-await createUpdateModal(user, "mailEdit", "Modifier l'adresse mail", "form", ["mail"]);
+await createUpdateModal(user, "mailEdit", "Modifier l'adresse mail", "form", [
+  "mail",
+]);
 
 await createUpdateModal(
   user,
@@ -44,7 +46,7 @@ await createUpdateModal(
   "archiveUserButton",
   "Supprimer cet utilisateur ?",
   "confirmation",
-  ["back", "archive"]
+  [["back"], ["archive", "archive-user"]]
 );
 
 await createUpdateModal(
@@ -52,7 +54,7 @@ await createUpdateModal(
   "disconnectionButton",
   "Se déconnecter ?",
   "confirmation",
-  ["back", "confirm"]
+  [["back"], ["disconnection"]]
 );
 
 const editProfilePicture = document.querySelector("#editProfilPicture");

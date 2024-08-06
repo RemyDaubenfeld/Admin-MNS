@@ -1,21 +1,10 @@
 <?php
 
+// REQUIRES
 require '../src/pages/libs/form-control.php';
 
-$isMyAccount = $_GET['user-id'] == $_SESSION['user_id'];
-
+// ACCÈS ET DROITS
 if (!$isMyAccount) {
-    $query = $dbh->prepare("SELECT * FROM user 
-                        WHERE user_id = :user_id");
-    $query->execute(['user_id' => $_GET['user-id']]);
-    $existingUser = $query->fetch();
-
-    if (!$existingUser) { 
-        $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Cet utilisateur n'existe pas ou plus.", 'start' => time()];
-        header('Location: /');
-        exit;
-    }
-
     if (!in_array('directory', $connectedUserPagesAccess)) {
         $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Vous n'avez pas accès à cette page.", 'start' => time()];
         header('Location: /');
@@ -25,6 +14,58 @@ if (!$isMyAccount) {
     }
 } else {
     $isEditable = true;
+}
+
+// INFORMATIONS DE LA PAGE
+$query = $dbh->prepare("SELECT * FROM user
+                        JOIN status ON user.status_id = status.status_id
+                        WHERE user_id = :user_id");
+$query->execute(['user_id' => $currentUserId]);
+$user = $query->fetch();
+
+$currentUserMail = $user['user_mail'];
+$currentUserFirstname = $user['user_firstname'];
+$currentUserLastname = $user['user_lastname'];
+$currentUserFullName = "$currentUserFirstname $currentUserLastname";
+$currentUserInitials = strtoupper(substr($currentUserFirstname, 0, 1) . substr($currentUserLastname, 0, 1));
+$currentUserGender = $user['user_gender'];
+$genders = [1 => 'Homme', 2 => 'Femme'];
+$currentUserGenderName = $genders[$currentUserGender] ?? null;
+$currentUserPhone = !empty($user['user_phone']) ? $user['user_phone'] : null;
+$currentUserAddressNumber = !empty($user['user_address_number']) ? $user['user_address_number'] : null;
+$currentUserStreet = !empty($user['user_street']) ? $user['user_street'] : null;
+$currentUserZipCode = !empty($user['user_zip_code']) ? $user['user_zip_code'] : null;
+$currentUserCity = !empty($user['user_city']) ? $user['user_city'] : null;
+$currentUserFullAdress = $currentUserAddressNumber && $currentUserStreet && $currentUserZipCode && $currentUserCity ? "$currentUserAddressNumber $currentUserStreet, $currentUserZipCode $currentUserCity" : null;
+$currentUserImage = !empty($user['user_image']) ? $user['user_image'] : null;
+$currentUserStatusId = $user['status_id'];
+$currentUserStatus= $user['user_gender'] == 2 && !empty($user['status_female_name']) ? $user['status_female_name'] : $user['status_male_name'] ;
+$currentUserStaff = $user['status_staff'];
+
+$query = $dbh->prepare('SELECT * FROM page 
+                        JOIN page_status ON page.page_id = page_status.page_id
+                        WHERE status_id = :status_id');
+$query->execute(['status_id' => $currentUserStatusId]);
+$currentUserPages = $query->fetchAll();
+
+$pagesWithoutRights = ['index', 'contact', 'account'];
+$currentUserPagesAccess = $pagesWithoutRights;
+$currentUserPagesUpdate = $pagesWithoutRights;
+$currentUserPageAccess = in_array($page, $pagesWithoutRights);
+$currentUserPageUpdate = in_array($page, $pagesWithoutRights);
+
+foreach ($currentUserPages as $index => $currentUserPage) {
+    $currentUserPagesAccess[] = $currentUserPage['page_link'];
+    if ($currentUserPage['page_status_modification'] == 1) {
+        $currentUserPagesUpdate[] = $currentUserPage['page_link'];
+    }
+
+    if ($currentUserPage['page_link'] == $page) {
+        $currentUserPageAccess = true;
+        if ($currentUserPage['page_status_modification'] == 1) {
+            $currentUserPageUpdate = true;
+        }
+    }
 }
 
 $title = $isMyAccount ? 'Mon compte' : $currentUserFullName;
@@ -216,17 +257,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nameEdit_hidden_submit'
     $lastname = $lastnameData['lastname'];
 
     if(empty($errors)) {
-        $query = $dbh->prepare('UPDATE user SET user_gender = :user_gender WHERE user_id = :user_id');
+        $query = $dbh->prepare('UPDATE user SET user_firstname = :user_firstname, user_lastname = :user_lastname WHERE user_id = :user_id');
         $query->execute([
-            'user_gender' => $gender,
+            'user_firstname' => $firstname,
+            'user_lastname' => $lastname,
             'user_id' => $currentUserId
         ]);
         if($query) {
-            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => 'Le genre a été modifié avec succès.', 'start' => time()];
+            $_SESSION['modal_messages'][] = ['type' => 'success', 'message' => 'Le prénom et le nom ont été modifiés avec succès.', 'start' => time()];
             header("Location: /?page=account&user-id=$currentUserId");
             exit;
         } else {
-            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Une erreur s\'est produite lors de la mise à jour de du genre.', 'start' => time()];
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Une erreur s\'est produite lors de la mise à jour du prénom et du nom.', 'start' => time()];
         }
     }
 }

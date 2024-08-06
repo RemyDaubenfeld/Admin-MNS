@@ -1,7 +1,6 @@
 <?php
 
-setlocale(LC_TIME, 'fr_FR');
-date_default_timezone_set('Europe/Paris');
+require '../src/pages/libs/date-time.php';
 
 session_start(); 
 
@@ -40,7 +39,7 @@ if (!empty($_GET['ajax'])) { // AJAX
         exit;
     }
 } else { // PAGES
-    $page = !empty($_GET['page']) ? ($_GET['page']) : 'index';
+    $page = $_GET['page'] ?? 'index';
 
     $path = "../src/pages/$page.php";
 
@@ -58,10 +57,7 @@ if (!empty($_GET['ajax'])) { // AJAX
             }
 
             require '../src/data/connected-user.php';
-            if (!empty($_GET['user-id'])) {
-                require '../src/data/current-user.php';
-            }
-            $parentPage = $page == 'account' && $_GET['user-id'] != $connectedUserId ? 'directory' : null;
+        
 
             if (!$connectedUserPageAccess) {
                 $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Vous n'avez pas accès à cette page.", 'start' => time()];
@@ -69,13 +65,59 @@ if (!empty($_GET['ajax'])) { // AJAX
                 exit;
             }
 
+            $currentUserId = $_GET['user-id'] ?? $connectedUserId;
+
+            $pagesWithoutRights = ['index', 'contact', 'account'];
+
+            $query = $dbh->prepare('SELECT COUNT(*) AS user FROM user
+                                    INNER JOIN status ON user.status_id = status.status_id
+                                    INNER JOIN page_status ON status.status_id = page_status.status_id
+                                    INNER JOIN page ON page_status.page_id = page.page_id
+                                    WHERE user.user_id = :user_id
+                                    AND user.user_active = 1
+                                    AND (page_status.page_perso = 1 OR page_status.page_perso IS NULL)
+                                    AND page.page_link = :page_link;');
+            $query->execute([
+                'user_id' => $currentUserId,
+                'page_link' => $page
+            ]);
+            $currentUserAccess = $query->fetch();
+
+            if (!$currentUserAccess['user'] && !in_array($page, $pagesWithoutRights)) {
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Cette page n'est pas accessible pour cet utilisateur.", 'start' => time()];
+                header('Location: /');
+                exit;
+            }
+
+            $parentPage = $page;
+            if ($currentUserId != $connectedUserId) {
+                if ($page == 'account') {
+                    $parentPage = 'directory';
+                } else if ($page == 'lateness') {
+                    $parentPage = 'directory';
+                }
+            }
+
+            $isMyAccount = $currentUserId == $connectedUserId;
+
+            if (!$isMyAccount) {
+                $query = $dbh->prepare("SELECT user_id FROM user 
+                                    WHERE user_id = :user_id");
+                $query->execute(['user_id' => $_GET['user-id']]);
+                $existingUser = $query->fetch();
+            
+                if (!$existingUser) { 
+                    $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Cet utilisateur n'existe pas ou plus.", 'start' => time()];
+                    header('Location: /');
+                    exit;
+                }
+            }
         } else {
             if (!in_array($page, $offlinePages) && empty($_SESSION['user_id'])) {
                 $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => "Vous ne pouvez pas accèder à cette page sans être connecté.", 'start' => time()];
                 header('Location: /?page=connection');
                 exit;
             }
-
         }
         require $path;
         require "../templates/layouts/$layout.html.php";

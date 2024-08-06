@@ -2,21 +2,26 @@
 
 require '../src/pages/libs/form-control.php';
 require '../src/pages/libs/generate-password.php';
-require '../src/pages/libs/generate-paging.php';
 
 $title = 'Répertoire';
 
 // PAGINATION
-$search = "";
-if(empty($_GET['search'])){
-    $query = $dbh->query("SELECT COUNT(*) AS nb_users FROM user WHERE user_active = 1");
-    $nbUsers = $query->fetch();
-} else {
-    $search = $_GET['search'];
-    $query = $dbh->prepare("SELECT COUNT(*) AS nb_users FROM user WHERE (user_firstname LIKE :search OR user_lastname LIKE :search) AND user_active = 1");
-    $query->execute(['search' => "%$search%"]);
-    $nbUsers = $query->fetch();
+$search = $_GET['search'] ?? null;
+$filterStatus = $_GET['status'] ?? null;
+
+$queryStr = 'SELECT COUNT(*) AS nb_users FROM user 
+             WHERE (user_firstname LIKE :search OR user_lastname LIKE :search)
+             AND user_active = 1';
+$params = ['search' => "%$search%"];
+
+if ($filterStatus) {
+    $queryStr .= ' AND user.status_id = :status_id';
+    $params['status_id'] = $filterStatus;
 }
+
+$query = $dbh->prepare($queryStr);
+$query->execute($params);
+$nbUsers = $query->fetch();
 
 $nbUsers = $nbUsers['nb_users'];
 $usersPerPage = 19;
@@ -24,16 +29,34 @@ $numPage = !empty($_GET['num-page']) ? intval($_GET['num-page']) : 1;
 $offset = ($numPage - 1) * $usersPerPage;
 $totalPages = ceil($nbUsers / $usersPerPage);
 
-if(empty($_GET['search'])){
-    $query = $dbh->query("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE user_active = 1 ORDER BY user_lastname, user_firstname, user.status_id LIMIT $offset, $usersPerPage");
-    $users = $query->fetchAll();
-} else {
-    $search = $_GET['search'];
-    $query = $dbh->prepare("SELECT * FROM user JOIN status ON user.status_id = status.status_id WHERE (user_firstname LIKE :search OR user_lastname LIKE :search) AND user_active = 1 ORDER BY user_lastname, user_firstname, user.status_id LIMIT $offset, $usersPerPage");
-    $query->execute([
-        'search' => "%$search%"
-    ]);
-    $users = $query->fetchAll();
+$queryStr = 'SELECT * FROM user
+            JOIN status ON user.status_id = status.status_id
+            WHERE (user_firstname LIKE :search OR user_lastname LIKE :search)
+            AND user_active = 1';
+$params = ['search' => "%$search%"];
+
+if ($filterStatus) {
+    $queryStr .= ' AND user.status_id = :status_id';
+    $params['status_id'] = $filterStatus;
+}
+
+$queryStr .= " ORDER BY user_lastname, user_firstname, user.status_id
+               LIMIT $offset, $usersPerPage";
+
+$query = $dbh->prepare($queryStr);
+$query->execute($params);
+$users = $query->fetchAll();
+
+// RÉCUPÉRATION DES STATUTS
+$query = $dbh->query('SELECT * FROM status WHERE status_active = 1');
+$status = $query->fetchAll();
+
+$filterStatusName = null;
+foreach ($status as $istatus) {
+    if ($istatus['status_id'] == $filterStatus) {
+        $filterStatusName = $istatus['status_male_name'];
+        break;
+    }
 }
 
 // AJOUT UTILISATEUR

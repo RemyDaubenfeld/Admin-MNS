@@ -30,19 +30,22 @@ $connectedUserStaff = $user['status_staff'];
 $query = $dbh->prepare('SELECT * FROM page 
                         JOIN page_status ON page.page_id = page_status.page_id
                         WHERE status_id = :status_id');
-$query->execute(['status_id' => $user['status_id']]);
+$query->execute(['status_id' => $connectedUserStatusId]);
 $connectedUserPages = $query->fetchAll();
 
-$pagesWithoutRights = ['index', 'contact', 'account', 'user-details']; // 'user-details' a enlever dès que plus besoin
+$pagesWithoutRights = ['index', 'contact', 'account'];
 $connectedUserPagesAccess = $pagesWithoutRights;
 $connectedUserPagesUpdate = $pagesWithoutRights;
-$connectedUserPageAccess = in_array($page, $pagesWithoutRights);
-$connectedUserPageUpdate = in_array($page, $pagesWithoutRights);
+$connectedUserPagesPerso = [];
 
-foreach ($connectedUserPages as $index => $connectedUserPage) {
+foreach ($connectedUserPages as $connectedUserPage) {
     $connectedUserPagesAccess[] = $connectedUserPage['page_link'];
     if ($connectedUserPage['page_status_modification'] == 1) {
         $connectedUserPagesUpdate[] = $connectedUserPage['page_link'];
+    }
+
+    if ($connectedUserPage['page_perso'] != '0') {
+        $connectedUserPagesPerso[] = $connectedUserPage;
     }
 
     if ($connectedUserPage['page_link'] == $page) {
@@ -52,3 +55,7 @@ foreach ($connectedUserPages as $index => $connectedUserPage) {
         }
     }
 }
+
+$connectedUserPageAccess = in_array($page, $connectedUserPagesAccess);
+$connectedUserPageUpdate = in_array($page, $connectedUserPagesUpdate);
+$connectedUserPagePerso = in_array($page, $connectedUserPagesPerso);

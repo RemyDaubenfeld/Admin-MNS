@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['new_pwd_hidden_submit'
     $password = $passwordData['password'];
 
     if (empty($errors)) {
-        $query = $dbh->prepare('UPDATE user SET user_password = :new_password WHERE user_token = :user_token AND user_active = 0');
+        $query = $dbh->prepare('UPDATE user SET user_password = :new_password WHERE user_token = :user_token AND user_active = 1');
         $query->execute([
             'new_password' => password_hash($password, PASSWORD_DEFAULT),
             'user_token' => $token['user_token']

@@ -91,6 +91,13 @@ h6 {
   background-color: var(--color-primary);
 }
 
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 /* BARRE DE DEFILEMENT */
 
 * {
@@ -169,6 +176,29 @@ form {
       width: 100%;
       height: 40px;
       padding: 10px;
+    }
+
+    select {
+      cursor: pointer;
+
+      option {
+        color: var(--color-black);
+        height: 15px;
+
+        &:nth-child(even) {
+          background-color: var(--color-white);
+        }
+
+        &:nth-child(odd) {
+          background-color: var(--color-grey-light-1);
+        }
+
+        &:hover,
+        &:checked {
+          cursor: pointer;
+          background-color: var(--color-grey-light-2);
+        }
+      }
     }
 
     textarea {
@@ -410,13 +440,14 @@ form {
   cursor: pointer;
   border: none;
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   border-radius: 10px;
   padding: 10px;
   margin: 0;
 
   svg {
-    height: 100%;
+    height: 20px;
+    flex-shrink: 0;
   }
 }
 
@@ -433,6 +464,12 @@ form {
   }
 }
 
+.button-primary.button-disable {
+  &:hover {
+    background-color: var(--color-primary-light);
+  }
+}
+
 .button-primary-dark {
   color: var(--color-white);
   background-color: var(--color-primary);
@@ -443,6 +480,12 @@ form {
 
   &:hover {
     background-color: var(--color-primary-dark);
+  }
+}
+
+.button-primary-dark.button-disable {
+  &:hover {
+    background-color: var(--color-primary);
   }
 }
 
@@ -459,6 +502,31 @@ form {
   }
 }
 
+.button-secondary.button-disable {
+  &:hover {
+    background-color: var(--color-secondary);
+  }
+}
+
+.button-secondary-light {
+  color: var(--color-black);
+  background-color: var(--color-secondary-light);
+
+  svg {
+    fill: var(--color-black);
+  }
+
+  &:hover {
+    background-color: var(--color-secondary);
+  }
+}
+
+.button-secondary-light.button-disable {
+  &:hover {
+    background-color: var(--color-secondary-light);
+  }
+}
+
 .button-gray {
   color: var(--color-white);
   background-color: var(--color-grey-dark-1);
@@ -469,6 +537,12 @@ form {
 
   &:hover {
     background-color: var(--color-grey-dark-2);
+  }
+}
+
+.button-gray.button-disable {
+  &:hover {
+    background-color: var(--color-grey-dark-1);
   }
 }
 
@@ -485,14 +559,17 @@ form {
   }
 }
 
-.button-disable {
-  color: var(--color-white);
-  background-color: var(--color-grey-dark-1);
-  cursor: auto;
-
-  svg {
-    fill: var(--color-white);
+.button-red.button-disable {
+  &:hover {
+    background-color: var(--color-error);
   }
+}
+
+.button-disable {
+  cursor: auto;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* MODALES MESSAGES */

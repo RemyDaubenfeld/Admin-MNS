@@ -35,10 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['connect_submit'])) {
                 header('Location: /');
                 exit;
             } else {
-                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'L\'mail ou le mot de passe est incorrect.', 'start' => time()];
+                $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le mail ou le mot de passe est incorrect.', 'start' => time()];
             }
         } else {
-            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'L\'mail ou le mot de passe est incorrect.', 'start' => time()];
+            $_SESSION['modal_messages'][] = ['type' => 'error', 'message' => 'Le mail ou le mot de passe est incorrect.', 'start' => time()];
         }
     }
 }
