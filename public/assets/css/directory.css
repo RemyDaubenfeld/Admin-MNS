@@ -1,0 +1,127 @@
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding: 10px 0;
+  margin-top: -92px;
+
+  #search-form {
+    display: flex;
+    flex-direction: row;
+
+    input {
+      height: 15px;
+      margin: 0;
+      border: 2.5px solid var(--color-primary-light);
+    }
+
+    button {
+      width: 0;
+      height: 0;
+      padding: 25px;
+      text-align: center;
+      margin: auto 0 auto 5px;
+      cursor: pointer;
+
+      img {
+        position: relative;
+        top: -12px;
+        left: -12px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.page-containt {
+
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px;
+    padding: 10px;
+    gap: 20px;
+
+    #add-user-card {
+      background-color: var(--color-secondary-dark);
+      border-radius: 8px;
+      max-width: 20%;
+      flex: 1 1 calc(25% - 40px);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      img {
+        margin: auto;
+      }
+      p {
+        font-family: var(--font-body-bold);
+      }
+    }
+
+    .user-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      max-width: 20%;
+      flex: 1 1 calc(25% - 40px);
+      text-align: center;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .card-header {
+        background-color: var(--color-primary-light);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        height: 50%;
+        overflow: hidden;
+
+        h4 {
+          color: var(--color-black);
+          font-size: 100px;
+          padding-top: 25px;
+        }
+
+        img {
+          max-width: 100%;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }
+      }
+
+      .card-main {
+        p {
+          margin: 0;
+        }
+
+        .user-name {
+          font-family: var(--font-body-bold);
+        }
+      }
+
+      .card-footer {
+        background-color: var(--color-secondary-dark);
+        width: 80%;
+        margin: 5px auto 15px auto;
+        padding: 3px;
+        border-radius: 10px;
+
+        a {
+          text-decoration: none;
+          color: var(--color-black);
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+
+          img {
+            margin-right: 6px;
+          }
+        }
+      }
+    }
+  }
+}
